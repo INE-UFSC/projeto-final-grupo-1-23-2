@@ -1,52 +1,71 @@
-class Jogador:
-    def __init__(self, imagem: str, altura: float, largura: float, vida: int, posicao: tuple, possui_chave: bool, velocidade: int):
-        self.__imagem = imagem
-        self.__altura = altura
-        self.__largura = largura
-        self.__vida = vida
-        self.__posicao = posicao
-        self.__possui_chave = possui_chave
+import pygame
+
+class Jogador(pygame.sprite.Sprite):
+    def __init__(self, posicao: tuple, velocidade: int):
+        super().__init__()
+        self.image = pygame.Surface((42,64)) #64x64 faria q o jogador tivesse um tile de tamanho
+        self.image.fill('red')
+        self.rect = self.image.get_rect(topleft = posicao)
+        self.__direcao = pygame.math.Vector2(0,0)
+
+        #movimento do jogador
         self.__velocidade = velocidade
+        self.__gravidade = 0.8
+        self.__altura_pulo = -15
 
-    @property
-    def imagem(self):
-        return self.__imagem
-    
-    @property
-    def altura(self):
-        return self.__altura
 
-    @property
-    def largura(self):
-        return self.__largura
+        self.__abrir_porta = False
 
-    @property
-    def vida(self):
-        return self.__vida
-    
+
     @property
     def posicao(self):
         return self.__posicao
     
-    @property
-    def possui_chave(self):
-        return self.__possui_chave
-
-    @property
-    def velocidade(self):
-        return self.__velocidade
-    
     def andar(self):
-        pass
+        teclas = pygame.key.get_pressed() #mapeia as teclas
+        if teclas[pygame.K_RIGHT]: #implementa a direção em que o jogador anda
+            self.__direcao.x = 1
+        elif teclas[pygame.K_LEFT]:
+            self.__direcao.x = -1
+        else:
+            self.__direcao.x = 0
+
+        #if teclas[pygame.K_UP] and self.rect.bottom == : #implementa o pulo
+         #   self.pular()
+
+
+    def update(self): #TEM que ter o nome de update, se não, nao vai funcionar em Fase.py por causa do pygame groups
+        self.andar() 
+        
+
+    def aplicar_gravidade(self):
+        self.__direcao.y += self.__gravidade
+        self.rect.y += self.__direcao.y
 
     def pular(self):
-        pass
+        self.__direcao.y = self.__altura_pulo
 
     def agachar(self):
         pass
 
+    def desbloquear_porta(self):
+        self.__abrir_porta = True
+
+    @property
     def abrir_porta(self):
-        pass
+        return self.__abrir_porta
 
     def chave_segue(self):
         pass
+
+    @property
+    def direcao(self):
+        return self.__direcao
+    
+    @property
+    def velocidade(self):
+        return self.__velocidade
+    
+    @property
+    def gravidade(self):
+        return self.__gravidade
