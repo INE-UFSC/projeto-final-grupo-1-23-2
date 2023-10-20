@@ -94,21 +94,22 @@ class Fase:
 
     def colisao_chave(self):
         jogador = self.jogador.sprite
-        chave = self.chave.sprite
 
-        for sprite in self.chave.sprites():
-            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com a chave
-                self.chave.remove(self.chave_sprite)
-                self.jogador_sprite.desbloquear_porta()
+        if self.chave_sprite.rect.colliderect(jogador.rect):
+            self.chave.remove(self.chave_sprite)
+            self.jogador_sprite.desbloquear_porta()
+        #for sprite in self.chave.sprites():
+         #   if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com a chave
+          #      self.chave.remove(self.chave_sprite)
+          #      self.jogador_sprite.desbloquear_porta()
 
     def colisao_porta(self):
         jogador = self.jogador.sprite
 
-        for sprite in self.porta.sprites():
-            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
-                if self.jogador_sprite.abrir_porta == True:
-                    self.__num_fase +=1
-                    self.update_mapa()
+        if self.porta_sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
+            if self.jogador_sprite.abrir_porta == True:
+                self.__num_fase +=1
+                self.update_mapa()
 
     def update_mapa(self):
         if self.__num_fase == 2:
