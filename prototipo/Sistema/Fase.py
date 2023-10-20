@@ -19,13 +19,13 @@ class Fase:
 
         #porta
         self.porta.update()
-        self.colisao_horizontal_porta()
+        self.colisao_porta()
         #self.colisao_vertical_porta()
         self.porta.draw(self.display_superficie)
 
         #chave
         self.chave.update()
-        self.colisao_horizontal_chave()
+        self.colisao_chave()
         self.chave.draw(self.display_superficie)
 
         #jogador
@@ -73,6 +73,10 @@ class Fase:
                     jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
                 elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
                     jogador.rect.right = sprite.rect.left
+            if jogador.rect.left <= 0:
+                jogador.rect.left = 0
+            if jogador.rect.right >= largura_tela:
+                jogador.rect.right = largura_tela
 
     def colisao_vertical_tiles(self):
         jogador = self.jogador.sprite
@@ -92,42 +96,22 @@ class Fase:
                     jogador.direcao.y = 0
 
 
-    def colisao_horizontal_chave(self):
+    def colisao_chave(self):
         jogador = self.jogador.sprite
 
         for sprite in self.chave.sprites():
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com a chave
-                if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
-                    jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita da chave q ele colidiu
                     self.chave.remove(self.chave_sprite)
                     self.jogador_sprite.desbloquear_porta()
 
-                elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
-                    jogador.rect.right = sprite.rect.left
-                    self.chave.remove(self.chave_sprite)
-                    self.jogador_sprite.desbloquear_porta()
-
-    def colisao_horizontal_porta(self):
+    def colisao_porta(self):
         jogador = self.jogador.sprite
-        for sprite in self.porta.sprites():
-            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
-                if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
-                    #jogador.rect.left = sprite.rect.right
-                    if self.jogador_sprite.abrir_porta == True:
-                        self.__num_fase +=1
-                        self.update_mapa()
-                    else:
-                        pass
-                   
-                    #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
-                elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
-                    #jogador.rect.right = sprite.rect.left
-                    if self.jogador_sprite.abrir_porta == True:
-                        self.__num_fase +=1
-                        self.update_mapa()
-                    else:
-                        pass
 
+        for sprite in self.porta.sprites():
+            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com a porta
+                if self.jogador_sprite.abrir_porta == True:
+                    self.__num_fase +=1
+                    self.update_mapa()
 
     def update_mapa(self):
         if self.__num_fase == 2:
