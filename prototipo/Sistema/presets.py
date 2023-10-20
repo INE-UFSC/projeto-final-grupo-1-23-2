@@ -14,10 +14,10 @@ mapa2 = [
 '                ', #16 espacos em cada linha
 '                ', 
 '                ',
-'                ',
-' D              ',
-' XX   X         ',
-'P    XX   X C   ',
+'bbb             ',
+'bDb             ',
+'XXX   X         ',
+'P    XX   X C  B',
 'XXXXXXXXXXXXXXXX',]#os X serao preenchidos no tilemap
 
 
