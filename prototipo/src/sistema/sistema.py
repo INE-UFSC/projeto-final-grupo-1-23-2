@@ -26,7 +26,7 @@ class Sistema:
                     pygame.quit()
                     sys.exit()
 
-            MenuState(self.screen).render()
+            MenuState(self).render(self.screen)
 
             pygame.display.update()
             clock.tick(self.__FPS)

@@ -8,8 +8,10 @@ class MenuState(Estado):
         super().__init__(game)
         self.__background = pygame.image.load('assets/backgrounds/menu.png').convert_alpha()
         self.__logo = pygame.image.load('assets/logo.png').convert_alpha()
-        self.__botoes = {'iniciar': Botao(0 , 0, 'assets/botoes/iniciar.png', 1), 
-                         'sair': Botao(0, 0, 'assets/botoes/sair.png', 1)}
+        img_botao_iniciar = pygame.image.load('assets/botoes/iniciar.png').convert_alpha()
+        img_botao_sair = pygame.image.load('assets/botoes/sair.png').convert_alpha()
+        self.__botoes = {'iniciar': Botao(0 , 0, img_botao_iniciar, 1), 
+                         'sair': Botao(0, 0, img_botao_sair, 1)}
         # CARREGAMENTO DOS ASSETS DO MENU
         
 
@@ -28,9 +30,9 @@ class MenuState(Estado):
             elif key == pygame.K_RETURN:
                 self.game.set_state()
                 
-    def render(self):
-        self.__game.screen.blit(self.__background, (0, 0))
-        self.__game.screen.blit(self.__logo, (self.__game.largura_tela//2, 90))
-        self.__botoes['iniciar'].draw()
-        self.__botoes['sair'].draw()
+    def render(self, screen):
+        screen.blit(self.__background, (0, 0))
+        screen.blit(self.__logo, (self.game.largura_tela//2, 90))
+        self.__botoes['iniciar'].draw(screen)
+        self.__botoes['sair'].draw(screen)
         

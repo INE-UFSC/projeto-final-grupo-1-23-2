@@ -16,15 +16,15 @@ class Botao():
 		pos = pygame.mouse.get_pos()
 
 		#check mouseover and clicked conditions
-		if self.rect.collidepoint(pos):
-			if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-				self.clicked = True
+		if self.__rect.collidepoint(pos):
+			if pygame.mouse.get_pressed()[0] == 1 and self.__clicked == False:
+				self.__clicked = True
 				action = True
 
 		if pygame.mouse.get_pressed()[0] == 0:
-			self.clicked = False
+			self.__clicked = False
 
 		#draw button on screen
-		surface.blit(self.image, (self.rect.x, self.rect.y))
+		surface.blit(self.__image, (self.__rect.x, self.__rect.y))
 
 		return action
