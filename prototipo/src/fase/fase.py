@@ -1,10 +1,10 @@
 import pygame
-from Sistema.TileMap import TileMap
-from Sistema.presets import *
-from Sistema.Jogador import Jogador
-from itens.Chave import Chave
-from itens.Porta import Porta
-from itens.Botao_Jogo import Botao_Jogo
+from src.fase.tilemap import TileMap
+from src.sistema.presets import *
+from src.entities.jogador import Jogador
+from src.itens.chave import Chave
+from src.itens.porta import Porta
+from src.itens.botao_jogo import Botao_Jogo
 
 # tela = pygame.display.set_mode((largura_tela, altura_tela))
 
@@ -14,10 +14,12 @@ class Fase:
         self.tem_botao = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
+        self.__fase_atual = None
         
 
     def run(self):
         #self.tiles.update()
+        self.display_superficie.fill('Blue') #preenche a tela com a cor azul
         self.tiles.draw(self.display_superficie) #desenha a fase
 
         #porta
@@ -119,7 +121,6 @@ class Fase:
                     jogador.direcao.y = 0
 
 
-
     def colisao_chave(self):
         jogador = self.jogador.sprite
 
@@ -141,19 +142,19 @@ class Fase:
 
     def update_mapa(self):
         if self.__num_fase == 1:
-            nova_fase = Fase(mapa1, tela, self.__num_fase)
+            nova_fase = Fase(mapa1, self.display_superficie, self.__num_fase)
             self.__dict__.update(nova_fase.__dict__)
 
         elif self.__num_fase == 2:
-            nova_fase = Fase(mapa2, tela, self.__num_fase)
+            nova_fase = Fase(mapa2, self.display_superficie, self.__num_fase)
             self.__dict__.update(nova_fase.__dict__)
 
         elif self.__num_fase == 3:
-            nova_fase = Fase(mapa3, tela, self.__num_fase)
+            nova_fase = Fase(mapa3, self.display_superficie, self.__num_fase)
             self.__dict__.update(nova_fase.__dict__)
         
         else:
-            nova_fase = Fase(mapa1, tela, self.__num_fase)
+            nova_fase = Fase(mapa1, self.display_superficie, self.__num_fase)
             self.__dict__.update(nova_fase.__dict__)
 
     def colisao_botao(self):

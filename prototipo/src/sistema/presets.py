@@ -11,17 +11,17 @@ mapa1 = [
 
 
 mapa2 = [
-'                ', #16 espacos em cada linha
+'                ', 
 '                ', 
 '                ',
 'bbb             ',
 'bDb             ',
 'XXX   X         ',
 'P    XX   X C  B',
-'XXXXXXXXXXXXXXXX',]#os X serao preenchidos no tilemap
+'XXXXXXXXXXXXXXXX',]
 
 mapa3 = [
-'                ', #16 espacos em cada linha
+'                ', 
 '                ', 
 'P               ',
 'XXX             ',
