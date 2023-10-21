@@ -10,6 +10,7 @@ class Sistema:
         pygame.init()
 
         # variaveis de renderizacao
+        # pega a largura e altura seguindo os tiles (que estão na classe Mapa)
         self.largura_tela = Mapa().largura_tela
         self.altura_tela = Mapa().altura_tela
         self.__FPS = 60
@@ -18,7 +19,7 @@ class Sistema:
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("Joguinho - Grupo 1 :P")
-        
+
         # estado atual
         self.__estados = {'menu': MenuState(self), 'jogo': Jogo(self)}
         self.__estado_atual = self.__estados['menu']
@@ -37,13 +38,10 @@ class Sistema:
 
             pygame.display.update()
             clock.tick(self.__FPS)
-            
+
+    # função que serve para mudar o estado atual para um outro estado que esteja no dicionario de estados
+    # essa função ela eh chamada dentro da classe de cada estado
     def define_estado(self, estado):
         self.__estado_atual.exiting()
         self.__estado_atual = self.__estados[estado]
         self.__estado_atual.entering()
-
-
-# faltam implementar:
-# fase = Fase(mapa1, tela, 1)
-# fase.run()
