@@ -15,7 +15,10 @@ class Sistema:
             (self.__largura_tela, self.__altura_tela))
 
         # definindo nome do jogo/janela
-        pygame.display.set_caption("NOME NÃO DEFINIDO")
+        pygame.display.set_caption("Joguinho - Grupo 1 :P")
+        
+        # estado atual
+        self.__estado_atual = MenuState(self)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -26,20 +29,17 @@ class Sistema:
                     pygame.quit()
                     sys.exit()
 
-            MenuState(self).render(self.screen)
+                self.__estado_atual.render()
+                self.__estado_atual.update(event)
 
             pygame.display.update()
             clock.tick(self.__FPS)
             
-    @property
-    def largura_tela(self):
-        return self.__largura_tela
-    
-    @property
-    def altura_tela(self):
-        return self.__altura_tela
-    
-    
+    def define_estado(self, estado):
+        self.__estado_atual.exiting()
+        self.__estado_atual = estado
+        self.__estado_atual.entering()
+
 
 # faltam implementar:
 # fase = Fase(mapa1, tela, 1)

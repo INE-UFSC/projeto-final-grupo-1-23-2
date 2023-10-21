@@ -11,6 +11,11 @@ class Botao():
 		self.__clicked = False
 
 	def draw(self, surface):
+		#draw button on screen
+		surface.blit(self.__image, (self.__rect.x, self.__rect.y))
+
+
+	def clicado(self):
 		action = False
 		#get mouse position
 		pos = pygame.mouse.get_pos()
@@ -23,8 +28,5 @@ class Botao():
 
 		if pygame.mouse.get_pressed()[0] == 0:
 			self.__clicked = False
-
-		#draw button on screen
-		surface.blit(self.__image, (self.__rect.x, self.__rect.y))
 
 		return action
