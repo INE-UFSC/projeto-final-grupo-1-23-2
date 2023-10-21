@@ -8,7 +8,7 @@ tela = pygame.display.set_mode((largura_tela, altura_tela))
 clock = pygame.time.Clock()
 pygame.display.set_caption("jogo de plataforma sem nome")
 
-fase = Fase(mapa2, tela)
+fase = Fase(mapa1, tela, 1)
 
 while True:
     for event in pygame.event.get():

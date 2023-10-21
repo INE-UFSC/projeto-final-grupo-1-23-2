@@ -9,11 +9,11 @@ from itens.Botao_Jogo import Botao_Jogo
 tela = pygame.display.set_mode((largura_tela, altura_tela))
 
 class Fase:
-    def __init__(self, informacao_fase, superficie):
+    def __init__(self, informacao_fase, superficie, num_fase):
         self.display_superficie = superficie
         self.tem_botao = False
         self.fase_setup(informacao_fase)
-        self.__num_fase = 1
+        self.__num_fase = num_fase
 
     def run(self):
         #self.tiles.update()
@@ -134,8 +134,20 @@ class Fase:
                 self.update_mapa()
 
     def update_mapa(self):
-        if self.__num_fase == 2:
-            nova_fase = Fase(mapa2, tela)
+        if self.__num_fase == 1:
+            nova_fase = Fase(mapa1, tela, self.__num_fase)
+            self.__dict__.update(nova_fase.__dict__)
+
+        elif self.__num_fase == 2:
+            nova_fase = Fase(mapa2, tela, self.__num_fase)
+            self.__dict__.update(nova_fase.__dict__)
+
+        elif self.__num_fase == 3:
+            nova_fase = Fase(mapa3, tela, self.__num_fase)
+            self.__dict__.update(nova_fase.__dict__)
+        
+        else:
+            nova_fase = Fase(mapa1, tela, self.__num_fase)
             self.__dict__.update(nova_fase.__dict__)
 
     def colisao_botao(self):

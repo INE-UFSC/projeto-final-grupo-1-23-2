@@ -20,6 +20,15 @@ mapa2 = [
 'P    XX   X C  B',
 'XXXXXXXXXXXXXXXX',]#os X serao preenchidos no tilemap
 
+mapa3 = [
+'                ', #16 espacos em cada linha
+'                ', 
+'P               ',
+'XXX             ',
+'      X         ',
+'  XD    X       ',
+'   X      X C  B',
+'XXXXXXXXXXXXXXXX',]
 
 tamanho_tile = 64
 largura_tela = tamanho_tile*16
