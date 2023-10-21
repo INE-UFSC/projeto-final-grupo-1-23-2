@@ -1,25 +1,9 @@
-import pygame, sys
-from Sistema.presets import *
-from Sistema.Fase import Fase
+from src.sistema.sistema import Sistema
 
-pygame.init()
 
-tela = pygame.display.set_mode((largura_tela, altura_tela))
-clock = pygame.time.Clock()
-pygame.display.set_caption("jogo de plataforma sem nome")
+def main():
+    Sistema().run()
 
-fase = Fase(mapa1, tela, 1)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-    tela.fill('Blue')
-    fase.run()
-                      
-    pygame.display.update()
-    clock.tick(60)
-
-    #teste
+if __name__ == '__main__':
+    main()

@@ -6,7 +6,7 @@ from itens.Chave import Chave
 from itens.Porta import Porta
 from itens.Botao_Jogo import Botao_Jogo
 
-tela = pygame.display.set_mode((largura_tela, altura_tela))
+# tela = pygame.display.set_mode((largura_tela, altura_tela))
 
 class Fase:
     def __init__(self, informacao_fase, superficie, num_fase):
@@ -14,6 +14,7 @@ class Fase:
         self.tem_botao = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
+        
 
     def run(self):
         #self.tiles.update()
