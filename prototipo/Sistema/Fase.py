@@ -94,12 +94,17 @@ class Fase:
                     jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
                 elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
                     jogador.rect.right = sprite.rect.left
+            if jogador.rect.left <= 0:
+                jogador.rect.left = 0
+            if jogador.rect.right >= largura_tela:
+                jogador.rect.right = largura_tela
+    
 
     def colisao_vertical_tiles(self):
         jogador = self.jogador.sprite
         jogador.aplicar_gravidade()
         teclas = pygame.key.get_pressed()
-
+        
         for sprite in self.tiles.sprites() + self.barreira.sprites():
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.y > 0: 
