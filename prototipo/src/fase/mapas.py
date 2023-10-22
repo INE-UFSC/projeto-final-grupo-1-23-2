@@ -20,19 +20,17 @@ class Mapa():
                     '                    ',
                     '                    ',
                     '                    ',
-                    '                    ', 
-                    '                    ', 
                     '                    ',
                     'bbb                 ',
                     'bDb                 ',
                     'XXX   X             ',
                     'P    XX   X C  B    ',
                     'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX'
                 ],
                 [
                     '                    ', 
-                    '                    ',
-                    '                    ',
                     '                    ',
                     '                    ',
                     '                    ', 
@@ -42,6 +40,8 @@ class Mapa():
                     '  XD    X           ',
                     '   X      X C  B    ',
                     'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX'
                 ]
             ]
         
