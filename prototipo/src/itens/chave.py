@@ -6,4 +6,4 @@ class Chave(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/im_chave.png')
         self.image.convert()
         self.image = pygame.transform.scale(self.image, (42, 42))
-        self.rect = self.image.get_rect(center = posicao)
+        self.rect = self.image.get_rect(topleft = posicao)

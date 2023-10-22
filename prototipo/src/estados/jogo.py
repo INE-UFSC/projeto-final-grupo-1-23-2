@@ -6,8 +6,7 @@ import pygame
 class Jogo(Estado):
     def __init__(self, game):
         super().__init__(game)
-        self.__fases = [Fase(Mapa().mapa[i], self.game.screen, i) for i in range(len(Mapa().mapa))] # Cria várias fases com todos os mapas possíveis dentro da classe Mapas. Se quiser aumentar o número de fases, basta adicionar mais mapas na classe Mapas.
-        self.__fase_atual = 0 # Inicia na fase 0, cada fase é o indice da lista de fases.
+        self.__fase = Fase(Mapa().mapa[0], self.game, 0) # Cria várias fases com todos os mapas possíveis dentro da classe Mapas. Se quiser aumentar o número de fases, basta adicionar mais mapas na classe Mapas.
         
     def entering(self):
         pass
@@ -19,7 +18,7 @@ class Jogo(Estado):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.game.define_estado('menu')
-            self.__fases[self.__fase_atual].run()
+            self.__fase.run()
     
     def render(self):
         pass

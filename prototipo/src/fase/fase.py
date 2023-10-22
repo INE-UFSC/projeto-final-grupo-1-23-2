@@ -6,15 +6,14 @@ from src.itens.porta import Porta
 from src.itens.botao_jogo import Botao_Jogo
 from src.fase.mapas import Mapa
 
-tela = pygame.display.set_mode((Mapa().altura_tela, Mapa().largura_tela))
 
 class Fase:
-    def __init__(self, informacao_fase, superficie, num_fase):
-        self.__display_superficie = superficie
+    def __init__(self, informacao_fase, sistema, num_fase):
+        self.__display_superficie = sistema.screen
+        self.__sistema = sistema
         self.__tem_botao = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
-        self.__fase_atual = None
     
     @property
     def display_superficie(self):
@@ -30,11 +29,7 @@ class Fase:
     
     @property
     def num_fase(self):
-        return self.__fase_atual
-    
-    @property
-    def fase_atual(self):
-        return self.__fase.atual
+        return self.__num_fase
     
 
     def run(self):
@@ -133,7 +128,7 @@ class Fase:
                 if jogador.direcao.y > 0: 
                     jogador.rect.bottom = sprite.rect.top 
                     jogador.direcao.y = 0
-                    if teclas[pygame.K_UP]: #implementa o pulo
+                    if teclas[pygame.K_UP] or teclas[pygame.K_SPACE] or teclas[pygame.K_w]: #implementa o pulo
                         jogador.pular() 
                         
                 elif jogador.direcao.y < 0: 
@@ -158,12 +153,20 @@ class Fase:
         if self.porta_sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
             if self.jogador_sprite.abrir_porta == True:
                 self.__num_fase +=1
-                self.update_mapa()
+                if self.__num_fase == len(Mapa().mapa): # verificacao de gameover
+                    self.gameover()
+                else:
+                    self.update_mapa()
+
+    def gameover(self):
+        nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0)
+        self.__dict__.update(nova_fase.__dict__)
+        self.__sistema.define_estado('gameover')
 
     def update_mapa(self):
         for num_mapa in range(len(Mapa().mapa)):
             if num_mapa == self.__num_fase:
-                nova_fase = Fase(Mapa().mapa[num_mapa], tela, self.__num_fase)
+                nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase)
                 self.__dict__.update(nova_fase.__dict__)
 
     def colisao_botao(self):
