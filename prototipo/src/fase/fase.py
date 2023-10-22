@@ -1,21 +1,41 @@
 import pygame
 from src.fase.tilemap import TileMap
-from src.sistema.presets import *
 from src.entities.jogador import Jogador
 from src.itens.chave import Chave
 from src.itens.porta import Porta
 from src.itens.botao_jogo import Botao_Jogo
+from src.fase.mapas import Mapa
 
-# tela = pygame.display.set_mode((largura_tela, altura_tela))
+tela = pygame.display.set_mode((Mapa().altura_tela, Mapa().largura_tela))
 
 class Fase:
     def __init__(self, informacao_fase, superficie, num_fase):
-        self.display_superficie = superficie
-        self.tem_botao = False
+        self.__display_superficie = superficie
+        self.__tem_botao = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
         self.__fase_atual = None
-        
+    
+    @property
+    def display_superficie(self):
+        return self.__display_superficie
+    
+    @property
+    def tem_botao(self):
+        return self.__tem_botao
+    
+    @tem_botao.setter
+    def tem_botao(self,novo_valor):
+        self.__tem_botao = novo_valor
+    
+    @property
+    def num_fase(self):
+        return self.__fase_atual
+    
+    @property
+    def fase_atual(self):
+        return self.__fase.atual
+    
 
     def run(self):
         #self.tiles.update()
@@ -60,14 +80,14 @@ class Fase:
 
         for linha_i, linha in enumerate(layout):
             for coluna_i, elemento in enumerate(linha): #para manter controle de onde os 'X' estao de acordo com linha e coluna
-                x = coluna_i*tamanho_tile
-                y = linha_i*tamanho_tile
+                x = coluna_i*Mapa().tamanho_tile
+                y = linha_i*Mapa().tamanho_tile
 
                 if elemento == 'X':
-                    tilemap = TileMap((x, y), tamanho_tile, 'green')   
+                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'green')   
                     self.tiles.add(tilemap)
                 elif elemento == 'Z':
-                    tilemap = TileMap((x, y), tamanho_tile, 'brown')
+                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'brown')
                     self.tiles.add(tilemap)
                 elif elemento == 'P':
                     self.jogador_sprite = Jogador((x, y),3)
@@ -84,7 +104,7 @@ class Fase:
                     self.botao.add(self.botao_sprite)
                 elif elemento == 'b':
                     
-                    tilemap = TileMap((x, y), tamanho_tile, 'Gray')
+                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'Gray')
                     self.barreira.add(tilemap)
 
     def colisao_horizontal_tiles(self):
@@ -99,8 +119,8 @@ class Fase:
                     jogador.rect.right = sprite.rect.left
             if jogador.rect.left <= 0:
                 jogador.rect.left = 0
-            if jogador.rect.right >= largura_tela:
-                jogador.rect.right = largura_tela
+            if jogador.rect.right >= Mapa().largura_tela:
+                jogador.rect.right = Mapa().largura_tela
     
 
     def colisao_vertical_tiles(self):
@@ -141,21 +161,10 @@ class Fase:
                 self.update_mapa()
 
     def update_mapa(self):
-        if self.__num_fase == 1:
-            nova_fase = Fase(mapa1, self.display_superficie, self.__num_fase)
-            self.__dict__.update(nova_fase.__dict__)
-
-        elif self.__num_fase == 2:
-            nova_fase = Fase(mapa2, self.display_superficie, self.__num_fase)
-            self.__dict__.update(nova_fase.__dict__)
-
-        elif self.__num_fase == 3:
-            nova_fase = Fase(mapa3, self.display_superficie, self.__num_fase)
-            self.__dict__.update(nova_fase.__dict__)
-        
-        else:
-            nova_fase = Fase(mapa1, self.display_superficie, self.__num_fase)
-            self.__dict__.update(nova_fase.__dict__)
+        for num_mapa in range(len(Mapa().mapa)):
+            if num_mapa == self.__num_fase:
+                nova_fase = Fase(Mapa().mapa[num_mapa], tela, self.__num_fase)
+                self.__dict__.update(nova_fase.__dict__)
 
     def colisao_botao(self):
         jogador = self.jogador.sprite
