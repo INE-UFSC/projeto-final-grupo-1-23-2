@@ -5,13 +5,14 @@ from src.itens.chave import Chave
 from src.itens.porta import Porta
 from src.itens.botao_jogo import Botao_Jogo
 from src.fase.mapas import Mapa
-
+from src.entities.inimigo import Inimigo
 
 class Fase:
     def __init__(self, informacao_fase, sistema, num_fase):
         self.__display_superficie = sistema.screen
         self.__sistema = sistema
         self.__tem_botao = False
+        self.__tem_inimigo = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
     
@@ -60,15 +61,19 @@ class Fase:
         self.jogador.update() #atualiza a posição do jogador
         self.colisao_horizontal_tiles()
         self.colisao_vertical_tiles()
+        self.colisao_inimigo_jogador()
         self.jogador.draw(self.display_superficie) #desenha o jogador na sua posição
 
-        
+        #inimigo
+        self.inimigo.update()
+        self.inimigo.draw(self.display_superficie)
 
 
     def fase_setup(self,layout):
         self.tiles = pygame.sprite.Group()
         self.jogador = pygame.sprite.GroupSingle() #so um jogador
         self.chave = pygame.sprite.GroupSingle() #so uma chave
+        self.inimigo = pygame.sprite.GroupSingle()
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
         self.barreira = pygame.sprite.Group()
@@ -101,12 +106,31 @@ class Fase:
                     
                     tilemap = TileMap((x, y), Mapa().tamanho_tile, 'Gray')
                     self.barreira.add(tilemap)
+                
+                elif elemento == 'I':
+                    self.__tem_inimigo = True
+                    self.inimigo_sprite = Inimigo((x, y), 1.5)
+                    self.inimigo.add(self.inimigo_sprite)
 
     def colisao_horizontal_tiles(self):
         jogador = self.jogador.sprite
+
+        inimigo = self.inimigo.sprite
         jogador.rect.x += jogador.direcao.x * jogador.velocidade #aplica o movimento horizontal
 
+        if self.__tem_inimigo == True:
+            inimigo.rect.x += inimigo.direcao.x * inimigo.velocidade
         for sprite in self.tiles.sprites() + self.barreira.sprites():
+            if self.__tem_inimigo == True:
+                if sprite.rect.colliderect(inimigo.rect):
+                    if inimigo.direcao.x < 0:
+                        inimigo.rect.left = sprite.rect.right
+                        self.inimigo_sprite.virar()
+                        inimigo.direcao.x = inimigo.direcao.x * (-1)
+                    elif inimigo.direcao.x > 0:
+                        inimigo.rect.right = sprite.rect.left
+                        self.inimigo_sprite.virar()
+                        inimigo.direcao.x = inimigo.direcao.x * (-1)
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
                     jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
@@ -176,3 +200,13 @@ class Fase:
             if self.botao_sprite.rect.colliderect(jogador.rect):
                 self.botao.empty()
                 self.barreira.empty()
+
+    def colisao_inimigo_jogador(self):
+        if self.__tem_inimigo == True:
+            jogador = self.jogador.sprite
+            inimigo = self.inimigo.sprite
+            if inimigo.rect.colliderect(jogador.rect):
+                self.inimigo.empty()
+                self.update_mapa()
+        else:
+            pass

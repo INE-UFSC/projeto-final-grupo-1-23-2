@@ -34,11 +34,11 @@ class Mapa():
                     '                    ',
                     '                    ',
                     '                    ', 
-                    'P C                 ',
+                    'P                   ',
                     'XXX                 ',
                     '      X             ',
                     '  XD    X           ',
-                    '   X      X    B    ',
+                    '   X   I  X    B C  ',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX'
