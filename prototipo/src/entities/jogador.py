@@ -23,9 +23,9 @@ class Jogador(pygame.sprite.Sprite):
     
     def andar(self):
         teclas = pygame.key.get_pressed() #mapeia as teclas
-        if teclas[pygame.K_RIGHT]: #implementa a direção em que o jogador anda
+        if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
             self.__direcao.x = 1
-        elif teclas[pygame.K_LEFT]:
+        elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]:
             self.__direcao.x = -1
         else:
             self.__direcao.x = 0

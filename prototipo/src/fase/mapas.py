@@ -7,9 +7,9 @@ class Mapa():
                     '                    ', 
                     '                    ', 
                     '                    ',
-                    '            C       ',
+                    '                    ',
                     '           XXX      ',
-                    '        X   Z       ',
+                    '    C   X   Z       ',
                     'P   XXX  D Z        ',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX',
@@ -22,9 +22,9 @@ class Mapa():
                     '                    ',
                     '                    ',
                     'bbb                 ',
-                    'bDb                 ',
+                    'bDb   B             ',
                     'XXX   X             ',
-                    'P    XX   X C  B    ',
+                    'P  C XX   X         ',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX'
@@ -38,7 +38,21 @@ class Mapa():
                     'XXX                 ',
                     '      X             ',
                     '  XD    X           ',
-                    '   X      X C  B    ',
+                    '   X   I  X    B C  ',
+                    'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX',
+                    'XXXXXXXXXXXXXXXXXXXX'
+                ],
+                [
+                    '            X       ', 
+                    '        P   X       ',
+                    '        XXXXX       ',
+                    '      X             ', 
+                    '    X               ',
+                    'X X                 ',
+                    '               B    ',
+                    '  XD        Xbbbbb  ',
+                    '   X     X   bbCbb  ',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX'
@@ -46,7 +60,7 @@ class Mapa():
             ]
         
         self.__tamanho_tile = 64
-        self.__largura_tela = self.__tamanho_tile*16
+        self.__largura_tela = self.__tamanho_tile*len(self.__mapa[0][0])
         self.__altura_tela = len(self.__mapa[0])*self.__tamanho_tile
         
     @property
