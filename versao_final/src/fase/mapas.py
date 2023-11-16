@@ -38,7 +38,7 @@ class Mapa():
                     'XXX                 ',
                     '      X             ',
                     '  XD    X           ',
-                    '   X   I  X    B C  ',
+                    '   X   I   X   B C  ',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX',
                     'XXXXXXXXXXXXXXXXXXXX'
