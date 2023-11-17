@@ -15,6 +15,7 @@ class Fase:
         self.__tem_inimigo = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
+        self.__x_atual = 0
     
     @property
     def display_superficie(self):
@@ -134,30 +135,43 @@ class Fase:
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
                     jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
+                    jogador.na_esquerda = True
+                    self.__x_atual = jogador.rect.left
                 elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
                     jogador.rect.right = sprite.rect.left
+                    jogador.na_direita = True
+                    self.__x_atual = jogador.rect.right
+
             if jogador.rect.left <= 0:
                 jogador.rect.left = 0
             if jogador.rect.right >= Mapa().largura_tela:
                 jogador.rect.right = Mapa().largura_tela
-    
+            
+        if jogador.na_esquerda and (jogador.rect.left < self.__x_atual or jogador.direcao.x >= 0):
+            jogador.na_esquerda = False
+        if jogador.na_direita and (jogador.rect.left < self.__x_atual or jogador.direcao.x <= 0):
+            jogador.na_direita = False
 
     def colisao_vertical_tiles(self):
         jogador = self.jogador.sprite
         jogador.aplicar_gravidade()
-        teclas = pygame.key.get_pressed()
         
         for sprite in self.tiles.sprites() + self.barreira.sprites():
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.y > 0: 
                     jogador.rect.bottom = sprite.rect.top 
                     jogador.direcao.y = 0
-                    if teclas[pygame.K_UP] or teclas[pygame.K_SPACE] or teclas[pygame.K_w]: #implementa o pulo
-                        jogador.pular() 
+                    jogador.no_chao = True
                         
                 elif jogador.direcao.y < 0: 
                     jogador.rect.top = sprite.rect.bottom
                     jogador.direcao.y = 0
+                    jogador.no_teto = True
+            
+            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1:
+                jogador.no_chao = False
+            if jogador.no_teto and jogador.direcao.y > 0:
+                jogador.no_teto = False
 
 
     def colisao_chave(self):
