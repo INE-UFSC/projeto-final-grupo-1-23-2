@@ -69,8 +69,6 @@ class Jogador(pygame.sprite.Sprite):
         elif self.no_teto:
             self.__rect = self.image.get_rect(midtop = self.rect.midtop)
 
-        
-
     def andar(self):
         teclas = pygame.key.get_pressed() #mapeia as teclas
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
