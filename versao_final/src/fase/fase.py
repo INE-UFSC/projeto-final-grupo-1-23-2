@@ -91,7 +91,7 @@ class Fase:
                     tilemap = TileMap((x, y), Mapa().tamanho_tile, 'brown')
                     self.tiles.add(tilemap)
                 elif elemento == 'P':
-                    self.jogador_sprite = Jogador((x, y),3)
+                    self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
                     self.jogador.add(self.jogador_sprite) #self. para se quisermos trocar a skin/deletar o jogador quando morre
                 elif elemento == 'C':
                     self.chave_sprite = Chave((x,y)) #self. pois precisa ser mantido para depois esse sprite ser deletado depois de colidir com o jogador
