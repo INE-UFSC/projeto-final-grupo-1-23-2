@@ -2,13 +2,21 @@ import pygame
 from src.ferramentas.suporte import importar_pasta
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, posicao: tuple, velocidade: int):
+    def __init__(self, posicao: tuple, velocidade: int, superficie):
         super().__init__()
+
+        #animacao do jogador
         self.importar_assets()
         self.__frame_index = 0
         self.__velocidade_animacao = 0.15
         self.__image =  self.__animacoes['idle'][self.__frame_index]
         self.__rect = self.image.get_rect(topleft = posicao)
+
+        #animacao particulas
+        self.importar_particulas_movimento()
+        self.__particulas_frame_index = 0
+        self.__velocidade_animacao_particulas  = 0.15
+        self.__display_superficie = superficie
 
         #movimento do jogador
         self.__direcao = pygame.math.Vector2(0,0)
@@ -25,6 +33,7 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__abrir_porta = False
 
+    #importa as imagens do jogador
     def importar_assets(self):
         path_personagem = 'Assets/character/'
         self.__animacoes = {'idle': [], 'run': [], 'jump': [], 'fall': []}
@@ -32,6 +41,10 @@ class Jogador(pygame.sprite.Sprite):
         for animacao in self.__animacoes.keys():
             full_path = path_personagem + animacao
             self.__animacoes[animacao] = importar_pasta(full_path)
+
+    #importa as particulas que aparecem quando o jogador se move
+    def importar_particulas_movimento(self):
+        self.__animacao_particulas_movimento = importar_pasta('Assets/character/dust_particles/run')
 
     def get_comportamento(self):
         if self.__direcao.y < 0:
@@ -69,6 +82,19 @@ class Jogador(pygame.sprite.Sprite):
         elif self.no_teto:
             self.__rect = self.image.get_rect(midtop = self.rect.midtop)
 
+    def animacao_particulas_movimento(self):
+         if self.__direcao.y == 0 and self.__direcao != 0 and self.__no_chao:
+            self.__particulas_frame_index += self.__velocidade_animacao_particulas
+            if self.__particulas_frame_index >= len(self.__animacao_particulas_movimento):
+                self.__particulas_frame_index = 0
+            
+            particulas_movimento = self.__animacao_particulas_movimento[int(self.__particulas_frame_index)]
+
+            if self.__virado_para_direita:
+                posicao = self.__rect.bottomleft
+                self.__display_superficie.blit(particulas_movimento, posicao)
+
+
     def andar(self):
         teclas = pygame.key.get_pressed() #mapeia as teclas
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
@@ -97,6 +123,7 @@ class Jogador(pygame.sprite.Sprite):
     def update(self): #TEM que ter o nome de update, se não, nao vai funcionar em Fase.py por causa do pygame groups
         self.andar() 
         self.animar()
+        self.animacao_particulas_movimento()
         
     @property
     def image(self):
