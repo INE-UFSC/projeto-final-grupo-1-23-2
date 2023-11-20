@@ -8,11 +8,11 @@ class GameOverState(Estado):
     def __init__(self, game):
         super().__init__(game)
         # CARREGAMENTO DOS ASSETS DO MENU
-        background = pygame.image.load('assets/backgrounds/menu.png').convert_alpha()
+        background = pygame.image.load('Assets/backgrounds/menu.png').convert_alpha()
         self.__background = pygame.transform.scale(background, (Mapa().largura_tela, Mapa().altura_tela))
-        self.__texto = pygame.image.load('assets/texto_parabens.png').convert_alpha()
-        img_botao_menu = pygame.image.load('assets/botoes/menu.png').convert_alpha()
-        img_botao_sair = pygame.image.load('assets/botoes/sair.png').convert_alpha()
+        self.__texto = pygame.image.load('Assets/texto_parabens.png').convert_alpha()
+        img_botao_menu = pygame.image.load('Assets/botoes/menu.png').convert_alpha()
+        img_botao_sair = pygame.image.load('Assets/botoes/sair.png').convert_alpha()
         self.__botoes = {'menu': Botao((self.game.largura_tela - img_botao_menu.get_width())//4 , 500, img_botao_menu, 1), 
                          'sair': Botao((self.game.largura_tela - img_botao_sair.get_width())*3//4, 500, img_botao_sair, 1)}
         
