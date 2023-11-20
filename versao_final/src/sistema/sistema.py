@@ -5,7 +5,6 @@ from src.fase.mapas import Mapa
 from src.estados.jogo import Jogo
 from src.estados.gameover import GameOverState
 
-
 class Sistema:
     def __init__(self):
         pygame.init()
@@ -22,7 +21,7 @@ class Sistema:
         pygame.display.set_caption("Joguinho - Grupo 1 :P")
 
         # estado atual
-        self.__estados = {'menu': MenuState(self), 'jogo': Jogo(self), 'gameover': GameOverState(self)}
+        self.__estados = {'menu': MenuState(self), 'jogo': Jogo(self, self.screen), 'gameover': GameOverState(self)}
         self.__estado_atual = self.__estados['menu']
 
     def run(self):
