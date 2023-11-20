@@ -8,7 +8,7 @@ from src.fase.mapas import Mapa
 from src.entities.inimigo import Inimigo
 
 class Fase:
-    def __init__(self, informacao_fase, sistema, num_fase):
+    def __init__(self, informacao_fase, sistema, num_fase, vida):
         self.__display_superficie = sistema.screen
         self.__sistema = sistema
         self.__tem_botao = False
@@ -16,6 +16,7 @@ class Fase:
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
         self.__x_atual = 0
+        self.__vidas = vida
     
     @property
     def display_superficie(self):
@@ -68,6 +69,8 @@ class Fase:
         #inimigo
         self.inimigo.update()
         self.inimigo.draw(self.display_superficie)
+        
+        #hud
 
 
     def fase_setup(self,layout):
@@ -194,17 +197,17 @@ class Fase:
                 if self.__num_fase == len(Mapa().mapa): # verificacao de gameover
                     self.gameover()
                 else:
-                    self.update_mapa()
+                    self.update_mapa(5)
 
     def gameover(self):
         nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0)
         self.__dict__.update(nova_fase.__dict__)
         self.__sistema.define_estado('gameover')
 
-    def update_mapa(self):
+    def update_mapa(self, vidas):
         for num_mapa in range(len(Mapa().mapa)):
             if num_mapa == self.__num_fase:
-                nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase)
+                nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase, vidas)
                 self.__dict__.update(nova_fase.__dict__)
 
     def colisao_botao(self):
@@ -221,6 +224,11 @@ class Fase:
             inimigo = self.inimigo.sprite
             if inimigo.rect.colliderect(jogador.rect):
                 self.inimigo.empty()
-                self.update_mapa()
+                self.update_mapa(self.__vidas)
+                self.__vidas -= 1
+                
         else:
             pass
+    @property
+    def vidas(self):
+        return self.__vidas
