@@ -12,7 +12,7 @@ class Inimigo(pygame.sprite.Sprite):
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
         self.__image = self.__animacao[self.__index_animacao]
-        self.__rect = self.__image.get_rect(midbottom = posicao)
+        self.__rect = self.__image.get_rect(topleft = posicao)
         
         #informacoes do inimigo
         self.__velocidade = move_speed
@@ -20,7 +20,7 @@ class Inimigo(pygame.sprite.Sprite):
 
 
     def importar_assets(self):
-        path_personagem = 'Assets/inimigo_fantasma/'
+        path_personagem = 'Assets/inimigo_fantasma'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 

@@ -60,8 +60,8 @@ class Mapa():
             ]
         
         self.__tamanho_tile = 64
-        self.__largura_tela = self.__tamanho_tile*len(self.__mapa[0][0])
-        self.__altura_tela = len(self.__mapa[0])*self.__tamanho_tile
+        self.__largura_tela = self.__tamanho_tile*20
+        self.__altura_tela = self.__tamanho_tile*12
         
     @property
     def mapa(self):

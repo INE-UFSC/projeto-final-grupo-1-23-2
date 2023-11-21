@@ -33,12 +33,13 @@ class Jogador(pygame.sprite.Sprite):
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
-    def animar(self):
+    def animar(self, andando = True):
         self.__index_animacao += self.__velocidade_animacao
-        if self.__index_animacao > len(self.__animacao):
+        if self.__index_animacao > len(self.__animacao) or not andando:
             self.__index_animacao = 0
         
         imagem = self.__animacao[int(self.__index_animacao)]
+        
         if self.__virado_para_direita:
             self.__image = imagem
         else:
@@ -60,12 +61,15 @@ class Jogador(pygame.sprite.Sprite):
     def andar(self):
         teclas = pygame.key.get_pressed() #mapeia as teclas
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
+            self.animar()
             self.__direcao.x = 1
             self.__virado_para_direita = True
         elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]:
+            self.animar()
             self.__direcao.x = -1
             self.__virado_para_direita = False
         else:
+            self.animar(False)
             self.__direcao.x = 0
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
@@ -86,7 +90,6 @@ class Jogador(pygame.sprite.Sprite):
 
     def update(self): #TEM que ter o nome de update, se não, nao vai funcionar em Fase.py por causa do pygame groups
         self.andar() 
-        self.animar()
         
     @property
     def image(self):

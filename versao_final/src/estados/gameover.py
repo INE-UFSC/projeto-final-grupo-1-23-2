@@ -15,13 +15,15 @@ class GameOverState(Estado):
         img_botao_sair = pygame.image.load('Assets/botoes/sair.png').convert_alpha()
         self.__botoes = {'menu': Botao((self.game.largura_tela - img_botao_menu.get_width())//4 , 500, img_botao_menu, 1), 
                          'sair': Botao((self.game.largura_tela - img_botao_sair.get_width())*3//4, 500, img_botao_sair, 1)}
+        self.__cursor_img = pygame.image.load('Assets/assets_forest/mouse.png')
+        self.__cursor_img_rect = self.__cursor_img.get_rect()
         
 
     def entering(self):
-        pass
+        pygame.mouse.set_visible(False)
             
     def exiting(self):
-        pass
+        pygame.mouse.set_visible(True)
 
     def update(self, event):
         if self.__botoes['sair'].clicado():
@@ -37,4 +39,8 @@ class GameOverState(Estado):
         self.game.screen.blit(self.__texto, ((self.game.largura_tela - self.__texto.get_width())//2, 186))
         self.__botoes['menu'].draw(self.game.screen)
         self.__botoes['sair'].draw(self.game.screen)
+        
+        # desenha o cursor
+        self.__cursor_img_rect.center = pygame.mouse.get_pos()
+        self.game.screen.blit(self.__cursor_img, self.__cursor_img_rect)
         

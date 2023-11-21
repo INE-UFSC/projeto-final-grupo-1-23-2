@@ -26,7 +26,7 @@ class Sistema:
             self, self.screen), 'gameover': GameOverState(self)}
         self.__estado_atual = self.__estados['menu']
 
-        self.altera_mouse()
+        pygame.mouse.set_visible(False)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -41,10 +41,6 @@ class Sistema:
             self.__estado_atual.update(event)
             self.__estado_atual.render()
 
-            # renderização do mouse
-            self.cursor_img_rect.center = pygame.mouse.get_pos()
-            self.screen.blit(self.cursor_img, self.cursor_img_rect)
-
             pygame.display.update()
             clock.tick(self.__FPS)
 
@@ -56,8 +52,3 @@ class Sistema:
         self.__estado_atual = self.__estados[estado]
         self.__estado_atual.entering()
 
-    def altera_mouse(self):
-        pygame.mouse.set_visible(False)
-        self.cursor_img = pygame.image.load(
-            'Assets/assets_forest/smaller_image_401.png')
-        self.cursor_img_rect = self.cursor_img.get_rect()
