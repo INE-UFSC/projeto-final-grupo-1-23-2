@@ -198,7 +198,7 @@ class Fase:
                     self.update_mapa(5)
 
     def gameover(self):
-        nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0)
+        nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0, 5)
         self.__dict__.update(nova_fase.__dict__)
         self.__sistema.define_estado('gameover')
 
@@ -222,11 +222,12 @@ class Fase:
             inimigo = self.inimigo.sprite
             if inimigo.rect.colliderect(jogador.rect):
                 self.inimigo.empty()
-                self.update_mapa(self.__vidas)
                 self.__vidas -= 1
-                
-        else:
-            pass
+                if self.__vidas ==0:
+                    self.gameover()
+                else:
+                    self.update_mapa(self.__vidas)
+        
     @property
     def vidas(self):
         return self.__vidas
