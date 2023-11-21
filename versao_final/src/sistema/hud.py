@@ -10,10 +10,8 @@ class HUD:
         self.__vidas = []
 
         #chave
-        self.__chaveApagada = pygame.image.load('Assets/ui/chaveApagada.gif').convert_alpha()
-        self.__chaveApagada = pygame.transform.scale(self.__chaveApagada, (120,120))
-        self.__chave = pygame.image.load('Assets/ui/chave.png').convert_alpha()
-        self.__chave = pygame.transform.scale(self.__chave, (120,120))
+        self.__chaveApagada = pygame.image.load('Assets/assets_forest/chave/chave transparente.png').convert_alpha()
+        self.__chave = pygame.image.load('Assets/assets_forest/chave/chave1.png').convert_alpha()
 
 
         self.__superficie = surface
@@ -38,9 +36,9 @@ class HUD:
 
     def mostrar_chave(self, indicador_chave: bool):
         if indicador_chave == False:
-            self.__superficie.blit(self.__chaveApagada,(20,60))
+            self.__superficie.blit(self.__chaveApagada,(270,8))
         else:
-            self.__superficie.blit(self.__chave,(20,60))
+            self.__superficie.blit(self.__chave,(270,8))
         pass
         
 

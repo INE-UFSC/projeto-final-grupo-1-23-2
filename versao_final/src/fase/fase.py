@@ -1,11 +1,13 @@
 import pygame
-from src.fase.tilemap import TileMap
+from src.fase.tilemap import TileMap, Background
 from src.entities.jogador import Jogador
 from src.itens.chave import Chave
 from src.itens.porta import Porta
 from src.itens.botao_jogo import Botao_Jogo
 from src.fase.mapas import Mapa
 from src.entities.inimigo import Inimigo
+from pytmx.util_pygame import load_pygame
+import pytmx
 
 class Fase:
     def __init__(self, informacao_fase, sistema, num_fase, vida):
@@ -36,9 +38,11 @@ class Fase:
     
 
     def run(self):
-        #self.tiles.update()
-        self.display_superficie.fill('Blue') #preenche a tela com a cor azul
-        self.tiles.draw(self.display_superficie) #desenha a fase
+        
+        self.background.draw(self.display_superficie)
+        self.tiles.draw(self.display_superficie)
+        self.ncolide.draw(self.display_superficie)
+        #desenha a fase
 
         #porta
         self.porta.update()
@@ -74,47 +78,78 @@ class Fase:
 
 
     def fase_setup(self,layout):
+        tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')
+
         self.tiles = pygame.sprite.Group()
+        self.background = pygame.sprite.Group()
         self.jogador = pygame.sprite.GroupSingle() #so um jogador
         self.chave = pygame.sprite.GroupSingle() #so uma chave
         self.inimigo = pygame.sprite.GroupSingle()
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
         self.barreira = pygame.sprite.Group()
+        self.ncolide = pygame.sprite.Group()
 
-        for linha_i, linha in enumerate(layout):
-            for coluna_i, elemento in enumerate(linha): #para manter controle de onde os 'X' estao de acordo com linha e coluna
-                x = coluna_i*Mapa().tamanho_tile
-                y = linha_i*Mapa().tamanho_tile
-
-                if elemento == 'X':
-                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'green')   
-                    self.tiles.add(tilemap)
-                elif elemento == 'Z':
-                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'brown')
-                    self.tiles.add(tilemap)
-                elif elemento == 'P':
-                    self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
-                    self.jogador.add(self.jogador_sprite) #self. para se quisermos trocar a skin/deletar o jogador quando morre
-                elif elemento == 'C':
-                    self.chave_sprite = Chave((x,y)) #self. pois precisa ser mantido para depois esse sprite ser deletado depois de colidir com o jogador
-                    self.chave.add(self.chave_sprite)
-                elif elemento == 'D':
-                    self.porta_sprite = Porta((x,y))
-                    self.porta.add(self.porta_sprite)
-                elif elemento == 'B':
-                    self.tem_botao = True
-                    self.botao_sprite = Botao_Jogo((x,y))
-                    self.botao.add(self.botao_sprite)
-                elif elemento == 'b':
+        for layer in tmxdata.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer):
+                for x, y, surf in layer.tiles():
                     
-                    tilemap = TileMap((x, y), Mapa().tamanho_tile, 'Gray')
-                    self.barreira.add(tilemap)
+                    if layer.name in ['terreno', 'ponte']:
+                        TileMap((x, y), surf, self.tiles)
+                    
+                    elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
+                        TileMap((x, y), surf, self.ncolide)
+                        
+                    elif layer.name == 'chave':
+                        self.chave_sprite = Chave((64*x,64*y))
+                        self.chave.add(self.chave_sprite)
+                    
+                    elif layer.name == 'porta':
+                        self.porta_sprite = Porta((64*x,64*y))
+                        self.porta.add(self.porta_sprite)
+                        
+                    elif layer.name == 'player':
+                        self.jogador_sprite = Jogador((64*x, 64*y),3, self.__display_superficie)
+                        self.jogador.add(self.jogador_sprite)
+                        
+            else:
+                    Background(layer.image, self.background)
+               
+                    
+                    
+        # for linha_i, linha in enumerate(layout):
+        #     for coluna_i, elemento in enumerate(linha): #para manter controle de onde os 'X' estao de acordo com linha e coluna
+        #         x = coluna_i*Mapa().tamanho_tile
+        #         y = linha_i*Mapa().tamanho_tile
+
+        #         if elemento == 'X':
+        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'green')   
+        #             self.tiles.add(tilemap)
+        #         elif elemento == 'Z':
+        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'brown')
+        #             self.tiles.add(tilemap)
+        #         elif elemento == 'P':
+        #             self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
+        #             self.jogador.add(self.jogador_sprite) #self. para se quisermos trocar a skin/deletar o jogador quando morre
+        #         elif elemento == 'C':
+        #             self.chave_sprite = Chave((x,y)) #self. pois precisa ser mantido para depois esse sprite ser deletado depois de colidir com o jogador
+        #             self.chave.add(self.chave_sprite)
+        #         elif elemento == 'D':
+        #             self.porta_sprite = Porta((x,y))
+        #             self.porta.add(self.porta_sprite)
+        #         elif elemento == 'B':
+        #             self.tem_botao = True
+        #             self.botao_sprite = Botao_Jogo((x,y))
+        #             self.botao.add(self.botao_sprite)
+        #         elif elemento == 'b':
+                    
+        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'Gray')
+        #             self.barreira.add(tilemap)
                 
-                elif elemento == 'I':
-                    self.__tem_inimigo = True
-                    self.inimigo_sprite = Inimigo((x, y), 1.5)
-                    self.inimigo.add(self.inimigo_sprite)
+        #         elif elemento == 'I':
+        #             self.__tem_inimigo = True
+        #             self.inimigo_sprite = Inimigo((x, y), 1.5)
+        #             self.inimigo.add(self.inimigo_sprite)
 
     def colisao_horizontal_tiles(self):
         jogador = self.jogador.sprite
