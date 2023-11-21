@@ -18,7 +18,7 @@ class ReaderCSV:
                 nome_arquivo = os.path.splitext(os.path.basename(arquivo))[0][6:]
                 csv_fase[nome_arquivo] = arquivo
             csv_fases[int(pasta[4:])] = csv_fase
-            
+        
         return csv_fases
     
 reader = ReaderCSV('fases')
