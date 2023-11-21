@@ -1,4 +1,3 @@
-from typing import Any
 import pygame
 from src.ferramentas.suporte import importar_pasta
 

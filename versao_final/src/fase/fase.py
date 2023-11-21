@@ -17,7 +17,7 @@ class Fase:
         self.__tem_inimigo = False
         self.fase_setup(informacao_fase)
         self.__num_fase = num_fase
-        self.__x_atual = 0
+        #self.__x_atual = 0
         self.__vidas = vida
     
     @property
@@ -43,7 +43,7 @@ class Fase:
         self.tiles.draw(self.display_superficie)
         self.ncolide.draw(self.display_superficie)
         #desenha a fase
-
+ 
         #porta
         self.porta.update()
         self.colisao_porta()
@@ -87,7 +87,7 @@ class Fase:
         self.inimigo = pygame.sprite.GroupSingle()
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
-        self.barreira = pygame.sprite.Group()
+        #self.barreira = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
 
         for layer in tmxdata.visible_layers:
@@ -114,119 +114,102 @@ class Fase:
                         
             else:
                     Background(layer.image, self.background)
-               
-                    
-                    
-        # for linha_i, linha in enumerate(layout):
-        #     for coluna_i, elemento in enumerate(linha): #para manter controle de onde os 'X' estao de acordo com linha e coluna
-        #         x = coluna_i*Mapa().tamanho_tile
-        #         y = linha_i*Mapa().tamanho_tile
 
-        #         if elemento == 'X':
-        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'green')   
-        #             self.tiles.add(tilemap)
-        #         elif elemento == 'Z':
-        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'brown')
-        #             self.tiles.add(tilemap)
-        #         elif elemento == 'P':
-        #             self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
-        #             self.jogador.add(self.jogador_sprite) #self. para se quisermos trocar a skin/deletar o jogador quando morre
-        #         elif elemento == 'C':
-        #             self.chave_sprite = Chave((x,y)) #self. pois precisa ser mantido para depois esse sprite ser deletado depois de colidir com o jogador
-        #             self.chave.add(self.chave_sprite)
-        #         elif elemento == 'D':
-        #             self.porta_sprite = Porta((x,y))
-        #             self.porta.add(self.porta_sprite)
-        #         elif elemento == 'B':
-        #             self.tem_botao = True
-        #             self.botao_sprite = Botao_Jogo((x,y))
-        #             self.botao.add(self.botao_sprite)
-        #         elif elemento == 'b':
-                    
-        #             tilemap = TileMap((x, y), Mapa().tamanho_tile, 'Gray')
-        #             self.barreira.add(tilemap)
-                
-        #         elif elemento == 'I':
-        #             self.__tem_inimigo = True
-        #             self.inimigo_sprite = Inimigo((x, y), 1.5)
-        #             self.inimigo.add(self.inimigo_sprite)
+    # def colisao_horizontal_tiles(self):
+    #     jogador = self.jogador.sprite
+    #     inimigo = self.inimigo.sprite
 
-    def colisao_horizontal_tiles(self):
-        jogador = self.jogador.sprite
-        inimigo = self.inimigo.sprite
+    #     for sprite in self.tiles.sprites():
+    #         if self.__tem_inimigo == True:
+    #             if sprite.rect.colliderect(inimigo.rect):
+    #                 if inimigo.direcao.x < 0:
+    #                     inimigo.rect.left = sprite.rect.right
+    #                     inimigo.direcao.x = inimigo.direcao.x * (-1)
+    #                 elif inimigo.direcao.x > 0:
+    #                     inimigo.rect.right = sprite.rect.left
+    #                     inimigo.direcao.x = inimigo.direcao.x * (-1)
 
-        for sprite in self.tiles.sprites() + self.barreira.sprites():
-            if self.__tem_inimigo == True:
-                if sprite.rect.colliderect(inimigo.rect):
-                    if inimigo.direcao.x < 0:
-                        inimigo.rect.left = sprite.rect.right
-                        inimigo.direcao.x = inimigo.direcao.x * (-1)
-                    elif inimigo.direcao.x > 0:
-                        inimigo.rect.right = sprite.rect.left
-                        inimigo.direcao.x = inimigo.direcao.x * (-1)
-            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
-                if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
-                    jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
-                    jogador.na_esquerda = True
-                    self.__x_atual = jogador.rect.left
-                elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
-                    jogador.rect.right = sprite.rect.left
-                    jogador.na_direita = True
-                    self.__x_atual = jogador.rect.right
+    #         if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
+    #             if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
+    #                 jogador.rect.left = sprite.rect.right #colisao acontece na esquerda do jogador, entao ele fica na direita do tile q ele colidiu
 
-            if jogador.rect.left <= 0:
-                jogador.rect.left = 0
-            if jogador.rect.right >= Mapa().largura_tela:
-                jogador.rect.right = Mapa().largura_tela
+    #                 #jogador.na_esquerda = True
+    #                 self.__x_atual = jogador.rect.left
+    #             elif jogador.direcao.x > 0: #se o jogador esta andando pra direita
+    #                 jogador.rect.right = sprite.rect.left
+    #                 #jogador.na_direita = True
+    #                 #self.__x_atual = jogador.rect.right
+
+    #         # if jogador.rect.left <= 0:
+    #         #     jogador.rect.left = 0
+    #         # if jogador.rect.right >= Mapa().largura_tela:
+    #         #     jogador.rect.right = Mapa().largura_tela
             
-        if jogador.na_esquerda and (jogador.rect.left < self.__x_atual or jogador.direcao.x >= 0):
-            jogador.na_esquerda = False
-        if jogador.na_direita and (jogador.rect.left < self.__x_atual or jogador.direcao.x <= 0):
-            jogador.na_direita = False
+    #     # if jogador.na_esquerda and (jogador.rect.left < self.__x_atual or jogador.direcao.x >= 0):
+    #     #     jogador.na_esquerda = False
+    #     # if jogador.na_direita and (jogador.rect.left < self.__x_atual or jogador.direcao.x <= 0):
+    #     #     jogador.na_direita = False
+            
 
-    def colisao_vertical_tiles(self):
-        jogador = self.jogador.sprite
-        jogador.aplicar_gravidade()
+    # def colisao_vertical_tiles(self):
+    #     jogador = self.jogador.sprite
+    #     jogador.aplicar_gravidade()
         
-        for sprite in self.tiles.sprites() + self.barreira.sprites():
-            if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
-                if jogador.direcao.y > 0: 
-                    jogador.rect.bottom = sprite.rect.top 
-                    jogador.direcao.y = 0
-                    jogador.no_chao = True
+    #     for sprite in self.tiles.sprites() + self.barreira.sprites():
+    #         if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
+    #             if jogador.direcao.y > 0: 
+    #                 jogador.rect.bottom = sprite.rect.top 
+    #                 jogador.direcao.y = 0
+    #                 jogador.no_chao = True
                         
-                elif jogador.direcao.y < 0: 
-                    jogador.rect.top = sprite.rect.bottom
-                    jogador.direcao.y = 0
-                    jogador.no_teto = True
+    #             elif jogador.direcao.y < 0: 
+    #                 jogador.rect.top = sprite.rect.bottom
+    #                 jogador.direcao.y = 0
+    #                 jogador.no_teto = True
             
-            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1:
-                jogador.no_chao = False
-            if jogador.no_teto and jogador.direcao.y > 0:
-                jogador.no_teto = False
+    #         if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1:
+    #             jogador.no_chao = False
+    #         if jogador.no_teto and jogador.direcao.y > 0:
+    #             jogador.no_teto = False
 
 
-    def colisao_chave(self):
-        jogador = self.jogador.sprite
+    # def colisao_chave(self):
+    #     jogador = self.jogador.sprite
 
-        if self.chave_sprite.rect.colliderect(jogador.rect):
-            self.chave.remove(self.chave_sprite)
-            self.jogador_sprite.desbloquear_porta()
-        #for sprite in self.chave.sprites():
-         #   if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com a chave
-          #      self.chave.remove(self.chave_sprite)
-          #      self.jogador_sprite.desbloquear_porta()
+    #     if self.chave_sprite.rect.colliderect(jogador.rect):
+    #         self.chave.remove(self.chave_sprite)
+    #         self.jogador_sprite.desbloquear_porta()
+    
+    # def colisao_porta(self):
+    #     jogador = self.jogador.sprite
 
-    def colisao_porta(self):
-        jogador = self.jogador.sprite
+    #     if self.porta_sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
+    #         if self.jogador_sprite.abrir_porta == True:
+    #             self.__num_fase +=1
+    #             if self.__num_fase == len(Mapa().mapa): # verificacao de gameover
+    #                 self.gameover()
+    #             else:
+    #                 self.update_mapa(5)
 
-        if self.porta_sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
-            if self.jogador_sprite.abrir_porta == True:
-                self.__num_fase +=1
-                if self.__num_fase == len(Mapa().mapa): # verificacao de gameover
-                    self.gameover()
-                else:
-                    self.update_mapa(5)
+    # def colisao_botao(self):
+    #     jogador = self.jogador.sprite
+
+    #     if self.tem_botao == True:
+    #         if self.botao_sprite.rect.colliderect(jogador.rect):
+    #             self.botao.empty()
+    #             self.barreira.empty()
+
+    # def colisao_inimigo_jogador(self):
+    #     if self.__tem_inimigo == True:
+    #         jogador = self.jogador.sprite
+    #         inimigo = self.inimigo.sprite
+    #         if inimigo.rect.colliderect(jogador.rect):
+    #             self.inimigo.empty()
+    #             self.__vidas -= 1
+    #             if self.__vidas ==0:
+    #                 self.gameover()
+    #             else:
+    #                 self.update_mapa(self.__vidas)
 
     def gameover(self):
         nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0, 5)
@@ -239,26 +222,6 @@ class Fase:
                 nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase, vidas)
                 self.__dict__.update(nova_fase.__dict__)
 
-    def colisao_botao(self):
-        jogador = self.jogador.sprite
-
-        if self.tem_botao == True:
-            if self.botao_sprite.rect.colliderect(jogador.rect):
-                self.botao.empty()
-                self.barreira.empty()
-
-    def colisao_inimigo_jogador(self):
-        if self.__tem_inimigo == True:
-            jogador = self.jogador.sprite
-            inimigo = self.inimigo.sprite
-            if inimigo.rect.colliderect(jogador.rect):
-                self.inimigo.empty()
-                self.__vidas -= 1
-                if self.__vidas ==0:
-                    self.gameover()
-                else:
-                    self.update_mapa(self.__vidas)
-        
     @property
     def vidas(self):
         return self.__vidas

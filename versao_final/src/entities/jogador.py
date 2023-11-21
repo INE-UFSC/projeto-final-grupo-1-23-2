@@ -88,7 +88,7 @@ class Jogador(pygame.sprite.Sprite):
     def desbloquear_porta(self):
         self.__abrir_porta = True
 
-    def update(self): #TEM que ter o nome de update, se não, nao vai funcionar em Fase.py por causa do pygame groups
+    def update(self): 
         self.andar() 
         
     @property
