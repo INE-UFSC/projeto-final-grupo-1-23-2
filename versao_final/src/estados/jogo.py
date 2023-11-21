@@ -22,7 +22,7 @@ class Jogo(Estado):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.game.define_estado('menu')
-            self.__fase.run()
+            self.__fase.update()
             self.__colisao.update()
             if self.__fase.vidas == 0:
                  self.game.define_estado('gameover')
