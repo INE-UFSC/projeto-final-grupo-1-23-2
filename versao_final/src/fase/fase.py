@@ -123,17 +123,15 @@ class Fase:
         jogador.rect.x += jogador.direcao.x * jogador.velocidade #aplica o movimento horizontal
 
         if self.__tem_inimigo == True:
-            inimigo.rect.x += inimigo.direcao.x * inimigo.velocidade
+            inimigo.andar()
         for sprite in self.tiles.sprites() + self.barreira.sprites():
             if self.__tem_inimigo == True:
                 if sprite.rect.colliderect(inimigo.rect):
                     if inimigo.direcao.x < 0:
                         inimigo.rect.left = sprite.rect.right
-                        self.inimigo_sprite.virar()
                         inimigo.direcao.x = inimigo.direcao.x * (-1)
                     elif inimigo.direcao.x > 0:
                         inimigo.rect.right = sprite.rect.left
-                        self.inimigo_sprite.virar()
                         inimigo.direcao.x = inimigo.direcao.x * (-1)
             if sprite.rect.colliderect(jogador.rect): #checa se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.x < 0: #se o jogador esta andando pra esquerda
