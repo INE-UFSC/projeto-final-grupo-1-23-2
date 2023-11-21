@@ -74,7 +74,7 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_UP]) and self.no_chao:
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_UP] or teclas[pygame.K_w]) and self.no_chao:
             self.pular()
 
     def aplicar_gravidade(self):
@@ -88,7 +88,7 @@ class Jogador(pygame.sprite.Sprite):
     def desbloquear_porta(self):
         self.__abrir_porta = True
 
-    def update(self): #TEM que ter o nome de update, se não, nao vai funcionar em Fase.py por causa do pygame groups
+    def update(self): 
         self.andar() 
         
     @property
