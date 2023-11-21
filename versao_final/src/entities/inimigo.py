@@ -1,18 +1,46 @@
 from typing import Any
 import pygame
+from src.ferramentas.suporte import importar_pasta
+
 
 class Inimigo(pygame.sprite.Sprite):
     def __init__(self, posicao, move_speed: int):
         super().__init__()
-        self.image = pygame.image.load('Assets/im_inimigo.gif')
-        self.image.convert_alpha()
-        self.image = pygame.transform.scale(self.image, (48, 64))
-        self.__velocidade = move_speed
-       # self.image = pygame.Surface((42,64)) #64x64 faria q o jogador tivesse um tile de tamanho
-       # self.image.fill('red')
-        self.rect = self.image.get_rect(topleft = posicao)
-        self.__direcao = pygame.math.Vector2((self.__velocidade),0)
 
+        #animacao inimigo
+        self.importar_assets()
+        self.__index_animacao = 0
+        self.__velocidade_animacao = 0.15
+        self.__image = self.__animacao[self.__index_animacao]
+        self.__rect = self.__image.get_rect(topleft = posicao)
+        
+        #informacoes do inimigo
+        self.__velocidade = move_speed
+        self.__direcao = pygame.math.Vector2((self.__velocidade), 0)
+
+
+    def importar_assets(self):
+        path_personagem = 'Assets/inimigo_fantasma/'
+        self.__animacao = []
+        self.__animacao = importar_pasta(path_personagem)
+
+    def animar(self):
+        self.__index_animacao += self.__velocidade_animacao
+        if self.__index_animacao > len(self.__animacao):
+            self.__index_animacao = 0
+        
+        imagem = self.__animacao[int(self.__index_animacao)]
+        if self.__direcao.x < 0:
+            self.__image = imagem
+        else:
+            self.__image = pygame.transform.flip(imagem, True, False)
+    
+    def andar(self):
+        self.__rect.x += self.__direcao.x * self.__velocidade
+    
+    def update(self):
+        self.andar()
+        self.animar()
 
     @property
     def velocidade(self):
@@ -22,7 +50,16 @@ class Inimigo(pygame.sprite.Sprite):
     def direcao(self):
         return self.__direcao
     
-    def virar(self):
-        self.image = pygame.transform.flip(self.image, True, False)
+    @property
+    def rect(self):
+        return self.__rect
+    
+    @property
+    def image(self):
+        return self.__image
+    
+    @image.setter
+    def image(self, nova_imagem):
+        self.__image = nova_imagem
 
     
