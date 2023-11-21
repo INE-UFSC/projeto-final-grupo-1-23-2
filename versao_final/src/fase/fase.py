@@ -118,12 +118,8 @@ class Fase:
 
     def colisao_horizontal_tiles(self):
         jogador = self.jogador.sprite
-
         inimigo = self.inimigo.sprite
-        jogador.rect.x += jogador.direcao.x * jogador.velocidade #aplica o movimento horizontal
 
-        if self.__tem_inimigo == True:
-            inimigo.andar()
         for sprite in self.tiles.sprites() + self.barreira.sprites():
             if self.__tem_inimigo == True:
                 if sprite.rect.colliderect(inimigo.rect):
