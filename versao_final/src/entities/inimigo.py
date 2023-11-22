@@ -48,6 +48,7 @@ class Inimigo(pygame.sprite.Sprite):
     @property
     def direcao(self):
         return self.__direcao
+   
     
     @property
     def rect(self):

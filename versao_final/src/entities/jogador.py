@@ -16,7 +16,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__direcao = pygame.math.Vector2(0,0)
         self.__velocidade = velocidade
         self.__gravidade = 0.8
-        self.__altura_pulo = -15
+        self.__altura_pulo = -16
         
         #informacoes do jogador
         self.__virado_para_direita = True

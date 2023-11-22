@@ -61,9 +61,39 @@ class Colisao:
                 self.__fase.num_fase += 1
                 self.__fase.verificao_fase_atual()
 
+
+    def colisao_inimigo_jogador(self):
+        if self.__fase.tem_inimigo == True:
+            jogador = self.__fase.jogador.sprite
+            inimigo = self.__fase.inimigo.sprite
+            if inimigo.rect.colliderect(jogador.rect):
+                self.__fase.inimigo.empty()
+                self.__fase.vidas = -1
+                if self.__fase.vidas ==0:
+                    self.__fase.gameover()
+                else:
+                    self.__fase.update_mapa(self.__fase.vidas)
+
+    def colisao_inimigo_obstaculo(self):
+        if self.__fase.tem_inimigo == True:
+            inimigo = self.__fase.inimigo.sprite
+            for sprite in self.__fase.inimigo_colisores.sprites():
+                if sprite.rect.colliderect(inimigo.rect): #verifica se o jogador esta colidindo com algum retangulo
+                    if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
+                        inimigo.direcao.x *= -1
+                
+
+
+
+
+
+            
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
         self.colisao_chave()
         self.colisao_porta()
+        self.colisao_inimigo_jogador()
+        self.colisao_inimigo_obstaculo()
+    
 

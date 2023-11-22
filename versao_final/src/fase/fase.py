@@ -20,7 +20,10 @@ class Fase:
         self.__vidas = vida
     
     def run(self):
-        
+        #colisores do inimigo
+        self.inimigo_colisores.update()
+        self.inimigo_colisores.draw(self.display_superficie)
+
         #desenha a fase
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
@@ -58,6 +61,7 @@ class Fase:
         self.botao = pygame.sprite.GroupSingle()
         #self.barreira = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
+        self.inimigo_colisores= pygame.sprite.Group()
 
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
@@ -80,7 +84,13 @@ class Fase:
                     elif layer.name == 'player':
                         self.jogador_sprite = Jogador((64*x, 64*y),3, self.__display_superficie)
                         self.jogador.add(self.jogador_sprite)
-                        
+                    elif layer.name == 'inimigo':
+                        self.__tem_inimigo = True
+                        self.inimigo_sprite = Inimigo((64*x, 64*y), 1)
+                        self.inimigo.add(self.inimigo_sprite)    
+                    elif layer.name == 'colisao_inimigo':
+                        TileMap((x,y), surf, self.inimigo_colisores)
+                    
             else:
                 Background(layer.image, self.background)
 
@@ -107,6 +117,9 @@ class Fase:
     @property
     def vidas(self):
         return self.__vidas
+    @vidas.setter
+    def vidas(self, numero):
+        self.__vidas += numero
     
     @property
     def display_superficie(self):
@@ -127,3 +140,7 @@ class Fase:
     @num_fase.setter
     def num_fase(self, novo_num_fase):
         self.__num_fase = novo_num_fase
+
+    @property
+    def tem_inimigo(self):
+        return self.__tem_inimigo
