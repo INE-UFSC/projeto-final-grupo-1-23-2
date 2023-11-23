@@ -8,15 +8,35 @@ class MenuState(Estado):
     def __init__(self, game):
         super().__init__(game)
         # CARREGAMENTO DOS ASSETS DO MENU
-        background = pygame.image.load('Assets/backgrounds/menu.png').convert_alpha()
-        self.__background = pygame.transform.scale(background, (Mapa().largura_tela, Mapa().altura_tela))
+        
+        # FUNDO
+        self.__ceu = pygame.image.load('Assets/backgrounds/River/1 ceu.png').convert_alpha()
+        self.__nuvens = pygame.image.load('Assets/backgrounds/River/2 nuvem.png').convert_alpha()
+        self.__montanha1 = pygame.image.load('Assets/backgrounds/River/3 montanha1.png').convert_alpha()
+        self.__montanha2 = pygame.image.load('Assets/backgrounds/River/4 montanha2.png').convert_alpha()
+        self.__grama = pygame.image.load('Assets/backgrounds/River/5 fundo grama.png').convert_alpha()
+        
+        # LOGO
         self.__logo = pygame.image.load('Assets/logo.png').convert_alpha()
-        img_botao_iniciar = pygame.image.load('Assets/botoes/iniciar.png').convert_alpha()
-        img_botao_sair = pygame.image.load('Assets/botoes/sair.png').convert_alpha()
-        self.__botoes = {'iniciar': Botao((self.game.largura_tela - img_botao_iniciar.get_width())//2 , 388, img_botao_iniciar, 1), 
-                         'sair': Botao((self.game.largura_tela - img_botao_sair.get_width())//2, 528, img_botao_sair, 1)}
+        self.__trade = pygame.image.load('Assets/trade.png').convert_alpha()
+        
+        # BOTOTES
+        img_botao_play = pygame.image.load('Assets/botoes/play.png').convert_alpha()
+        img_botao_quit = pygame.image.load('Assets/botoes/quit.png').convert_alpha()
+        img_botao_skins = pygame.image.load('Assets/botoes/skins.png').convert_alpha()
+        self.__botoes = {'play': Botao(490 , 422, img_botao_play), 
+                         'skins': Botao(68, 521, img_botao_skins),
+                         'quit': Botao(875, 521, img_botao_quit)}
+        
+        # CURSOR
         self.__cursor_img = pygame.image.load('Assets/assets_forest/mouse.png')
         self.__cursor_img_rect = self.__cursor_img.get_rect()
+        
+        # VARIAVEIS
+        self.__scroll_montanha1 = 0
+        self.__scroll_nuvem= 0
+        self.__inicio = True
+        self.__logoy = -500
         
 
     def entering(self):
@@ -26,20 +46,46 @@ class MenuState(Estado):
         pygame.mouse.set_visible(True)
 
     def update(self, event):
-        if self.__botoes['sair'].clicado():
+        if self.__botoes['quit'].clicado():
             pygame.quit()
             sys.exit()
             
-        if self.__botoes['iniciar'].clicado():
+        if self.__botoes['play'].clicado():
             self.game.define_estado('jogo')
                 
     def render(self):
-        self.game.screen.fill('White')
-        self.game.screen.blit(self.__background, (0, 0))
-        self.game.screen.blit(self.__logo, ((self.game.largura_tela - self.__logo.get_width())//2, 90))
-        self.__botoes['iniciar'].draw(self.game.screen)
-        self.__botoes['sair'].draw(self.game.screen)
+        self.game.screen.blit(self.__ceu, (0,0)) # desenhando ceu
         
+        # animacao da nuvem
+        for i in range(0, -2, -1):
+            self.game.screen.blit(self.__nuvens, (i * 1280 + int(self.__scroll_nuvem), 0))
+        self.__scroll_nuvem +=0.5
+        if abs(self.__scroll_nuvem) > 1280:
+            self.__scroll_nuvem = 0
+            
+        # animacao da montanha fundo
+        for i in range(2):
+            self.game.screen.blit(self.__montanha1, (i * 1280 + int(self.__scroll_montanha1), 0))
+        self.__scroll_montanha1 -=0.2
+        if abs(self.__scroll_montanha1) > 1280:
+            self.__scroll_montanha1 = 0
+            
+        self.game.screen.blit(self.__montanha2, (0,0)) # desenho montanha frente
+            
+        self.game.screen.blit(self.__grama, (0,0)) # desenho grama
+
+        if self.__inicio:
+            self.__logoy +=2
+            if self.__logoy > -260:
+                self.__inicio = False
+        else:
+            self.game.screen.blit(self.__trade, (419,80))
+            
+            for botao in self.__botoes.values():
+                botao.draw(self.game.screen)
+                
+        self.game.screen.blit(self.__logo, (260, self.__logoy))
+    
         # desenha o cursor
         self.__cursor_img_rect.center = pygame.mouse.get_pos()
         self.game.screen.blit(self.__cursor_img, self.__cursor_img_rect)

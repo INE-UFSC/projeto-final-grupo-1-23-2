@@ -19,7 +19,8 @@ class Sistema:
             (self.largura_tela, self.altura_tela))
 
         # definindo nome do jogo/janela
-        pygame.display.set_caption("Joguinho - Grupo 1 :P")
+        pygame.display.set_caption("The Lost Key")
+        pygame.display.set_icon(pygame.image.load("Assets/icon.png"))
 
         # estado atual
         self.__estados = {'menu': MenuState(self), 'jogo': Jogo(

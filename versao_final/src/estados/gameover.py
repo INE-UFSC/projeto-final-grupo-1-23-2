@@ -11,8 +11,8 @@ class GameOverState(Estado):
         background = pygame.image.load('Assets/backgrounds/menu.png').convert_alpha()
         self.__background = pygame.transform.scale(background, (Mapa().largura_tela, Mapa().altura_tela))
         self.__texto = pygame.image.load('Assets/texto_parabens.png').convert_alpha()
-        img_botao_menu = pygame.image.load('Assets/botoes/menu.png').convert_alpha()
-        img_botao_sair = pygame.image.load('Assets/botoes/sair.png').convert_alpha()
+        img_botao_menu = pygame.image.load('Assets/botoes/play.png').convert_alpha()
+        img_botao_sair = pygame.image.load('Assets/botoes/quit.png').convert_alpha()
         self.__botoes = {'menu': Botao((self.game.largura_tela - img_botao_menu.get_width())//4 , 500, img_botao_menu, 1), 
                          'sair': Botao((self.game.largura_tela - img_botao_sair.get_width())*3//4, 500, img_botao_sair, 1)}
         self.__cursor_img = pygame.image.load('Assets/assets_forest/mouse.png')
