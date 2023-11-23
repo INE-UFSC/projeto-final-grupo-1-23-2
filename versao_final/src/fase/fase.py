@@ -27,6 +27,7 @@ class Fase:
         #desenha a fase
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
+        self.escada.draw(self.display_superficie)
         self.ncolide.draw(self.display_superficie)
  
         #porta
@@ -40,7 +41,6 @@ class Fase:
         #botao
         self.botao.update()
         self.botao.draw(self.display_superficie)
-        self.escada.draw(self.display_superficie)
 
         #jogador
         self.jogador.update() #atualiza a posição do jogador
@@ -49,7 +49,7 @@ class Fase:
         #inimigo
         self.inimigo.update()
         self.inimigo.draw(self.display_superficie)
-        self.escada.update()
+        
         
     def fase_setup(self,layout):
         tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')

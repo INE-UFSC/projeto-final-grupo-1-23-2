@@ -42,7 +42,7 @@ class Colisao:
                     jogador.direcao.y = 0
                     jogador.no_teto = True
                             
-            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1: #verifica se o jogador esta pulando
+            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1 or jogador.escalar: #verifica se o jogador esta pulando
                 jogador.no_chao = False
             if jogador.no_teto and jogador.direcao.y > 0: #verifica se o jogador esta caindo
                 jogador.no_teto = False
