@@ -27,9 +27,8 @@ class Fase:
         #desenha a fase
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
-        self.escadas.draw(self.display_superficie)
-        #self.escadas.update()
         self.ncolide.draw(self.display_superficie)
+        self.escadas.draw(self.display_superficie)
  
         #porta
         self.porta.update()
@@ -72,8 +71,6 @@ class Fase:
                     
                     if layer.name in ['terreno', 'ponte']:
                         TileMap((x, y), surf, self.tiles)
-                    elif layer.name == 'escada':
-                        TileMap((x,y), surf, self.escadas)
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
                         TileMap((x, y), surf, self.ncolide)
                         
@@ -94,6 +91,8 @@ class Fase:
                         self.inimigo.add(self.inimigo_sprite)    
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x,y), surf, self.inimigo_colisores)
+                    if layer.name == 'escada':
+                        TileMap((x,y), surf, self.escadas)
                     
             else:
                 Background(layer.image, self.background)

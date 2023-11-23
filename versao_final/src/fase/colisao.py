@@ -27,7 +27,8 @@ class Colisao:
 
     def colisao_vertical_jogador_mapa(self):
         jogador = self.__fase.jogador.sprite
-        jogador.aplicar_gravidade()
+        if self.__fase.jogador_sprite.escalar == False:
+            jogador.aplicar_gravidade()
 
         for sprite in self.__fase.tiles.sprites(): #verifica se o jogador esta colidindo com algum retangulo
             if sprite.rect.colliderect(jogador.rect):
@@ -84,14 +85,13 @@ class Colisao:
                 
     def colisao_escada_jogador(self):
         jogador = self.__fase.jogador.sprite
-        if self.__fase.jogador.sprite:
-            for sprite in self.__fase.escadas.sprites():
-                if sprite.rect.colliderect(jogador.rect):
-                    self.__fase.jogador_sprite.escalar = True
-                else:
-                    self.__fase.jogador_sprite.escalar = False
+        for sprite in self.__fase.escadas.sprites():
+            if sprite.rect.colliderect(jogador.rect):
+                self.__fase.jogador_sprite.escalar = True
+            else:
+                self.__fase.jogador_sprite.escalar = False
+        print(self.__fase.jogador_sprite.escalar)
 
-                    
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
