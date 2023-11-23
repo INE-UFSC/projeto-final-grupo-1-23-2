@@ -1,9 +1,16 @@
+#coisa de linux pc sala
+import os
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
+
 import pygame
 import sys
 from src.estados.menu import MenuState
 from src.fase.mapas import Mapa
 from src.estados.jogo import Jogo
 from src.estados.gameover import GameOverState
+
+
+
 
 
 class Sistema:
@@ -33,10 +40,10 @@ class Sistema:
 
         while True:
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+            event = pygame.event.poll()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
             self.__estado_atual.update(event)
             self.__estado_atual.render()

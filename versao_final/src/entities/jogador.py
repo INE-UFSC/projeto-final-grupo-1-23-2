@@ -27,7 +27,7 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__abrir_porta = False
 
-        self.__atacando = False
+        self.__superficie = superficie
 
     #importa as imagens do jogador
     def importar_assets(self):
@@ -81,11 +81,17 @@ class Jogador(pygame.sprite.Sprite):
 
     def atacar(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                print("batata")
+            if pygame.mouse.get_pressed()[0]: #essa linha detecta o clique esquerdo ÚNICO
+                self.ataque()
 
     def ataque(self):
-        pass
+        retangulo_de_ataque = pygame.Rect(self.__rect.centerx,
+                                          self.__rect.y,
+                                          2 * self.rect.width,
+                                          self.__rect.height
+                                          )
+        pygame.draw.rect(self.__superficie, (0,255,0), retangulo_de_ataque)
+        
 
     def aplicar_gravidade(self):
         self.__direcao.y += self.__gravidade
