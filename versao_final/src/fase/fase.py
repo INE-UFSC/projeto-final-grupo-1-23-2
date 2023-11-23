@@ -27,6 +27,8 @@ class Fase:
         #desenha a fase
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
+        self.escadas.draw(self.display_superficie)
+        #self.escadas.update()
         self.ncolide.draw(self.display_superficie)
  
         #porta
@@ -60,6 +62,7 @@ class Fase:
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
         #self.barreira = pygame.sprite.Group()
+        self.escadas = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
         self.inimigo_colisores= pygame.sprite.Group()
 
@@ -69,7 +72,8 @@ class Fase:
                     
                     if layer.name in ['terreno', 'ponte']:
                         TileMap((x, y), surf, self.tiles)
-                    
+                    elif layer.name == 'escada':
+                        TileMap((x,y), surf, self.escadas)
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
                         TileMap((x, y), surf, self.ncolide)
                         

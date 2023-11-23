@@ -17,7 +17,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__velocidade = velocidade
         self.__gravidade = 0.8
         self.__altura_pulo = -16
-        
+        self.__escalar = False
         #informacoes do jogador
         self.__virado_para_direita = True
         self.__no_chao = False
@@ -82,8 +82,10 @@ class Jogador(pygame.sprite.Sprite):
         self.rect.y += self.__direcao.y
 
     def pular(self):
-        self.__direcao.y = self.__altura_pulo
-
+        if self.__escalar == False:
+            self.__direcao.y = self.__altura_pulo
+        else:
+            self.__direcao.y = -2
 
     def desbloquear_porta(self):
         self.__abrir_porta = True

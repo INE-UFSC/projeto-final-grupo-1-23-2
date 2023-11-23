@@ -82,12 +82,16 @@ class Colisao:
                     if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
                         inimigo.direcao.x *= -1
                 
+    def colisao_escada_jogador(self):
+        jogador = self.__fase.jogador.sprite
+        if self.__fase.jogador.sprite:
+            for sprite in self.__fase.escadas.sprites():
+                if sprite.rect.colliderect(jogador.rect):
+                    self.__fase.jogador_sprite.escalar = True
+                else:
+                    self.__fase.jogador_sprite.escalar = False
 
-
-
-
-
-            
+                    
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
@@ -95,5 +99,6 @@ class Colisao:
         self.colisao_porta()
         self.colisao_inimigo_jogador()
         self.colisao_inimigo_obstaculo()
+        self.colisao_escada_jogador()
     
 
