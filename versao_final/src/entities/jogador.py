@@ -27,6 +27,8 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__abrir_porta = False
 
+        self.__superficie = superficie
+
     #importa as imagens do jogador
     def importar_assets(self):
         path_personagem = 'Assets/jogador/'
@@ -77,6 +79,20 @@ class Jogador(pygame.sprite.Sprite):
         if (teclas[pygame.K_SPACE] or teclas[pygame.K_UP] or teclas[pygame.K_w]) and self.no_chao:
             self.pular()
 
+    def atacar(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]: #essa linha detecta o clique esquerdo ÚNICO
+                self.ataque()
+
+    def ataque(self):
+        retangulo_de_ataque = pygame.Rect(self.__rect.centerx,
+                                          self.__rect.y,
+                                          2 * self.rect.width,
+                                          self.__rect.height
+                                          )
+        pygame.draw.rect(self.__superficie, (0,255,0), retangulo_de_ataque)
+        
+
     def aplicar_gravidade(self):
         self.__direcao.y += self.__gravidade
         self.rect.y += self.__direcao.y
@@ -88,8 +104,9 @@ class Jogador(pygame.sprite.Sprite):
     def desbloquear_porta(self):
         self.__abrir_porta = True
 
-    def update(self): 
-        self.andar() 
+    def update(self, event): 
+        self.andar()
+        self.atacar(event) 
         
     @property
     def image(self):

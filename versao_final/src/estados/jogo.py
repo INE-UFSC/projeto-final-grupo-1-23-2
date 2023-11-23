@@ -19,15 +19,20 @@ class Jogo(Estado):
         pass
     
     def update(self, event):
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.game.define_estado('menu')
-            self.__fase.update()
-            self.__colisao.update()
-            if self.__fase.vidas == 0:
-                 self.game.define_estado('gameover')
-            self.__hud.mostrar_vida(self.__fase.vidas)
-            self.__hud.mostrar_chave(self.__fase.jogador_sprite.abrir_porta)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.game.define_estado('menu')
+
+        self.__fase.update(event)
+        self.__colisao.update()
+        
+        if self.__fase.vidas == 0:
+            self.game.define_estado('gameover')
+        
+        self.__hud.mostrar_vida(self.__fase.vidas)
+        self.__hud.mostrar_chave(self.__fase.jogador_sprite.abrir_porta)
+
+
 
     def render(self):
         pass

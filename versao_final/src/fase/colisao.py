@@ -61,7 +61,6 @@ class Colisao:
                 self.__fase.num_fase += 1
                 self.__fase.verificao_fase_atual()
 
-
     def colisao_inimigo_jogador(self):
         if self.__fase.tem_inimigo == True:
             jogador = self.__fase.jogador.sprite
@@ -81,11 +80,6 @@ class Colisao:
                 if sprite.rect.colliderect(inimigo.rect): #verifica se o jogador esta colidindo com algum retangulo
                     if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
                         inimigo.direcao.x *= -1
-                
-
-
-
-
 
             
     def update(self):
