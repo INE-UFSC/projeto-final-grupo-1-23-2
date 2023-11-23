@@ -19,7 +19,7 @@ class Fase:
         self.__num_fase = num_fase
         self.__vidas = vida
     
-    def run(self):
+    def run(self, event):
         #colisores do inimigo
         self.inimigo_colisores.update()
         self.inimigo_colisores.draw(self.display_superficie)
@@ -42,7 +42,7 @@ class Fase:
         self.botao.draw(self.display_superficie)
 
         #jogador
-        self.jogador.update() #atualiza a posição do jogador
+        self.jogador.update(event) #atualiza a posição do jogador
         self.jogador.draw(self.display_superficie) #desenha o jogador na sua posição
 
         #inimigo
@@ -111,8 +111,8 @@ class Fase:
                 nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase, vidas)
                 self.__dict__.update(nova_fase.__dict__)
 
-    def update(self):
-        self.run()
+    def update(self, event):
+        self.run(event)
 
     @property
     def vidas(self):

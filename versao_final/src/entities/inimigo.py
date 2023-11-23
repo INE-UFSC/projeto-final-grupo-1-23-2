@@ -6,16 +6,19 @@ class Inimigo(pygame.sprite.Sprite):
     def __init__(self, posicao, move_speed: int):
         super().__init__()
 
-        #animacao inimigo
+        # animacao inimigo
         self.importar_assets()
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
         self.__image = self.__animacao[self.__index_animacao]
         self.__rect = self.__image.get_rect(topleft = posicao)
         
-        #informacoes do inimigo
+        # informacoes do inimigo
         self.__velocidade = move_speed
         self.__direcao = pygame.math.Vector2((self.__velocidade), 0)
+
+        # vida inicial do inimigo
+        self.__vida_inicial = 3
 
 
     def importar_assets(self):
