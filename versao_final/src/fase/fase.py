@@ -27,6 +27,7 @@ class Fase:
         #desenha a fase
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
+        self.escada.draw(self.display_superficie)
         self.ncolide.draw(self.display_superficie)
  
         #porta
@@ -48,10 +49,12 @@ class Fase:
         #inimigo
         self.inimigo.update()
         self.inimigo.draw(self.display_superficie)
-
+        
+        
     def fase_setup(self,layout):
         tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')
 
+        self.escada = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
         self.background = pygame.sprite.Group()
         self.jogador = pygame.sprite.GroupSingle() #so um jogador
@@ -67,9 +70,12 @@ class Fase:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, surf in layer.tiles():
                     
-                    if layer.name in ['terreno', 'ponte']:
-                        TileMap((x, y), surf, self.tiles)
+                    if layer.name == 'escada':
+                        TileMap((x,y), surf, self.escada)
                     
+                    elif layer.name in ['terreno', 'ponte']:
+                        TileMap((x, y), surf, self.tiles)
+                        
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
                         TileMap((x, y), surf, self.ncolide)
                         

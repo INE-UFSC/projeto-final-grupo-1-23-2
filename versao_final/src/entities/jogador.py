@@ -17,7 +17,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__velocidade = velocidade
         self.__gravidade = 0.8
         self.__altura_pulo = -16
-        
+        self.__escalar = False
         #informacoes do jogador
         self.__virado_para_direita = True
         self.__no_chao = False
@@ -76,8 +76,15 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_UP] or teclas[pygame.K_w]) and self.no_chao:
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w]) and self.no_chao:
             self.pular()
+
+
+        if teclas[pygame.K_UP]:
+            self.escalandoUP()
+        if teclas[pygame.K_DOWN]:
+            self.escalandoDOWN()
+
 
     def atacar(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -91,16 +98,21 @@ class Jogador(pygame.sprite.Sprite):
                                           self.__rect.height
                                           )
         pygame.draw.rect(self.__superficie, (0,255,0), retangulo_de_ataque)
-        
-
     def aplicar_gravidade(self):
         self.__direcao.y += self.__gravidade
         self.rect.y += self.__direcao.y
 
     def pular(self):
         self.__direcao.y = self.__altura_pulo
-
-
+    
+    def escalandoUP(self):
+        if self.__escalar == True:
+            self.rect.y += -5
+    
+    def escalandoDOWN(self):
+        if self.no_chao == False:
+            self.rect.y -= -5
+        
     def desbloquear_porta(self):
         self.__abrir_porta = True
 
@@ -163,3 +175,11 @@ class Jogador(pygame.sprite.Sprite):
     @na_esquerda.setter
     def na_esquerda(self, na_esquerda):
         self.__na_esquerda = na_esquerda
+
+    @property
+    def escalar(self):
+        return self.__escalar
+    
+    @escalar.setter
+    def escalar(self, novo_valor):
+        self.__escalar = novo_valor
