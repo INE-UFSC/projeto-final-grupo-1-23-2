@@ -85,20 +85,23 @@ class Colisao:
                 
     def colisao_escada_jogador(self):
         jogador = self.__fase.jogador.sprite
-        for sprite in self.__fase.escadas.sprites():
+        for sprite in self.__fase.escada.sprites():
             if sprite.rect.colliderect(jogador.rect):
-                self.__fase.jogador_sprite.escalar = True
+                jogador.escalar = True
+                print(self.__fase.jogador_sprite.escalar)
+                break
             else:
-                self.__fase.jogador_sprite.escalar = False
-        print(self.__fase.jogador_sprite.escalar)
+                jogador.escalar = False
+                print(self.__fase.jogador_sprite.escalar)
+
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
+        self.colisao_escada_jogador()
         self.colisao_chave()
         self.colisao_porta()
         self.colisao_inimigo_jogador()
         self.colisao_inimigo_obstaculo()
-        self.colisao_escada_jogador()
     
 

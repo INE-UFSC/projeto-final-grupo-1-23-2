@@ -28,7 +28,6 @@ class Fase:
         self.background.draw(self.display_superficie)
         self.tiles.draw(self.display_superficie)
         self.ncolide.draw(self.display_superficie)
-        self.escadas.draw(self.display_superficie)
  
         #porta
         self.porta.update()
@@ -41,6 +40,7 @@ class Fase:
         #botao
         self.botao.update()
         self.botao.draw(self.display_superficie)
+        self.escada.draw(self.display_superficie)
 
         #jogador
         self.jogador.update() #atualiza a posição do jogador
@@ -49,10 +49,12 @@ class Fase:
         #inimigo
         self.inimigo.update()
         self.inimigo.draw(self.display_superficie)
-
+        self.escada.update()
+        
     def fase_setup(self,layout):
         tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')
 
+        self.escada = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
         self.background = pygame.sprite.Group()
         self.jogador = pygame.sprite.GroupSingle() #so um jogador
@@ -61,7 +63,6 @@ class Fase:
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
         #self.barreira = pygame.sprite.Group()
-        self.escadas = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
         self.inimigo_colisores= pygame.sprite.Group()
 
@@ -69,8 +70,12 @@ class Fase:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, surf in layer.tiles():
                     
-                    if layer.name in ['terreno', 'ponte']:
+                    if layer.name == 'escada':
+                        TileMap((x,y), surf, self.escada)
+                    
+                    elif layer.name in ['terreno', 'ponte']:
                         TileMap((x, y), surf, self.tiles)
+                        
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
                         TileMap((x, y), surf, self.ncolide)
                         
@@ -91,8 +96,6 @@ class Fase:
                         self.inimigo.add(self.inimigo_sprite)    
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x,y), surf, self.inimigo_colisores)
-                    if layer.name == 'escada':
-                        TileMap((x,y), surf, self.escadas)
                     
             else:
                 Background(layer.image, self.background)

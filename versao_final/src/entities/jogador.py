@@ -76,7 +76,7 @@ class Jogador(pygame.sprite.Sprite):
 
         if (teclas[pygame.K_SPACE] or teclas[pygame.K_w]) and self.no_chao:
             self.pular()
-        elif teclas[pygame.K_UP]:
+        if teclas[pygame.K_UP]:
             self.escalando()
 
     def aplicar_gravidade(self):
