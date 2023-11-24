@@ -1,5 +1,5 @@
 from src.fase.fase import Fase
-from src.fase.mapas import Mapa
+from src.sistema.configuracoes import Configuracoes
 
 class Colisao:
     def __init__(self, fase: Fase):
@@ -21,8 +21,8 @@ class Colisao:
         #verificacoes para o jogador nao sair horizontalmente do mapa
         if jogador.rect.left <= 0:
             jogador.rect.left = 0
-        if jogador.rect.right >= Mapa().largura_tela:
-            jogador.rect.right = Mapa().largura_tela
+        if jogador.rect.right >= Configuracoes().largura_tela:
+            jogador.rect.right = Configuracoes().largura_tela
 
 
     def colisao_vertical_jogador_mapa(self):
@@ -59,8 +59,7 @@ class Colisao:
 
         if self.__fase.porta_sprite.rect.colliderect(jogador.rect): #verifica se ha colisao entre a porta e o jogador
             if self.__fase.jogador_sprite.abrir_porta == True:
-                self.__fase.num_fase += 1
-                self.__fase.verificao_fase_atual()
+                self.__fase.passou_porta = True
 
     def colisao_inimigo_jogador(self):
         if self.__fase.tem_inimigo == True:
@@ -69,10 +68,7 @@ class Colisao:
             if inimigo.rect.colliderect(jogador.rect):
                 self.__fase.inimigo.empty()
                 self.__fase.vidas = -1
-                if self.__fase.vidas ==0:
-                    self.__fase.gameover()
-                else:
-                    self.__fase.update_mapa(self.__fase.vidas)
+                self.__fase.reset()
 
     def colisao_inimigo_obstaculo(self):
         if self.__fase.tem_inimigo == True:
@@ -88,11 +84,11 @@ class Colisao:
         for sprite in self.__fase.escada.sprites():
             if sprite.rect.colliderect(jogador.rect):
                 jogador.escalar = True
-                print(self.__fase.jogador_sprite.escalar)
+                # print(self.__fase.jogador_sprite.escalar)
                 break
             else:
                 jogador.escalar = False
-                print(self.__fase.jogador_sprite.escalar)
+                # print(self.__fase.jogador_sprite.escalar)
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()

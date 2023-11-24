@@ -42,8 +42,9 @@ class HUD:
         pass
         
 
-
-
+    def render(self, vidas, indicador_chave):
+        self.mostrar_vida(vidas)
+        self.mostrar_chave(indicador_chave)
 
 
     def num_vidas(self):

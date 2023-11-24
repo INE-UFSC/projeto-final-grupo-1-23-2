@@ -2,7 +2,6 @@ import pygame
 import sys
 from src.estados.estado import Estado
 from src.estados.botao import Botao
-from src.fase.mapas import Mapa
 
 class MenuState(Estado):
     def __init__(self, game):
@@ -51,7 +50,7 @@ class MenuState(Estado):
             sys.exit()
             
         if self.__botoes['play'].clicado():
-            self.game.define_estado('jogo')
+            self.game.estados.muda_estado('jogo')
                 
     def render(self):
         self.game.screen.blit(self.__ceu, (0,0)) # desenhando ceu
