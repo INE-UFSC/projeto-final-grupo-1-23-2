@@ -3,116 +3,97 @@ from src.fase.tilemap import TileMap, Background
 from src.entities.jogador import Jogador
 from src.itens.chave import Chave
 from src.itens.porta import Porta
-from src.itens.botao_jogo import Botao_Jogo
-from src.fase.mapas import Mapa
 from src.entities.inimigo import Inimigo
-from pytmx.util_pygame import load_pygame
+from src.fase.colisao import Colisao
 import pytmx
 
 class Fase:
-    def __init__(self, informacao_fase, sistema, num_fase, vida):
-        self.__display_superficie = sistema.screen
-        self.__sistema = sistema
-        self.__tem_botao = False
-        self.__tem_inimigo = False
-        self.fase_setup(informacao_fase)
-        self.__num_fase = num_fase
+    def __init__(self, tiles, superficie, vida=5):
+        self.__mapa = tiles
+        self.__display_superficie = superficie
+        self.__colisao = Colisao(self)
+        
+        self.fase_setup(tiles)
+        
         self.__vidas = vida
+        self.__passou_porta = False
     
-    def run(self):
-        #colisores do inimigo
-        self.inimigo_colisores.update()
-        self.inimigo_colisores.draw(self.display_superficie)
-
-        #desenha a fase
-        self.background.draw(self.display_superficie)
-        self.tiles.draw(self.display_superficie)
-        self.ncolide.draw(self.display_superficie)
- 
-        #porta
-        self.porta.update()
-        self.porta.draw(self.display_superficie)
-
-        #chave
-        self.chave.update()
-        self.chave.draw(self.display_superficie)
-
-        #botao
-        self.botao.update()
-        self.botao.draw(self.display_superficie)
-
-        #jogador
-        self.jogador.update() #atualiza a posição do jogador
-        self.jogador.draw(self.display_superficie) #desenha o jogador na sua posição
-
-        #inimigo
-        self.inimigo.update()
-        self.inimigo.draw(self.display_superficie)
-
-    def fase_setup(self,layout):
-        tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')
-
-        self.tiles = pygame.sprite.Group()
-        self.background = pygame.sprite.Group()
-        self.jogador = pygame.sprite.GroupSingle() #so um jogador
-        self.chave = pygame.sprite.GroupSingle() #so uma chave
-        self.inimigo = pygame.sprite.GroupSingle()
-        self.porta = pygame.sprite.GroupSingle() #so uma porta
-        self.botao = pygame.sprite.GroupSingle()
-        #self.barreira = pygame.sprite.Group()
+    def render(self):
+        for tile in self.__background + self.__tiles:
+            tile.draw(self.__display_superficie)
+        
+    def update(self, event):
+        for objeto in self.__tiles:
+            if hasattr(objeto, 'update'):
+                try:
+                    objeto.update()
+                except TypeError:
+                    objeto.update(event) 
+                    
+        self.__colisao.update()
+        
+    def fase_setup(self, tmxdata):
+        self.escada = pygame.sprite.Group()
+        self.colide = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
-        self.inimigo_colisores= pygame.sprite.Group()
+        
+        self.chave = pygame.sprite.GroupSingle()
+        self.porta = pygame.sprite.GroupSingle() 
+        
+        self.jogador = pygame.sprite.GroupSingle() #so um jogador
+        self.inimigo = pygame.sprite.GroupSingle()
+        
+        self.inimigo_colisores = pygame.sprite.Group()
+        
+        self.__tiles = []
+        self.__background = []
 
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, surf in layer.tiles():
+                    x *= self.__mapa.tilewidth
+                    y *= self.__mapa.tilewidth
                     
-                    if layer.name in ['terreno', 'ponte']:
-                        TileMap((x, y), surf, self.tiles)
+                    if layer.name == 'escada':
+                        self.__tiles.append(TileMap((x,y), surf, self.escada))
                     
+                    elif layer.name in ['terreno', 'ponte']:
+                        self.__tiles.append(TileMap((x, y), surf, self.colide))
+                        
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
-                        TileMap((x, y), surf, self.ncolide)
+                        self.__tiles.append(TileMap((x, y), surf, self.ncolide))
                         
                     elif layer.name == 'chave':
-                        self.chave_sprite = Chave((64*x,64*y))
+                        self.chave_sprite = Chave((x,y))
                         self.chave.add(self.chave_sprite)
                     
                     elif layer.name == 'porta':
-                        self.porta_sprite = Porta((64*x,64*y))
+                        self.porta_sprite = Porta((x,y))
                         self.porta.add(self.porta_sprite)
                         
                     elif layer.name == 'player':
-                        self.jogador_sprite = Jogador((64*x, 64*y),3, self.__display_superficie)
+                        self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
                         self.jogador.add(self.jogador_sprite)
+                        
                     elif layer.name == 'inimigo':
-                        self.__tem_inimigo = True
-                        self.inimigo_sprite = Inimigo((64*x, 64*y), 1)
-                        self.inimigo.add(self.inimigo_sprite)    
+                        self.inimigo_sprite = Inimigo((x, y), 1)
+                        self.inimigo.add(self.inimigo_sprite) 
+                        self.__tiles.append(self.inimigo)
+                        
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x,y), surf, self.inimigo_colisores)
                     
-            else:
-                Background(layer.image, self.background)
+            elif isinstance(layer, pytmx.TiledImageLayer):
+                if layer.name == 'nuvem':
+                    self.__background.append(Background(layer.image, animado=True))
+                else:
+                    self.__background.append(Background(layer.image))
+                
+        self.__tiles += [self.porta, self.chave, self.jogador]
 
-    def gameover(self):
-        nova_fase = Fase(Mapa().mapa[0], self.__sistema, 0, 5)
+    def reset(self):
+        nova_fase = Fase(self.__mapa, self.__display_superficie, self.__vidas)
         self.__dict__.update(nova_fase.__dict__)
-        self.__sistema.define_estado('gameover')
-
-    def verificao_fase_atual(self): #verifica se o jogo terminou
-        if self.__num_fase == len(Mapa().mapa): # verificacao de gameover
-            self.gameover()
-        else:
-            self.update_mapa(self.__vidas)
-
-    def update_mapa(self, vidas):
-        for num_mapa in range(len(Mapa().mapa)):
-            if num_mapa == self.__num_fase:
-                nova_fase = Fase(Mapa().mapa[num_mapa], self.__sistema, self.__num_fase, vidas)
-                self.__dict__.update(nova_fase.__dict__)
-
-    def update(self):
-        self.run()
 
     @property
     def vidas(self):
@@ -122,25 +103,15 @@ class Fase:
         self.__vidas += numero
     
     @property
-    def display_superficie(self):
-        return self.__display_superficie
+    def tiles(self):
+        return self.__tiles
     
     @property
-    def tem_botao(self):
-        return self.__tem_botao
+    def passou_porta(self):
+        return self.__passou_porta
     
-    @tem_botao.setter
-    def tem_botao(self,novo_valor):
-        self.__tem_botao = novo_valor
+    @passou_porta.setter
+    def passou_porta(self, passou_porta):
+        self.__passou_porta = passou_porta
     
-    @property
-    def num_fase(self):
-        return self.__num_fase
     
-    @num_fase.setter
-    def num_fase(self, novo_num_fase):
-        self.__num_fase = novo_num_fase
-
-    @property
-    def tem_inimigo(self):
-        return self.__tem_inimigo

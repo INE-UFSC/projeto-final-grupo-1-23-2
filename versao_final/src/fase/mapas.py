@@ -1,80 +1,16 @@
-class Mapa():
-    def __init__(self):
-        self.__mapa = [ # agora os mapas estão 20x12
-                [
-                    '                    ',
-                    '                    ',
-                    '                    ', 
-                    '                    ', 
-                    '                    ',
-                    '                    ',
-                    '           XXX      ',
-                    '    C   X   Z       ',
-                    'P   XXX  D Z        ',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX'
-                ],
-                [
-                    '                    ',
-                    '                    ',
-                    '                    ',
-                    '                    ',
-                    '                    ',
-                    'bbb                 ',
-                    'bDb   B             ',
-                    'XXX   X             ',
-                    'P  C XX   X         ',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX'
-                ],
-                [
-                    '                    ', 
-                    '                    ',
-                    '                    ',
-                    '                    ', 
-                    'P                   ',
-                    'XXX                 ',
-                    '      X             ',
-                    '  XD    X           ',
-                    '   X   I   X   B C  ',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX'
-                ],
-                [
-                    '            X       ', 
-                    '        P   X       ',
-                    '        XXXXX       ',
-                    '      X             ', 
-                    '    X               ',
-                    'X X                 ',
-                    '               B    ',
-                    '  XD        Xbbbbb  ',
-                    '   X     X   bbCbb  ',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX',
-                    'XXXXXXXXXXXXXXXXXXXX'
-                ]
-            ]
+from pytmx.util_pygame import load_pygame
+import os
+
+class Mapas:
+    def __init__(self, path_pasta):
+        self.__mapas = []
+        self.carrega_mapas(path_pasta)
         
-        self.__tamanho_tile = 64
-        self.__largura_tela = self.__tamanho_tile*20
-        self.__altura_tela = self.__tamanho_tile*12
-        
-    @property
-    def mapa(self):
-        return self.__mapa
-        
-    @property
-    def largura_tela(self):
-        return self.__largura_tela
+    def carrega_mapas(self, path_pasta):
+        for file in sorted(os.listdir(path_pasta)):
+            if file.endswith(".tmx"):
+                self.__mapas.append(load_pygame(os.path.join(path_pasta, file)))
     
     @property
-    def altura_tela(self):
-        return self.__altura_tela
-    
-    @property
-    def tamanho_tile(self):
-        return self.__tamanho_tile
+    def mapas(self):
+        return self.__mapas

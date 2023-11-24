@@ -14,7 +14,7 @@ class Chave(pygame.sprite.Sprite):
         
 
     def importar_assets(self):
-        path_personagem = 'Assets/assets_forest/chave'
+        path_personagem = 'assets/tiles/chave'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
@@ -27,6 +27,9 @@ class Chave(pygame.sprite.Sprite):
         
     def update(self):
         self.animar()
+        
+    def draw(self, surface):
+        surface.blit(self.__image, self.__rect)
         
     @property
     def image(self):

@@ -1,14 +1,14 @@
-from src.fase.fase import Fase
-from src.fase.mapas import Mapa
+from src.sistema.configuracoes import Configuracoes
+
 
 class Colisao:
-    def __init__(self, fase: Fase):
+    def __init__(self, fase):
         self.__fase = fase
 
     def colisao_horizontal_jogador_mapa(self):
         jogador = self.__fase.jogador.sprite
 
-        for sprite in self.__fase.tiles.sprites():
+        for sprite in self.__fase.colide.sprites():
             if sprite.rect.colliderect(jogador.rect): #verifica se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.x < 0: #faz o jogador ficar na direita do retangulo que ele colidiu
                     jogador.rect.left = sprite.rect.right #visto que ele se aproximou pela esquerda
@@ -21,15 +21,16 @@ class Colisao:
         #verificacoes para o jogador nao sair horizontalmente do mapa
         if jogador.rect.left <= 0:
             jogador.rect.left = 0
-        if jogador.rect.right >= Mapa().largura_tela:
-            jogador.rect.right = Mapa().largura_tela
+        if jogador.rect.right >= Configuracoes().largura_tela:
+            jogador.rect.right = Configuracoes().largura_tela
 
 
     def colisao_vertical_jogador_mapa(self):
         jogador = self.__fase.jogador.sprite
-        jogador.aplicar_gravidade()
+        if self.__fase.jogador_sprite.escalar == False:
+            jogador.aplicar_gravidade()
 
-        for sprite in self.__fase.tiles.sprites(): #verifica se o jogador esta colidindo com algum retangulo
+        for sprite in self.__fase.colide.sprites(): #verifica se o jogador esta colidindo com algum retangulo
             if sprite.rect.colliderect(jogador.rect):
                 if jogador.direcao.y > 0: #se o jogador está em cima, a parte debaixo do jogador e setada como a parte do topo do retangulo
                     jogador.rect.bottom = sprite.rect.top
@@ -41,7 +42,7 @@ class Colisao:
                     jogador.direcao.y = 0
                     jogador.no_teto = True
                             
-            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1: #verifica se o jogador esta pulando
+            if jogador.no_chao and jogador.direcao.y < 0 or jogador.direcao.y > 1 or jogador.escalar: #verifica se o jogador esta pulando
                 jogador.no_chao = False
             if jogador.no_teto and jogador.direcao.y > 0: #verifica se o jogador esta caindo
                 jogador.no_teto = False
@@ -58,42 +59,56 @@ class Colisao:
 
         if self.__fase.porta_sprite.rect.colliderect(jogador.rect): #verifica se ha colisao entre a porta e o jogador
             if self.__fase.jogador_sprite.abrir_porta == True:
-                self.__fase.num_fase += 1
-                self.__fase.verificao_fase_atual()
-
+                self.__fase.passou_porta = True
 
     def colisao_inimigo_jogador(self):
-        if self.__fase.tem_inimigo == True:
+        if self.__fase.inimigo in self.__fase.tiles:
             jogador = self.__fase.jogador.sprite
             inimigo = self.__fase.inimigo.sprite
             if inimigo.rect.colliderect(jogador.rect):
                 self.__fase.inimigo.empty()
                 self.__fase.vidas = -1
-                if self.__fase.vidas ==0:
-                    self.__fase.gameover()
-                else:
-                    self.__fase.update_mapa(self.__fase.vidas)
+                self.__fase.reset()
 
     def colisao_inimigo_obstaculo(self):
-        if self.__fase.tem_inimigo == True:
+        if self.__fase.inimigo in self.__fase.tiles:
             inimigo = self.__fase.inimigo.sprite
             for sprite in self.__fase.inimigo_colisores.sprites():
                 if sprite.rect.colliderect(inimigo.rect): #verifica se o jogador esta colidindo com algum retangulo
                     if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
                         inimigo.direcao.x *= -1
+
+                
+    def colisao_escada_jogador(self):
+        jogador = self.__fase.jogador.sprite
+        for sprite in self.__fase.escada.sprites():
+            if sprite.rect.colliderect(jogador.rect):
+                jogador.escalar = True
+                break
+            else:
+                jogador.escalar = False
+
+    def colisao_inimigo_espada(self):
+        if self.__fase.inimigo in self.__fase.tiles:
+            inimigo = self.__fase.inimigo_sprite
+            jogador = self.__fase.jogador_sprite
+            area_ataque = self.__fase.jogador_sprite.retangulo_ataque
+            if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                inimigo.vida_inicial -= 1
+                print(inimigo.vida_inicial)
+                print("hit")
                 
 
 
 
-
-
-            
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
+        self.colisao_escada_jogador()
         self.colisao_chave()
         self.colisao_porta()
         self.colisao_inimigo_jogador()
         self.colisao_inimigo_obstaculo()
+        self.colisao_inimigo_espada()
     
 

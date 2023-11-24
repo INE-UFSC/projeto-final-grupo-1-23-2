@@ -17,7 +17,8 @@ class Jogador(pygame.sprite.Sprite):
         self.__velocidade = velocidade
         self.__gravidade = 0.8
         self.__altura_pulo = -16
-        
+        self.__escalar = False
+
         #informacoes do jogador
         self.__virado_para_direita = True
         self.__no_chao = False
@@ -27,9 +28,24 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__abrir_porta = False
 
+        #temporário para desenhar retângulo de ataque
+        self.__superficie = superficie
+
+        #ataque
+        self.__atacando = False
+        self.__retangulo_ataque = pygame.Rect(
+            self.__rect.centerx, self.__rect.y, 2 * self.rect.width, self.__rect.height)
+        self.__duracao_ataque = 1
+        self.__cronometro_ataque = 0
+        self.__duracao_cooldown = 600
+        self.__cooldown_state = False
+        self.__cronometro_cooldown = 0
+        
+
+
     #importa as imagens do jogador
     def importar_assets(self):
-        path_personagem = 'Assets/jogador/'
+        path_personagem = 'assets/entities/jogador/skin01'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
@@ -58,7 +74,7 @@ class Jogador(pygame.sprite.Sprite):
         elif self.no_teto:
             self.__rect = self.image.get_rect(midtop = self.rect.midtop)
 
-    def andar(self):
+    def andar(self):  
         teclas = pygame.key.get_pressed() #mapeia as teclas
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
             self.animar()
@@ -74,8 +90,40 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_UP] or teclas[pygame.K_w]) and self.no_chao:
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w]) and self.no_chao:
             self.pular()
+
+
+        if teclas[pygame.K_UP] or teclas[pygame.K_w]:
+            self.escalandoUP()
+        if teclas[pygame.K_DOWN] or teclas[pygame.K_s]:
+            self.escalandoDOWN()
+
+
+    def atacar(self, event):
+        if not self.__atacando and not self.__cooldown_state:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]: #essa linha detecta o clique esquerdo ÚNICO
+                    self.__atacando = True
+                    self.__cronometro_ataque = pygame.time.get_ticks() + self.__duracao_ataque
+                    #determina para qual direção será desenhado o retangulo
+                    if self.__virado_para_direita:
+                        self.__retangulo_ataque = pygame.Rect(self.__rect.centerx, self.__rect.y, 1.5 * self.rect.width, self.__rect.height)
+                    else:
+                        self.__retangulo_ataque = pygame.Rect(
+                            self.__rect.centerx - 66, self.__rect.y, 1.5 * self.rect.width, self.__rect.height)
+                    pygame.draw.rect(self.__superficie, (0,255,0), self.__retangulo_ataque)
+
+        #quando atacando for true e o tempo do jogo (get_ticks) ultrapassa o cronometro, atacando fica falso, e o tempo de cooldown é ativado, o que começa o cronometro do cooldown
+        if self.__atacando and pygame.time.get_ticks() >= self.__cronometro_ataque: 
+            self.__atacando = False
+            self.__cooldown_state = True
+            self.__cronometro_cooldown = pygame.time.get_ticks() + self.__duracao_cooldown
+
+        #mesmo de antes aqui
+        if self.__cooldown_state and pygame.time.get_ticks() >= self.__cronometro_cooldown:
+            self.__cooldown_state = False
+
 
     def aplicar_gravidade(self):
         self.__direcao.y += self.__gravidade
@@ -83,14 +131,23 @@ class Jogador(pygame.sprite.Sprite):
 
     def pular(self):
         self.__direcao.y = self.__altura_pulo
-
-
+    
+    def escalandoUP(self):
+        if self.__escalar == True:
+            self.rect.y += -5
+    
+    def escalandoDOWN(self):
+        if self.no_chao == False:
+            self.rect.y -= -5
+        
     def desbloquear_porta(self):
         self.__abrir_porta = True
 
-    def update(self): 
-        self.andar() 
-        
+    def update(self, event): 
+        self.andar()
+        self.atacar(event) 
+
+    #getters e setters    
     @property
     def image(self):
         return self.__image
@@ -146,3 +203,19 @@ class Jogador(pygame.sprite.Sprite):
     @na_esquerda.setter
     def na_esquerda(self, na_esquerda):
         self.__na_esquerda = na_esquerda
+
+    @property
+    def escalar(self):
+        return self.__escalar
+    
+    @escalar.setter
+    def escalar(self, novo_valor):
+        self.__escalar = novo_valor
+
+    @property
+    def retangulo_ataque(self):
+        return self.__retangulo_ataque
+    
+    @property
+    def atacando(self):
+        return self.__atacando

@@ -1,9 +1,11 @@
+#coisa de linux pc sala
+import os
+os.environ['SDL_AUDIODRIVER'] = 'dsp'
+
 import pygame
 import sys
-from src.estados.menu import MenuState
-from src.fase.mapas import Mapa
-from src.estados.jogo import Jogo
-from src.estados.gameover import GameOverState
+from src.estados.controle_estados import StateMachine
+from src.sistema.configuracoes import Configuracoes
 
 
 class Sistema:
@@ -11,21 +13,19 @@ class Sistema:
         pygame.init()
 
         # variaveis de renderizacao
-        # pega a largura e altura seguindo os tiles (que estão na classe Mapa)
-        self.largura_tela = Mapa().largura_tela
-        self.altura_tela = Mapa().altura_tela
-        self.__FPS = 60
+        self.__largura_tela = Configuracoes().largura_tela
+        self.__altura_tela = Configuracoes().altura_tela
+        self.__FPS = Configuracoes().FPS
+        
         self.screen = pygame.display.set_mode(
-            (self.largura_tela, self.altura_tela))
+            (self.__largura_tela, self.__altura_tela))
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("The Lost Key")
-        pygame.display.set_icon(pygame.image.load("Assets/icon.png"))
+        pygame.display.set_icon(pygame.image.load("assets/UI/icon.png"))
 
-        # estado atual
-        self.__estados = {'menu': MenuState(self), 'jogo': Jogo(
-            self, self.screen), 'gameover': GameOverState(self)}
-        self.__estado_atual = self.__estados['menu']
+        # maquina de estados
+        self.__estados = StateMachine(self)
 
         pygame.mouse.set_visible(False)
 
@@ -39,17 +39,14 @@ class Sistema:
                     pygame.quit()
                     sys.exit()
 
-            self.__estado_atual.update(event)
-            self.__estado_atual.render()
+            self.__estados.run(event)
 
             pygame.display.update()
             clock.tick(self.__FPS)
 
-    # função que serve para mudar o estado atual para um outro estado que esteja no dicionario de estados
-    # essa função eh chamada dentro da classe de cada estado
-
-    def define_estado(self, estado):
-        self.__estado_atual.exiting()
-        self.__estado_atual = self.__estados[estado]
-        self.__estado_atual.entering()
+    @property
+    def estados(self):
+        return self.__estados
+    
+    
 
