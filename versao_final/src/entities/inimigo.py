@@ -39,6 +39,10 @@ class Inimigo(pygame.sprite.Sprite):
     
     def andar(self):
         self.__rect.x += self.__direcao.x * self.__velocidade
+
+    def morte(self):
+        if self.__vida_inicial == 0:
+            pass
     
     def update(self):
         self.andar()
@@ -65,4 +69,11 @@ class Inimigo(pygame.sprite.Sprite):
     def image(self, nova_imagem):
         self.__image = nova_imagem
 
+    @property
+    def vida_inicial(self):
+        return self.__vida_inicial
+    
+    @vida_inicial.setter
+    def vida_inicial(self, vida_atual):
+        self.__vida_inicial = vida_atual
     

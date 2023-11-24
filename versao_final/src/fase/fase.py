@@ -51,7 +51,7 @@ class Fase:
         self.inimigo.draw(self.display_superficie)
         
         
-    def fase_setup(self,layout):
+    def fase_setup(self, layout):
         tmxdata = load_pygame('fases/fase0/setup/fase0.tmx')
 
         self.escada = pygame.sprite.Group()
@@ -64,7 +64,7 @@ class Fase:
         self.botao = pygame.sprite.GroupSingle()
         #self.barreira = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
-        self.inimigo_colisores= pygame.sprite.Group()
+        self.inimigo_colisores = pygame.sprite.Group()
 
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
