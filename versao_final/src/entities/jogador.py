@@ -45,7 +45,7 @@ class Jogador(pygame.sprite.Sprite):
 
     #importa as imagens do jogador
     def importar_assets(self):
-        path_personagem = 'Assets/jogador/'
+        path_personagem = 'assets/entities/jogador/skin01'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
@@ -94,9 +94,9 @@ class Jogador(pygame.sprite.Sprite):
             self.pular()
 
 
-        if teclas[pygame.K_UP]:
+        if teclas[pygame.K_UP] or teclas[pygame.K_w]:
             self.escalandoUP()
-        if teclas[pygame.K_DOWN]:
+        if teclas[pygame.K_DOWN] or teclas[pygame.K_s]:
             self.escalandoDOWN()
 
 

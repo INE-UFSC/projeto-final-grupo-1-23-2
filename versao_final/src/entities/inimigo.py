@@ -22,7 +22,7 @@ class Inimigo(pygame.sprite.Sprite):
 
 
     def importar_assets(self):
-        path_personagem = 'Assets/inimigo_fantasma'
+        path_personagem = 'assets/entities/inimigo/skin01'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
