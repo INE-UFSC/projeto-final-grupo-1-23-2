@@ -3,22 +3,18 @@ import pygame
 class HUD:
     def __init__(self, surface):
         #vida
-        self.__coracaoVazio = pygame.image.load('Assets/ui/coracao_vazio.png').convert_alpha()
+        self.__coracaoVazio = pygame.image.load('assets/UI/HUD/coracao_vazio.png').convert_alpha()
         self.__coracaoVazio = pygame.transform.scale(self.__coracaoVazio, (64,64))
-        self.__coracao = pygame.image.load('Assets/ui/coracao.png').convert_alpha()
+        self.__coracao = pygame.image.load('assets/UI/HUD/coracao.png').convert_alpha()
         self.__coracao = pygame.transform.scale(self.__coracao, (64,64))
         self.__vidas = []
 
         #chave
-        self.__chaveApagada = pygame.image.load('Assets/assets_forest/chave/chave transparente.png').convert_alpha()
-        self.__chave = pygame.image.load('Assets/assets_forest/chave/chave1.png').convert_alpha()
+        self.__chaveApagada = pygame.image.load('assets/UI/HUD/chave transparente.png').convert_alpha()
+        self.__chave = pygame.image.load('assets/tiles/chave/chave1.png').convert_alpha()
 
 
         self.__superficie = surface
-       # self.__num_vidas = num_vidas
-        #self.__indicador_chave = indicador_chave
-        #self.__num_fase = num_fase
-    
     
 
     def mostrar_vida(self, vidas):

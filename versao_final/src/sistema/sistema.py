@@ -22,7 +22,7 @@ class Sistema:
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("The Lost Key")
-        pygame.display.set_icon(pygame.image.load("Assets/icon.png"))
+        pygame.display.set_icon(pygame.image.load("assets/UI/icon.png"))
 
         # maquina de estados
         self.__estados = StateMachine(self)
