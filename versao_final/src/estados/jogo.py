@@ -1,7 +1,6 @@
 from src.estados.estado import Estado
 from src.fase.fase import Fase
 from src.sistema.hud import HUD
-from src.fase.colisao import Colisao
 from src.fase.mapas import Mapas
 import pygame
 
@@ -11,10 +10,9 @@ class Jogo(Estado):
         self.__mapas = Mapas('fases').mapas
         self.__num_fase = 0
         
-        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen) # Cria várias fases com todos os mapas possíveis dentro da classe Mapas. Se quiser aumentar o número de fases, basta adicionar mais mapas na classe Mapas.
+        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
         
         self.__hud = HUD(game.screen)
-        self.__colisao = Colisao(self.__fase)
 
     def entering(self):
         pass
@@ -28,7 +26,6 @@ class Jogo(Estado):
                 self.game.estados.muda_estado('menu')
 
         self.__fase.update(event)
-        self.__colisao.update()
         
         # verifica se o jogador ganhou a fase
         if self.__fase.passou_porta:
@@ -39,7 +36,7 @@ class Jogo(Estado):
             self.game.estados.muda_estado('gameover')
             self.__num_fase = 0
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
-
+    
     def render(self):
         self.__fase.render()
         self.__hud.render(self.__fase.vidas, self.__fase.jogador_sprite.abrir_porta)
@@ -50,7 +47,6 @@ class Jogo(Estado):
         # verifica se existe mais alguma fase
         if self.__num_fase < len(self.__mapas):
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
-            self.__colisao = Colisao(self.__fase)
             
         # se não existir mais fases, o jogador ganhou o jogo
         else:

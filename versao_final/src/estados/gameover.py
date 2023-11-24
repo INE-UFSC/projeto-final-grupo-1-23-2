@@ -8,14 +8,14 @@ class GameOverState(Estado):
     def __init__(self, game):
         super().__init__(game)
         # CARREGAMENTO DOS ASSETS DO MENU
-        background = pygame.image.load('Assets/backgrounds/menu.png').convert_alpha()
+        background = pygame.image.load('assets/backgrounds/menu.png').convert_alpha()
         self.__background = pygame.transform.scale(background, (Configuracoes().largura_tela, Configuracoes().altura_tela))
-        self.__texto = pygame.image.load('Assets/texto_parabens.png').convert_alpha()
-        img_botao_menu = pygame.image.load('Assets/botoes/play.png').convert_alpha()
-        img_botao_sair = pygame.image.load('Assets/botoes/quit.png').convert_alpha()
+        self.__texto = pygame.image.load('assets/UI/texto_parabens.png').convert_alpha()
+        img_botao_menu = pygame.image.load('assets/UI/botoes/play.png').convert_alpha()
+        img_botao_sair = pygame.image.load('assets/UI/botoes/quit.png').convert_alpha()
         self.__botoes = {'menu': Botao((Configuracoes().largura_tela - img_botao_menu.get_width())//4 , 500, img_botao_menu, 1), 
                          'sair': Botao((Configuracoes().largura_tela - img_botao_sair.get_width())*3//4, 500, img_botao_sair, 1)}
-        self.__cursor_img = pygame.image.load('Assets/assets_forest/mouse.png')
+        self.__cursor_img = pygame.image.load('assets/UI/mouse.png')
         self.__cursor_img_rect = self.__cursor_img.get_rect()
         
 
