@@ -1,6 +1,7 @@
 from src.fase.fase import Fase
 from src.sistema.configuracoes import Configuracoes
 
+
 class Colisao:
     def __init__(self, fase: Fase):
         self.__fase = fase
@@ -84,11 +85,22 @@ class Colisao:
         for sprite in self.__fase.escada.sprites():
             if sprite.rect.colliderect(jogador.rect):
                 jogador.escalar = True
-                # print(self.__fase.jogador_sprite.escalar)
                 break
             else:
                 jogador.escalar = False
-                # print(self.__fase.jogador_sprite.escalar)
+
+    def colisao_inimigo_espada(self):
+        if self.__fase.tem_inimigo == True:
+            inimigo = self.__fase.inimigo_sprite
+            jogador = self.__fase.jogador_sprite
+            area_ataque = self.__fase.jogador_sprite.retangulo_ataque
+            if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                inimigo.vida_inicial -= 1
+                print(inimigo.vida_inicial)
+                print("hit")
+                
+
+
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()
@@ -98,5 +110,6 @@ class Colisao:
         self.colisao_porta()
         self.colisao_inimigo_jogador()
         self.colisao_inimigo_obstaculo()
+        self.colisao_inimigo_espada()
     
 

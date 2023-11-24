@@ -49,7 +49,7 @@ class Fase:
         self.porta = pygame.sprite.GroupSingle() #so uma porta
         self.botao = pygame.sprite.GroupSingle()
         self.ncolide = pygame.sprite.Group()
-        self.inimigo_colisores= pygame.sprite.Group()
+        self.inimigo_colisores = pygame.sprite.Group()
 
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
