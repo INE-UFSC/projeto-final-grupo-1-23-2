@@ -92,6 +92,7 @@ class Fase:
 
     def reset(self):
         self.jogador_sprite.reset()
+        self.chave_sprite.reset()
         
 
     @property

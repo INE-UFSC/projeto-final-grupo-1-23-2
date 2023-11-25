@@ -1,6 +1,5 @@
 from src.sistema.configuracoes import Configuracoes
 
-
 class Colisao:
     def __init__(self, fase):
         self.__fase = fase
@@ -51,7 +50,7 @@ class Colisao:
         jogador = self.__fase.jogador.sprite
 
         if self.__fase.chave_sprite.rect.colliderect(jogador.rect): #verifica se ha colisao entre a chave e o jogador
-            self.__fase.chave.remove(self.__fase.chave_sprite)  
+            self.__fase.chave_sprite.hide()
             self.__fase.jogador_sprite.desbloquear_porta()
 
     def colisao_porta(self):

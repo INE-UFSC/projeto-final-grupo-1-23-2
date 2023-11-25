@@ -7,6 +7,7 @@ class Chave(pygame.sprite.Sprite):
         
         #animacao inimigo
         self.importar_assets()
+        self.__posicao_inicial = posicao
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.1
         self.__image = self.__animacao[self.__index_animacao]
@@ -30,6 +31,13 @@ class Chave(pygame.sprite.Sprite):
         
     def draw(self, surface):
         surface.blit(self.__image, self.__rect)
+        
+    def hide(self):
+        self.__rect.x = -10000
+        self.__rect.y = -10000
+        
+    def reset(self):
+        self.__rect = self.__image.get_rect(topleft = self.__posicao_inicial)
         
     @property
     def image(self):

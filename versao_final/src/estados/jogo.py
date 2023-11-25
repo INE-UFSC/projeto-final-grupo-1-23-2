@@ -41,12 +41,6 @@ class Jogo(Estado):
     def render(self):
         self.__fase.render()
         self.__hud.render(self.__fase.vidas, self.__fase.jogador_sprite.abrir_porta)
-        # base_layer = pygame.Surface((Configuracoes().largura_tela, Configuracoes().altura_tela))
-        # base_layer.fill('Black')
-        
-        # self.game.screen.blit(base_layer, (0, 0))
-        # self.game.screen.fill('Black')
-        # self.game.screen.
         
     def proxima_fase(self):
         self.__num_fase += 1
