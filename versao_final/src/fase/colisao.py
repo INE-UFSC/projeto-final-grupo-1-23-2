@@ -106,6 +106,7 @@ class Colisao:
 
             if inimigo.vida_inicial > 0:
                 if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                    inimigo.sendo_atacado = True
                     inimigo.dano_recebido()
     
             else:
