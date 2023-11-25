@@ -78,7 +78,6 @@ class Fase:
                     elif layer.name == 'inimigo':
                         self.inimigo_sprite = Inimigo((x, y), 1)
                         self.inimigo.add(self.inimigo_sprite) 
-                        self.__tiles.append(self.inimigo)
                         
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x,y), surf, self.inimigo_colisores)
@@ -89,11 +88,11 @@ class Fase:
                 else:
                     self.__background.append(Background(layer.image))
                 
-        self.__tiles += [self.porta, self.chave, self.jogador]
+        self.__tiles += [self.porta, self.chave, self.jogador, self.inimigo]
 
     def reset(self):
-        nova_fase = Fase(self.__mapa, self.__display_superficie, self.__vidas)
-        self.__dict__.update(nova_fase.__dict__)
+        self.jogador_sprite.reset()
+        
 
     @property
     def vidas(self):

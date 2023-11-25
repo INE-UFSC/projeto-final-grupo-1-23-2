@@ -10,7 +10,8 @@ class Jogador(pygame.sprite.Sprite):
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
         self.__image =  self.__animacao[self.__index_animacao]
-        self.__rect = self.image.get_rect(topleft = posicao)
+        self.posicao_inical = posicao
+        self.__rect = self.image.get_rect(topleft = self.posicao_inical)
 
         #movimento do jogador
         self.__direcao = pygame.math.Vector2(0,0)
@@ -41,7 +42,9 @@ class Jogador(pygame.sprite.Sprite):
         self.__cooldown_state = False
         self.__cronometro_cooldown = 0
         
-
+    def reset(self):
+        novo_jogador = Jogador(self.posicao_inical, self.velocidade, self.__superficie)
+        self.__dict__.update(novo_jogador.__dict__)
 
     #importa as imagens do jogador
     def importar_assets(self):

@@ -66,7 +66,6 @@ class Colisao:
             jogador = self.__fase.jogador.sprite
             inimigo = self.__fase.inimigo.sprite
             if inimigo.rect.colliderect(jogador.rect):
-                self.__fase.inimigo.empty()
                 self.__fase.vidas = -1
                 self.__fase.reset()
 
