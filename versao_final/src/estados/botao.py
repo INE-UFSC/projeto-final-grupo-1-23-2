@@ -8,7 +8,7 @@ class Botao():
 		self.__image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
 		self.__imagehover = pygame.transform.scale(self.__image, (int(self.__image.get_width() * 1.05), int(self.__image.get_height() * 1.05)))
 		self.__rect = self.__image.get_rect()
-		self.__rect.topleft = (x, y)
+		self.__rect.midtop = (x, y)
 		self.__clicked = False
 
 	def draw(self, surface):

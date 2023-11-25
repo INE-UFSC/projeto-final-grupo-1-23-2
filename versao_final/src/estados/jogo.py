@@ -49,4 +49,8 @@ class Jogo(Estado):
             self.game.estados.muda_estado('gameover')
             self.__num_fase = 0
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
+            
+    def reset(self):
+        self.__num_fase = 0
+        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
         

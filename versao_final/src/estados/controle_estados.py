@@ -22,4 +22,7 @@ class StateMachine:
     def run(self, event):
         self.__estados[self.__estado_atual].render()
         self.__estados[self.__estado_atual].update(event)
+        
+    def reset(self, estado):
+        self.__estados[estado].reset()
             
