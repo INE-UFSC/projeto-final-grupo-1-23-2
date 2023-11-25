@@ -18,6 +18,6 @@ class StateMachine:
         self.__estados[self.__estado_atual].entering()
 
     def run(self, event):
-        self.__estados[self.__estado_atual].update(event)
         self.__estados[self.__estado_atual].render()
+        self.__estados[self.__estado_atual].update(event)
             

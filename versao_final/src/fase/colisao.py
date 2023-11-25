@@ -92,7 +92,7 @@ class Colisao:
         if self.__fase.inimigo in self.__fase.tiles:
             inimigo = self.__fase.inimigo_sprite
             jogador = self.__fase.jogador_sprite
-            area_ataque = self.__fase.jogador_sprite.retangulo_ataque
+            area_ataque = jogador.retangulo_ataque
             if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
                 inimigo.vida_inicial -= 1
                 print(inimigo.vida_inicial)

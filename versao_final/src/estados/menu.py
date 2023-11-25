@@ -19,7 +19,7 @@ class MenuState(Estado):
         self.__logo = pygame.image.load('assets/UI/logo.png').convert_alpha()
         self.__trade = pygame.image.load('assets/UI/trade.png').convert_alpha()
         
-        # BOTOTES
+        # BOTOES
         img_botao_play = pygame.image.load('assets/UI/botoes/play.png').convert_alpha()
         img_botao_quit = pygame.image.load('assets/UI/botoes/quit.png').convert_alpha()
         img_botao_skins = pygame.image.load('assets/UI/botoes/skins.png').convert_alpha()

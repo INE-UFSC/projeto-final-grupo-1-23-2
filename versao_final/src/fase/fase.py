@@ -60,7 +60,7 @@ class Fase:
                     elif layer.name in ['terreno', 'ponte']:
                         self.__tiles.append(TileMap((x, y), surf, self.colide))
                         
-                    elif layer.name in ['arvores', 'dentro', 'decoracao', 'escada']:
+                    elif layer.name in ['arvores', 'dentro', 'decoracao']:
                         self.__tiles.append(TileMap((x, y), surf, self.ncolide))
                         
                     elif layer.name == 'chave':

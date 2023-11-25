@@ -2,6 +2,7 @@ from src.estados.estado import Estado
 from src.fase.fase import Fase
 from src.sistema.hud import HUD
 from src.fase.mapas import Mapas
+from src.sistema.configuracoes import Configuracoes
 import pygame
 
 class Jogo(Estado):
@@ -12,7 +13,7 @@ class Jogo(Estado):
         
         self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
         
-        self.__hud = HUD(game.screen)
+        self.__hud = HUD(self.game.screen)
 
     def entering(self):
         pass
@@ -40,6 +41,12 @@ class Jogo(Estado):
     def render(self):
         self.__fase.render()
         self.__hud.render(self.__fase.vidas, self.__fase.jogador_sprite.abrir_porta)
+        # base_layer = pygame.Surface((Configuracoes().largura_tela, Configuracoes().altura_tela))
+        # base_layer.fill('Black')
+        
+        # self.game.screen.blit(base_layer, (0, 0))
+        # self.game.screen.fill('Black')
+        # self.game.screen.
         
     def proxima_fase(self):
         self.__num_fase += 1

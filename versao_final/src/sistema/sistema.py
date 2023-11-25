@@ -13,12 +13,8 @@ class Sistema:
         pygame.init()
 
         # variaveis de renderizacao
-        self.__largura_tela = Configuracoes().largura_tela
-        self.__altura_tela = Configuracoes().altura_tela
-        self.__FPS = Configuracoes().FPS
-        
-        self.screen = pygame.display.set_mode(
-            (self.__largura_tela, self.__altura_tela))
+        self.__screen = pygame.display.set_mode(
+            (Configuracoes().largura_tela, Configuracoes().altura_tela))
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("The Lost Key")
@@ -42,11 +38,15 @@ class Sistema:
             self.__estados.run(event)
 
             pygame.display.update()
-            clock.tick(self.__FPS)
+            clock.tick(Configuracoes().FPS)
 
     @property
     def estados(self):
         return self.__estados
+    
+    @property
+    def screen(self):
+        return self.__screen
     
     
 
