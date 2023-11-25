@@ -20,7 +20,7 @@ class Jogo(Estado):
     def update(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.game.estados.muda_estado('menu')
+                self.game.estados.muda_estado('menu pause')
 
         self.__fase.update(event)
         

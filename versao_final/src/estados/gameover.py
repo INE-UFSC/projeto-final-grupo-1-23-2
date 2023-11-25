@@ -31,7 +31,7 @@ class GameOverState(Estado):
             sys.exit()
             
         if self.__botoes['menu'].clicado():
-            self.game.estados.muda_estado('menu')
+            self.game.estados.muda_estado('menu inicial')
                 
     def render(self):
         self.game.screen.fill('White')

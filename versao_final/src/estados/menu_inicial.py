@@ -3,7 +3,7 @@ import sys
 from src.estados.estado import Estado
 from src.estados.botao import Botao
 
-class MenuState(Estado):
+class MenuInicialState(Estado):
     def __init__(self, game):
         super().__init__(game)
         # CARREGAMENTO DOS ASSETS DO MENU

@@ -39,6 +39,7 @@ class Fase:
     def fase_setup(self, tmxdata):
         self.escada = pygame.sprite.Group()
         self.colide = pygame.sprite.Group()
+        self.libera_chave = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
         
         self.chave = pygame.sprite.GroupSingle()
@@ -51,6 +52,7 @@ class Fase:
         
         self.__tiles = []
         self.__background = []
+        self.__bloco_chaves = []
 
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
@@ -60,6 +62,9 @@ class Fase:
                     
                     if layer.name == 'escada':
                         self.__tiles.append(TileMap((x,y), surf, self.escada))
+                        
+                    elif layer.name == 'libera_chave':
+                        self.__bloco_chaves.append(TileMap((x,y), surf, self.libera_chave))
                     
                     elif layer.name in ['terreno', 'ponte']:
                         self.__tiles.append(TileMap((x, y), surf, self.colide))
@@ -92,13 +97,13 @@ class Fase:
                 else:
                     self.__background.append(Background(layer.image))
                 
-        self.__tiles += [self.porta, self.chave, self.jogador, self.inimigo]
+        self.__tiles += [self.porta, self.chave, self.libera_chave, self.jogador, self.inimigo]
 
     def reset(self):
         self.jogador_sprite.reset()
         self.chave_sprite.reset()
+        [self.libera_chave.add(tile) for tile in self.__bloco_chaves]
         
-
     @property
     def vidas(self):
         return self.__vidas
