@@ -105,16 +105,13 @@ class Colisao:
             area_ataque = jogador.retangulo_ataque
 
             if inimigo.vida_inicial > 0:
-                inimigo.rect_final = inimigo.rect
                 if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
-                    inimigo.vida_inicial -= 1
-                    inimigo.animacao_dano_recebido()
-                    print(inimigo.vida_inicial)
-                    print("hit")
-
+                    inimigo.dano_recebido()
+    
             else:
-                inimigo.vivo = False
-                inimigo.animacao_morte()
+                inimigo.morte()
+                self.__vivo = False
+                
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()
