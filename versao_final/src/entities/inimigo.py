@@ -20,6 +20,8 @@ class Inimigo(pygame.sprite.Sprite):
         # vida inicial do inimigo
         self.__vida_inicial = 3
 
+        self.__vivo = True
+        self.__x_y_morte = (self.__rect.x, self.__rect.y)
 
     def importar_assets(self):
         path_personagem = 'assets/entities/inimigo/skin01'
@@ -40,14 +42,24 @@ class Inimigo(pygame.sprite.Sprite):
     def andar(self):
         self.__rect.x += self.__direcao.x * self.__velocidade
 
+    def dano_recebido(self):
+        self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
+        self.__vida_inicial -= 1
+        print(self.__vida_inicial)
+        print("hit")
+
     def morte(self):
-        if self.__vida_inicial == 0:
-            pass
+        self.__rect.x = 10000
+        self.__rect.y = 10000
+        
+        print(self.__x_y_ataque[0])
     
     def update(self):
         self.andar()
         self.animar()
 
+
+    #GETTERS E SETTERS
     @property
     def velocidade(self):
         return self.__velocidade
@@ -76,4 +88,29 @@ class Inimigo(pygame.sprite.Sprite):
     @vida_inicial.setter
     def vida_inicial(self, vida_atual):
         self.__vida_inicial = vida_atual
+
+    @property
+    def vivo(self):
+        return self.__vivo
+    
+    @vivo.setter
+    def vivo(self, vivo):
+        self.__vivo = vivo
+
+    @property
+    def rect_final(self):
+        return self.__rect
+    
+    @rect_final.setter
+    def rect_final(self, rect):
+        self.__rect_final = rect
+    
+    @property
+    def x_y_morte(self):
+        return self.__x_y_morte
+    
+    @x_y_morte.setter
+    def x_y_morte(self, x_y_morte):
+        self.__x_y_morte = x_y_morte
+    
     
