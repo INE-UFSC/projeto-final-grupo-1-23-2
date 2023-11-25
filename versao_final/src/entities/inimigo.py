@@ -56,19 +56,20 @@ class Inimigo(pygame.sprite.Sprite):
             self.__rect.x += self.__direcao.x * self.__velocidade
 
     def dano_recebido(self):
-        if self.__sendo_atacado:    
-            self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
-            self.__cronometro_dano = pygame.time.get_ticks() + self.__duracao_dano
-            self.__vida_inicial -= 1
+        self.__sendo_atacado = True  
+        self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
+        self.__cronometro_dano = pygame.time.get_ticks() + self.__duracao_dano
+        self.__vida_inicial -= 1
 
-            
+        if self.__sendo_atacado and pygame.time.get_ticks() >= self.__cronometro_dano:
+            self.__sendo_atacado = False
+
             # self.__velocidade_original = self.__velo
             # self.__velocidade = 0
 
             #self.__image = self.__imagem_inimigo_dano
 
-        if self.__sendo_atacado and pygame.time.get_ticks() >= self.__cronometro_dano:
-            self.__sendo_atacado = False
+        
 
     def morte(self):
         self.__rect.x = 10000
