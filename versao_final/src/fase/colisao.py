@@ -98,7 +98,23 @@ class Colisao:
                 print("hit")
                 
 
+    def colisao_inimigo_espada(self):
+        if self.__fase.inimigo in self.__fase.tiles:
+            inimigo = self.__fase.inimigo_sprite
+            jogador = self.__fase.jogador_sprite
+            area_ataque = jogador.retangulo_ataque
 
+            if inimigo.vida_inicial > 0:
+                inimigo.rect_final = inimigo.rect
+                if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                    inimigo.vida_inicial -= 1
+                    inimigo.animacao_dano_recebido()
+                    print(inimigo.vida_inicial)
+                    print("hit")
+
+            else:
+                inimigo.vivo = False
+                inimigo.animacao_morte()
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()

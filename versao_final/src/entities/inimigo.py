@@ -20,6 +20,8 @@ class Inimigo(pygame.sprite.Sprite):
         # vida inicial do inimigo
         self.__vida_inicial = 3
 
+        self.__vivo = True
+
 
     def importar_assets(self):
         path_personagem = 'assets/entities/inimigo/skin01'
@@ -40,9 +42,14 @@ class Inimigo(pygame.sprite.Sprite):
     def andar(self):
         self.__rect.x += self.__direcao.x * self.__velocidade
 
-    def morte(self):
-        if self.__vida_inicial == 0:
-            pass
+    def animacao_dano_recebido(self):
+        pass
+
+    def animacao_morte(self):
+        
+        self.__rect.x = 10000
+        self.__rect.y = 10000
+        print(self.__rect_final)
     
     def update(self):
         self.andar()
@@ -76,4 +83,20 @@ class Inimigo(pygame.sprite.Sprite):
     @vida_inicial.setter
     def vida_inicial(self, vida_atual):
         self.__vida_inicial = vida_atual
+
+    @property
+    def vivo(self):
+        return self.__vivo
+    
+    @vivo.setter
+    def vivo(self, vivo):
+        self.__vivo = vivo
+
+    @property
+    def rect_final(self):
+        return self.__rect
+    
+    @rect_final.setter
+    def rect_final(self, rect):
+        self.__rect_final = rect
     
