@@ -5,6 +5,7 @@ from src.itens.chave import Chave
 from src.itens.porta import Porta
 from src.entities.inimigo import Inimigo
 from src.fase.colisao import Colisao
+from src.sistema.hud import HUD
 import pytmx
 
 class Fase:
@@ -12,6 +13,7 @@ class Fase:
         self.__mapa = tiles
         self.__display_superficie = superficie
         self.__colisao = Colisao(self)
+        self.__HUD = HUD(superficie, vida)
         
         self.fase_setup(tiles)
         
@@ -21,6 +23,8 @@ class Fase:
     def render(self):
         for tile in self.__background + self.__tiles:
             tile.draw(self.__display_superficie)
+            
+        self.__HUD.render(self.__vidas, self.jogador_sprite.abrir_porta)
         
     def update(self, event):
         for objeto in self.__tiles:
