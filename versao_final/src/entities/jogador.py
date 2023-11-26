@@ -5,7 +5,7 @@ class Jogador(pygame.sprite.Sprite):
     def __init__(self, posicao: tuple, velocidade: int, superficie):
         super().__init__()
 
-        #animacao do jogador
+        #animacao do movimento do jogador
         self.importar_assets()
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
@@ -33,26 +33,48 @@ class Jogador(pygame.sprite.Sprite):
         self.__superficie = superficie
 
         #ataque
-        self.__atacando = False
         self.__retangulo_ataque = pygame.Rect(
-            self.__rect.centerx, self.__rect.y, 2 * self.rect.width, self.__rect.height)
+            self.__rect.centerx, self.__rect.y, 1.5 * self.rect.width, self.__rect.height)
+        self.__atacando = False
         self.__duracao_ataque = 1
         self.__cronometro_ataque = 0
-        self.__duracao_cooldown = 600
         self.__cooldown_state = False
+        self.__duracao_cooldown = 600
         self.__cronometro_cooldown = 0
+
+        #animação do ataque regular
+        self.__animando_ataque = False
+        self.__duracao_anim_ataque = 80
+        self.__cronometro_anim_ataque = 0
+        self.__index_ataque = 0
+        self.__velocidade_anim_ataque = 0.4
+        self.__imagem_espada = self.__animacao_espada_regular[self.__index_ataque]
         
     def reset(self):
         novo_jogador = Jogador(self.posicao_inical, self.velocidade, self.__superficie)
         self.__dict__.update(novo_jogador.__dict__)
 
-    #importa as imagens do jogador
+    #importa as imagens do jogador e da espada
     def importar_assets(self):
+        #animação de andar
         path_personagem = 'assets/entities/jogador/skin01'
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
-    def animar(self, andando = True):
+        #espada na posição iniicial (vai ser desenhada em cima do jogador)
+        self.__espada_inicial = pygame.image.load('assets/entities/jogador/espada/espada_regular/espada-regular1.png').convert_alpha()
+
+        #animação de atacar
+        path_anim_espada_regular = 'assets/entities/jogador/espada/espada_regular'
+        self.__animacao_espada_regular = []
+        self.__animacao_espada_regular = importar_pasta(path_anim_espada_regular)
+
+        #animação de atacar com powerup
+        path_anim_espada_powerup = 'assets/entities/jogador/espada/espada_powerup'
+        self.__animacao_espada_powerup = []
+        self.__animacao_espada_powerup = importar_pasta(path_anim_espada_powerup)
+
+    def animar_movimento(self, andando = True):
         self.__index_animacao += self.__velocidade_animacao
         if self.__index_animacao > len(self.__animacao) or not andando:
             self.__index_animacao = 0
@@ -80,15 +102,15 @@ class Jogador(pygame.sprite.Sprite):
     def andar(self):  
         teclas = pygame.key.get_pressed() #mapeia as teclas
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
-            self.animar()
+            self.animar_movimento()
             self.__direcao.x = 1
             self.__virado_para_direita = True
         elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]:
-            self.animar()
+            self.animar_movimento()
             self.__direcao.x = -1
             self.__virado_para_direita = False
         else:
-            self.animar(False)
+            self.animar_movimento(False)
             self.__direcao.x = 0
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
@@ -116,6 +138,8 @@ class Jogador(pygame.sprite.Sprite):
                         self.__retangulo_ataque = pygame.Rect(
                             self.__rect.centerx - 66, self.__rect.y, 1.5 * self.rect.width, self.__rect.height)
                     pygame.draw.rect(self.__superficie, (0,255,0), self.__retangulo_ataque)
+                    self.__animando_ataque = True
+                    #self.animar_ataque(self.__atacando)
 
         #quando atacando for true e o tempo do jogo (get_ticks) ultrapassa o cronometro, atacando fica falso, e o tempo de cooldown é ativado, o que começa o cronometro do cooldown
         if self.__atacando and pygame.time.get_ticks() >= self.__cronometro_ataque: 
@@ -127,6 +151,15 @@ class Jogador(pygame.sprite.Sprite):
         if self.__cooldown_state and pygame.time.get_ticks() >= self.__cronometro_cooldown:
             self.__cooldown_state = False
 
+    # def animar_ataque(self, atacando = True):
+    #     if self.__animando_ataque:
+    #         self.__index_ataque += self.__velocidade_anim_ataque 
+    #         if self.__index_ataque == len(self.__animacao_espada_regular):
+    #             self.__animando_ataque = False
+    #     else:
+    #        self.__index_ataque = 0
+
+    #     imagem_espada = self.__animacao_espada_regular[int(self.__index_ataque)]
 
     def aplicar_gravidade(self):
         self.__direcao.y += self.__gravidade
@@ -148,7 +181,8 @@ class Jogador(pygame.sprite.Sprite):
 
     def update(self, event): 
         self.andar()
-        self.atacar(event) 
+        self.atacar(event)
+        #self.animar_ataque() #precisa estar aqui pois a espada vai precisar ser desenhada em cima do personagem, mesmo quando nao estiver atacando
 
     #getters e setters    
     @property

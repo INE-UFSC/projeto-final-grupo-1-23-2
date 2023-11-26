@@ -20,8 +20,8 @@ class Inimigo(pygame.sprite.Sprite):
         self.__vivo = True
 
         # dano e morte do inimigo
-        self.__sendo_atacado = False
         self.__x_y_morte = (self.__rect.x, self.__rect.y)
+        self.__sendo_atacado = False
         self.__cronometro_dano = 0
         self.__duracao_dano = 100
 
@@ -56,13 +56,15 @@ class Inimigo(pygame.sprite.Sprite):
             self.__rect.x += self.__direcao.x * self.__velocidade
 
     def dano_recebido(self):
-        self.__sendo_atacado = True  
-        self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
-        self.__cronometro_dano = pygame.time.get_ticks() + self.__duracao_dano
-        self.__vida_inicial -= 1
+        if not self.__sendo_atacado:
+            self.__sendo_atacado = True
+            self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
+            self.__cronometro_dano = pygame.time.get_ticks() + self.__duracao_dano
+            self.__vida_inicial -= 1
 
         if self.__sendo_atacado and pygame.time.get_ticks() >= self.__cronometro_dano:
             self.__sendo_atacado = False
+            print('teste')
 
             # self.__velocidade_original = self.__velo
             # self.__velocidade = 0
@@ -72,13 +74,15 @@ class Inimigo(pygame.sprite.Sprite):
         
 
     def morte(self):
+        self.__vivo = False
         self.__rect.x = 10000
         self.__rect.y = 10000
+
     
     def update(self):
         self.andar()
         self.animar()
-
+        #self.dano_recebido() #precisa ser atualizado para cronometro funcionar
 
     #GETTERS E SETTERS
     @property

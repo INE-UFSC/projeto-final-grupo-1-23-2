@@ -86,16 +86,6 @@ class Colisao:
                 break
             else:
                 jogador.escalar = False
-
-    def colisao_inimigo_espada(self):
-        if self.__fase.inimigo in self.__fase.tiles:
-            inimigo = self.__fase.inimigo_sprite
-            jogador = self.__fase.jogador_sprite
-            area_ataque = jogador.retangulo_ataque
-            if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
-                inimigo.vida_inicial -= 1
-                print(inimigo.vida_inicial)
-                print("hit")
                 
 
     def colisao_inimigo_espada(self):
@@ -104,13 +94,13 @@ class Colisao:
             jogador = self.__fase.jogador_sprite
             area_ataque = jogador.retangulo_ataque
 
-            if inimigo.vida_inicial > 0:
+            if inimigo.vida_inicial > 1:
                 if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
                     inimigo.dano_recebido()
     
-            else:
-                inimigo.morte()
-                self.__vivo = False
+            elif inimigo.vida_inicial == 1:
+                if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                    inimigo.morte()
                 
 
     def update(self):
