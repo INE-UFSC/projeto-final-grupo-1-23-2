@@ -1,6 +1,5 @@
 from src.sistema.configuracoes import Configuracoes
 
-
 class Colisao:
     def __init__(self, fase):
         self.__fase = fase
@@ -8,7 +7,7 @@ class Colisao:
     def colisao_horizontal_jogador_mapa(self):
         jogador = self.__fase.jogador.sprite
 
-        for sprite in self.__fase.colide.sprites():
+        for sprite in self.__fase.colide.sprites() + self.__fase.libera_chave.sprites():
             if sprite.rect.colliderect(jogador.rect): #verifica se o jogador esta colidindo com algum retangulo
                 if jogador.direcao.x < 0: #faz o jogador ficar na direita do retangulo que ele colidiu
                     jogador.rect.left = sprite.rect.right #visto que ele se aproximou pela esquerda
@@ -30,7 +29,7 @@ class Colisao:
         if self.__fase.jogador_sprite.escalar == False:
             jogador.aplicar_gravidade()
 
-        for sprite in self.__fase.colide.sprites(): #verifica se o jogador esta colidindo com algum retangulo
+        for sprite in self.__fase.colide.sprites() + self.__fase.libera_chave.sprites(): #verifica se o jogador esta colidindo com algum retangulo
             if sprite.rect.colliderect(jogador.rect):
                 if jogador.direcao.y > 0: #se o jogador está em cima, a parte debaixo do jogador e setada como a parte do topo do retangulo
                     jogador.rect.bottom = sprite.rect.top
@@ -51,7 +50,8 @@ class Colisao:
         jogador = self.__fase.jogador.sprite
 
         if self.__fase.chave_sprite.rect.colliderect(jogador.rect): #verifica se ha colisao entre a chave e o jogador
-            self.__fase.chave.remove(self.__fase.chave_sprite)  
+            self.__fase.chave_sprite.hide()
+            self.__fase.libera_chave.empty()
             self.__fase.jogador_sprite.desbloquear_porta()
 
     def colisao_porta(self):
@@ -66,7 +66,6 @@ class Colisao:
             jogador = self.__fase.jogador.sprite
             inimigo = self.__fase.inimigo.sprite
             if inimigo.rect.colliderect(jogador.rect):
-                self.__fase.inimigo.empty()
                 self.__fase.vidas = -1
                 self.__fase.reset()
 
@@ -92,14 +91,27 @@ class Colisao:
         if self.__fase.inimigo in self.__fase.tiles:
             inimigo = self.__fase.inimigo_sprite
             jogador = self.__fase.jogador_sprite
-            area_ataque = self.__fase.jogador_sprite.retangulo_ataque
+            area_ataque = jogador.retangulo_ataque
             if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
                 inimigo.vida_inicial -= 1
                 print(inimigo.vida_inicial)
                 print("hit")
                 
 
+    def colisao_inimigo_espada(self):
+        if self.__fase.inimigo in self.__fase.tiles:
+            inimigo = self.__fase.inimigo_sprite
+            jogador = self.__fase.jogador_sprite
+            area_ataque = jogador.retangulo_ataque
 
+            if inimigo.vida_inicial > 0:
+                if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
+                    inimigo.dano_recebido()
+    
+            else:
+                inimigo.morte()
+                self.__vivo = False
+                
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()

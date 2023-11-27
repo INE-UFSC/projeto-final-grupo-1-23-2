@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="22" nextobjectid="1">
- <tileset firstgid="1" source="../Assets/tiles/TILEMAP/tilesets/porta.tsx"/>
- <tileset firstgid="2" source="../Assets/tiles/TILEMAP/tilesets/forest.tsx"/>
- <tileset firstgid="1026" source="../Assets/tiles/TILEMAP/tilesets/chave.tsx"/>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" infinite="0" nextlayerid="23" nextobjectid="1">
+ <tileset firstgid="1" source="../assets/tiles/TILEMAP/tilesets/porta.tsx"/>
+ <tileset firstgid="2" source="../assets/tiles/TILEMAP/tilesets/forest.tsx"/>
+ <tileset firstgid="1026" source="../assets/tiles/TILEMAP/tilesets/chave.tsx"/>
  <imagelayer id="11" name="ceu">
-  <image source="../Assets/backgrounds/Mountains/1 layer Mountains.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Mountains/1 layer Mountains.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="12" name="montanha">
-  <image source="../Assets/backgrounds/Mountains/2 layer Mountains.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Mountains/2 layer Mountains.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="13" name="nuvem">
-  <image source="../Assets/backgrounds/Mountains/4 layer Mountains.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Mountains/4 layer Mountains.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="14" name="montanha2">
-  <image source="../Assets/backgrounds/Mountains/3 layer Mountains.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Mountains/3 layer Mountains.png" width="1280" height="768"/>
  </imagelayer>
  <layer id="10" name="dentro" width="20" height="12">
   <data encoding="csv">
@@ -171,6 +171,22 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,2147483659,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="22" name="libera_chave" width="20" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>

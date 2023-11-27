@@ -7,9 +7,3 @@ class Botao_Jogo(pygame.sprite.Sprite):
         self.image.convert()
         self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect(topleft = posicao)
-
-
-
-
-    def interacao_jogador(self):
-        pass

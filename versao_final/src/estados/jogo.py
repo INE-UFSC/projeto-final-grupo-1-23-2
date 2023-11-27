@@ -1,6 +1,5 @@
 from src.estados.estado import Estado
 from src.fase.fase import Fase
-from src.sistema.hud import HUD
 from src.fase.mapas import Mapas
 import pygame
 
@@ -10,9 +9,7 @@ class Jogo(Estado):
         self.__mapas = Mapas('fases').mapas
         self.__num_fase = 0
         
-        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
-        
-        self.__hud = HUD(game.screen)
+        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen, 5)
 
     def entering(self):
         pass
@@ -23,7 +20,7 @@ class Jogo(Estado):
     def update(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.game.estados.muda_estado('menu')
+                self.game.estados.muda_estado('menu pause')
 
         self.__fase.update(event)
         
@@ -39,7 +36,6 @@ class Jogo(Estado):
     
     def render(self):
         self.__fase.render()
-        self.__hud.render(self.__fase.vidas, self.__fase.jogador_sprite.abrir_porta)
         
     def proxima_fase(self):
         self.__num_fase += 1
@@ -53,4 +49,8 @@ class Jogo(Estado):
             self.game.estados.muda_estado('gameover')
             self.__num_fase = 0
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
+            
+    def reset(self):
+        self.__num_fase = 0
+        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
         
