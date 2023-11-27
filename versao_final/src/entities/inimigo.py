@@ -25,7 +25,7 @@ class Inimigo(pygame.sprite.Sprite):
         self.__x_y_morte = (self.__rect.x, self.__rect.y)
 
     def importar_assets(self):
-        n = str(random.randint(1, 3))
+        n = str(random.randint(1, 2))
 
         path_personagem = f'assets/entities/inimigo/skin0' + n
         self.__animacao = []
@@ -49,7 +49,6 @@ class Inimigo(pygame.sprite.Sprite):
         self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
         self.__vida_inicial -= 1
         print(self.__vida_inicial)
-        print("hit")
 
     def morte(self):
         self.__rect.x = 10000
@@ -60,7 +59,6 @@ class Inimigo(pygame.sprite.Sprite):
     def update(self):
         self.andar()
         self.animar()
-
 
     #GETTERS E SETTERS
     @property

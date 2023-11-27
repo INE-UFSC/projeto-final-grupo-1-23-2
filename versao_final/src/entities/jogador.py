@@ -35,7 +35,7 @@ class Jogador(pygame.sprite.Sprite):
         #ataque
         self.__atacando = False
         self.__retangulo_ataque = pygame.Rect(
-            self.__rect.centerx, self.__rect.y, 2 * self.rect.width, self.__rect.height)
+        self.__rect.centerx, self.__rect.y, 2 * self.rect.width, self.__rect.height)
         self.__duracao_ataque = 1
         self.__cronometro_ataque = 0
         self.__duracao_cooldown = 600
@@ -76,29 +76,44 @@ class Jogador(pygame.sprite.Sprite):
             self.__rect = self.image.get_rect(toplet = self.rect.topleft)
         elif self.no_teto:
             self.__rect = self.image.get_rect(midtop = self.rect.midtop)
+        
+    def mover_para_esquerda(self):
+        self.animar()
+        self.__direcao.x = -1
+        self.__virado_para_direita = False
+    
+    def mover_para_direita(self):
+        self.animar()
+        self.__direcao.x = 1
+        self.__virado_para_direita = True
+    
+    def parar_movimento_horizontal(self):
+        self.animar(False)
+        self.__direcao.x = 0
 
-    def andar(self):  
-        teclas = pygame.key.get_pressed() #mapeia as teclas
-        if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #implementa a direção em que o jogador anda
-            self.animar()
-            self.__direcao.x = 1
-            self.__virado_para_direita = True
-        elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]:
-            self.animar()
-            self.__direcao.x = -1
-            self.__virado_para_direita = False
-        else:
-            self.animar(False)
-            self.__direcao.x = 0
-
+    def aplicar_movimento_horizontal(self):
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.no_chao:
+    def movimentar(self):  
+        teclas = pygame.key.get_pressed() #mapeia as teclas
+
+        if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #movimento para a direita
+            self.mover_para_direita()
+         
+        elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]: #movimento para a esquerda
+           self.mover_para_esquerda()
+
+        else: #parado
+           self.parar_movimento_horizontal()
+
+        self.aplicar_movimento_horizontal() #aplica o movimento horizontal
+
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.no_chao: #aplica o pulo
             self.pular()
 
-        if teclas[pygame.K_UP] or teclas[pygame.K_w]:
+        if teclas[pygame.K_UP] or teclas[pygame.K_w]: #aplica o movimento de escalada
             self.escalandoUP()
-        if teclas[pygame.K_DOWN] or teclas[pygame.K_s]:
+        if teclas[pygame.K_DOWN] or teclas[pygame.K_s]: #aplica o movimento de descida
             self.escalandoDOWN()
 
 
@@ -146,7 +161,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__abrir_porta = True
 
     def update(self, event): 
-        self.andar()
+        self.movimentar()
         self.atacar(event) 
 
     #getters e setters    

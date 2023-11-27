@@ -18,7 +18,6 @@ class GameOverState(Estado):
         self.__cursor_img = pygame.image.load('assets/UI/mouse.png')
         self.__cursor_img_rect = self.__cursor_img.get_rect()
         
-
     def entering(self):
         pygame.mouse.set_visible(False)
             
