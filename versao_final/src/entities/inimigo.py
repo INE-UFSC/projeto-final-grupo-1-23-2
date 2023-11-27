@@ -1,5 +1,6 @@
 import pygame
 from src.ferramentas.suporte import importar_pasta
+import random
 
 
 class Inimigo(pygame.sprite.Sprite):
@@ -24,7 +25,9 @@ class Inimigo(pygame.sprite.Sprite):
         self.__x_y_morte = (self.__rect.x, self.__rect.y)
 
     def importar_assets(self):
-        path_personagem = 'assets/entities/inimigo/skin01'
+        n = str(random.randint(1, 3))
+
+        path_personagem = f'assets/entities/inimigo/skin0' + n
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 

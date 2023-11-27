@@ -93,9 +93,8 @@ class Jogador(pygame.sprite.Sprite):
 
         self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w]) and self.no_chao:
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.no_chao:
             self.pular()
-
 
         if teclas[pygame.K_UP] or teclas[pygame.K_w]:
             self.escalandoUP()
