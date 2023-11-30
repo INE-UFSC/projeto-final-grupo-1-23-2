@@ -3,7 +3,6 @@
  <tileset firstgid="1" source="../assets/tiles/TILEMAP/tilesets/porta.tsx"/>
  <tileset firstgid="2" source="../assets/tiles/TILEMAP/tilesets/forest.tsx"/>
  <tileset firstgid="1026" source="../assets/tiles/TILEMAP/tilesets/chave.tsx"/>
- <tileset firstgid="1027" source="../../../../testeeee/projeto-final-grupo-1-23-2/versao_final/fases/tilesets/forest64.tsx"/>
  <imagelayer id="11" name="ceu">
   <image source="../assets/backgrounds/Mountains/1 layer Mountains.png" width="1280" height="768"/>
  </imagelayer>
@@ -164,14 +163,14 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,1057,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,1057,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
