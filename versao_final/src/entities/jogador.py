@@ -1,5 +1,4 @@
 import pygame
-from src.ferramentas.suporte import importar_pasta
 from src.entities.estadojogador import EstadoJogador
 from src.entities.animacaojogador import AnimacaoJogador
 
@@ -36,7 +35,7 @@ class Jogador(pygame.sprite.Sprite):
 
         self.animacao_jogador.atualizar_posicao_horizontal() #atualiza a posicao do rect do jogador
 
-        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.no_chao: #aplica o pulo
+        if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.estado_jogador.no_chao: #aplica o pulo
             self.estado_jogador.pular()
     
     def aplicar_gravidade(self):

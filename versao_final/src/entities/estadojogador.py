@@ -26,7 +26,6 @@ class EstadoJogador:
         self.__virado_para_direita = True
     
     def parar_movimento_horizontal(self):
-        self.animar(False)
         self.__direcao.x = 0
 
     def pular(self):

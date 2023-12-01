@@ -58,6 +58,10 @@ class AnimacaoJogador:
     @property
     def rect(self):
         return self.__rect
+    
+    @rect.setter
+    def rect(self, novo_rect):
+        self.__rect = novo_rect
 
     @property
     def image(self):
