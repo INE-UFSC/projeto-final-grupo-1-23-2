@@ -1,5 +1,5 @@
 from src.sistema.configuracoes import Configuracoes
-
+import pygame
 class Colisao:
     def __init__(self, fase):
         self.__fase = fase
@@ -64,7 +64,16 @@ class Colisao:
         if self.__fase.inimigo in self.__fase.tiles:
             jogador = self.__fase.jogador.sprite
             inimigo = self.__fase.inimigo.sprite
-            if inimigo.rect.colliderect(jogador.rect):
+            inimigo_center_x = inimigo.rect.x + inimigo.rect.width // 2
+            inimigo_center_y = inimigo.rect.y + inimigo.rect.height // 2
+            inimigo_collide_area = pygame.Rect(
+                inimigo_center_x - 22,
+                inimigo_center_y - 22,
+                45,
+                45
+            )
+
+            if jogador.rect.colliderect(inimigo_collide_area):
                 self.__fase.vidas = -1
                 self.__fase.reset()
 
@@ -72,7 +81,16 @@ class Colisao:
         if self.__fase.espinhos in self.__fase.tiles:
             jogador = self.__fase.jogador.sprite
             for sprite in self.__fase.espinhos.sprites():
-                if sprite.rect.colliderect(jogador.rect):
+                espinho_center_x = sprite.rect.x + sprite.rect.width // 2
+                espinho_center_y = sprite.rect.y + sprite.rect.height // 2
+                # Define o retângulo da área do centro do espinho
+                center_area_rect = pygame.Rect(
+                    espinho_center_x - 10,  #numero aleatorio, da pra alterar
+                    espinho_center_y - 10, 
+                    20, #numero aleatorio, da pra alterar
+                    20,  
+                )
+                if jogador.rect.colliderect(center_area_rect):
                     self.__fase.vidas = -1
                     self.__fase.reset()
 
@@ -92,7 +110,7 @@ class Colisao:
             area_ataque = jogador.retangulo_ataque
             if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
                 inimigo.vida_inicial -= 1
-                print(inimigo.vida_inicial)
+                print(inimigo.vida_inicial) # if try == 8#mychoise
                 print("hit")
                 
 
