@@ -27,6 +27,7 @@ class Fase:
         self.__HUD.render(self.__vidas, self.jogador_sprite.abrir_porta)
         
     def update(self, event):
+      
         for objeto in self.__tiles:
             if hasattr(objeto, 'update'):
                 try:
@@ -37,11 +38,11 @@ class Fase:
         self.__colisao.update()
         
     def fase_setup(self, tmxdata):
-        self.escada = pygame.sprite.Group()
         self.colide = pygame.sprite.Group()
         self.libera_chave = pygame.sprite.Group()
         self.ncolide = pygame.sprite.Group()
-        
+        self.espinhos = pygame.sprite.Group()
+
         self.chave = pygame.sprite.GroupSingle()
         self.porta = pygame.sprite.GroupSingle() 
         
@@ -54,16 +55,15 @@ class Fase:
         self.__background = []
         self.__bloco_chaves = []
 
+        
+
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, surf in layer.tiles():
                     x *= self.__mapa.tilewidth
                     y *= self.__mapa.tilewidth
                     
-                    if layer.name == 'escada':
-                        self.__tiles.append(TileMap((x,y), surf, self.escada))
-                        
-                    elif layer.name == 'libera_chave':
+                    if layer.name == 'libera_chave':
                         self.__bloco_chaves.append(TileMap((x,y), surf, self.libera_chave))
                     
                     elif layer.name in ['terreno', 'ponte']:
@@ -90,6 +90,9 @@ class Fase:
                         
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x,y), surf, self.inimigo_colisores)
+
+                    elif layer.name == 'dano':
+                        TileMap((x,y), surf, self.espinhos)
                     
             elif isinstance(layer, pytmx.TiledImageLayer):
                 if layer.name == 'nuvem':
@@ -97,7 +100,7 @@ class Fase:
                 else:
                     self.__background.append(Background(layer.image))
                 
-        self.__tiles += [self.porta, self.chave, self.libera_chave, self.jogador, self.inimigo]
+        self.__tiles += [self.porta, self.chave, self.libera_chave, self.jogador, self.inimigo, self.espinhos]
 
     def reset(self):
         self.jogador_sprite.reset()
