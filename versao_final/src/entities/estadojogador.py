@@ -9,7 +9,6 @@ class EstadoJogador:
         self.__velocidade = velocidade
         self.__gravidade = 0.8
         self.__altura_pulo = -16
-        self.__escalar = False
 
         #informacoes do jogador
         self.__virado_para_direita = True
@@ -19,14 +18,17 @@ class EstadoJogador:
         self.__na_esquerda = False
     
     def mover_para_esquerda(self):
+        self.animar()
         self.__direcao.x = -1
         self.__virado_para_direita = False
     
     def mover_para_direita(self):
+        self.animar()
         self.__direcao.x = 1
         self.__virado_para_direita = True
     
     def parar_movimento_horizontal(self):
+        self.animar(False)
         self.__direcao.x = 0
 
     def aplicar_movimento_horizontal(self):
@@ -39,14 +41,6 @@ class EstadoJogador:
     def pular(self):
         self.__direcao.y = self.__altura_pulo
     
-    def escalandoUP(self):
-        if self.__escalar == True:
-            self.__rect.y += -5
-    
-    def escalandoDOWN(self):
-        if self.no_chao == False:
-            self.__rect.y -= -5
-
     @property
     def direcao(self):
         return self.__direcao
@@ -98,12 +92,3 @@ class EstadoJogador:
     @virado_para_direita.setter
     def virado_para_direita(self, virado_para_direita):
         self.__virado_para_direita = virado_para_direita
-
-    @property
-    def escalar(self):
-        return self.__escalar
-    
-    @escalar.setter
-    def escalar(self, novo_valor):
-        self.__escalar = novo_valor
-    
