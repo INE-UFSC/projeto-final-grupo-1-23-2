@@ -23,10 +23,9 @@ class Colisao:
         if jogador.rect.right >= Configuracoes().largura_tela:
             jogador.rect.right = Configuracoes().largura_tela
 
-
     def colisao_vertical_jogador_mapa(self):
         jogador = self.__fase.jogador.sprite
-        jogador.aplicar_gravidade()
+        jogador.animacao_jogador.atualizar_posicao_vertical_com_gravidade()
 
         for sprite in self.__fase.colide.sprites() + self.__fase.libera_chave.sprites(): #verifica se o jogador esta colidindo com algum retangulo
             if sprite.rect.colliderect(jogador.rect):
@@ -84,33 +83,6 @@ class Colisao:
                     if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
                         inimigo.direcao.x *= -1
 
-
-    def colisao_inimigo_espada(self):
-        if self.__fase.inimigo in self.__fase.tiles:
-            inimigo = self.__fase.inimigo_sprite
-            jogador = self.__fase.jogador_sprite
-            area_ataque = jogador.retangulo_ataque
-            if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
-                inimigo.vida_inicial -= 1
-                print(inimigo.vida_inicial)
-                print("hit")
-                
-
-    def colisao_inimigo_espada(self):
-        if self.__fase.inimigo in self.__fase.tiles:
-            inimigo = self.__fase.inimigo_sprite
-            jogador = self.__fase.jogador_sprite
-            area_ataque = jogador.retangulo_ataque
-
-            if inimigo.vida_inicial > 0:
-                if area_ataque.colliderect(inimigo.rect) and jogador.atacando:
-                    inimigo.dano_recebido()
-    
-            else:
-                inimigo.morte()
-                self.__vivo = False
-                
-
     def update(self):
         self.colisao_horizontal_jogador_mapa()
         self.colisao_vertical_jogador_mapa()
@@ -118,6 +90,5 @@ class Colisao:
         self.colisao_porta()
         self.colisao_inimigo_jogador()
         self.colisao_inimigo_obstaculo()
-        self.colisao_inimigo_espada()
         self.colisao_espinho_jogador()
 

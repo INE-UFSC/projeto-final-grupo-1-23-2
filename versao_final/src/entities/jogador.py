@@ -10,6 +10,9 @@ class Jogador(pygame.sprite.Sprite):
         self.__estado_jogador = EstadoJogador(velocidade)
         self.__animacao_jogador = AnimacaoJogador(posicao, self.__estado_jogador)
 
+        self.__image = self.__animacao_jogador.image
+        self.__rect = self.animacao_jogador.rect
+
         self.__abrir_porta = False
         
     def reset(self):
@@ -21,20 +24,20 @@ class Jogador(pygame.sprite.Sprite):
 
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #movimento para a direita
             self.animacao_jogador.animar()
-            self.mover_para_direita()
+            self.estado_jogador.mover_para_direita()
          
         elif teclas[pygame.K_LEFT] or teclas[pygame.K_a]: #movimento para a esquerda
             self.animacao_jogador.animar()
-            self.mover_para_esquerda()
+            self.estado_jogador.mover_para_esquerda()
 
         else: #parado
             self.animacao_jogador.animar(False)
-            self.parar_movimento_horizontal()
+            self.estado_jogador.parar_movimento_horizontal()
 
         self.animacao_jogador.atualizar_posicao_horizontal() #atualiza a posicao do rect do jogador
 
         if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.no_chao: #aplica o pulo
-            self.pular()
+            self.estado_jogador.pular()
     
     def aplicar_gravidade(self):
         self.estado_jogador.direcao.y += self.estado_jogador.gravidade
@@ -59,4 +62,11 @@ class Jogador(pygame.sprite.Sprite):
     def animacao_jogador(self):
         return self.__animacao_jogador
 
+    @property
+    def image(self):
+        return self.__image
+    
+    @property
+    def rect(self):
+        return self.__rect
     

@@ -14,8 +14,8 @@ class AnimacaoJogador:
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
         self.__image =  self.__animacao[self.__index_animacao]
-        self.posicao_inical = posicao
-        self.__rect = self.image.get_rect(topleft = self.posicao_inical)
+        self.__posicao_inical = posicao
+        self.__rect = self.image.get_rect(topleft = self.__posicao_inical)
     
     #importa as imagens do jogador
     def importar_assets(self):
@@ -30,22 +30,22 @@ class AnimacaoJogador:
         
         imagem = self.__animacao[int(self.__index_animacao)]
         
-        if self.__virado_para_direita:
-            self.image = imagem
+        if self.estado_jogador.virado_para_direita:
+            self.__image = imagem
         else:
-            self.image = pygame.transform.flip(imagem, True, False)
+            self.__image = pygame.transform.flip(imagem, True, False)
 
-        if self.no_chao and self.na_direita:
+        if self.estado_jogador.no_chao and self.estado_jogador.na_direita:
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
-        elif self.no_chao and self.na_esquerda:
+        elif self.estado_jogador.no_chao and self.estado_jogador.na_esquerda:
             self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft)
-        elif self.no_chao:
+        elif self.estado_jogador.no_chao:
             self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
-        elif self.no_teto and self.na_direita:
+        elif self.estado_jogador.no_teto and self.estado_jogador.na_direita:
             self.rect = self.image.get_rect(topright = self.rect.topright)
-        elif self.no_teto and self.na_esquerda:
+        elif self.estado_jogador.no_teto and self.estado_jogador.na_esquerda:
             self.rect = self.image.get_rect(toplet = self.rect.topleft)
-        elif self.no_teto:
+        elif self.estado_jogador.no_teto:
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
         
     def atualizar_posicao_horizontal(self): #atualiza a posicao horizontal do rect do jogador na tela
@@ -62,3 +62,7 @@ class AnimacaoJogador:
     @property
     def image(self):
         return self.__image
+    
+    @property
+    def estado_jogador(self):
+        return self.__estado_jogador
