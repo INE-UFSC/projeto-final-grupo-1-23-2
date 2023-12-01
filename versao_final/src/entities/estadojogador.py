@@ -18,25 +18,16 @@ class EstadoJogador:
         self.__na_esquerda = False
     
     def mover_para_esquerda(self):
-        self.animar()
         self.__direcao.x = -1
         self.__virado_para_direita = False
     
     def mover_para_direita(self):
-        self.animar()
         self.__direcao.x = 1
         self.__virado_para_direita = True
     
     def parar_movimento_horizontal(self):
         self.animar(False)
         self.__direcao.x = 0
-
-    def aplicar_movimento_horizontal(self):
-        self.__rect.x += self.__direcao.x * self.__velocidade #aplica o movimento horizontal
-    
-    def aplicar_gravidade(self):
-        self.__direcao.y += self.__gravidade
-        self.__rect.y += self.__direcao.y
 
     def pular(self):
         self.__direcao.y = self.__altura_pulo
@@ -48,7 +39,7 @@ class EstadoJogador:
     @property
     def velocidade(self):
         return self.__velocidade
-    
+
     @property
     def gravidade(self):
         return self.__gravidade
