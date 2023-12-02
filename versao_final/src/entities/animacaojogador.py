@@ -44,7 +44,7 @@ class AnimacaoJogador:
         elif self.estado_jogador.no_teto and self.estado_jogador.na_direita:
             self.rect = self.image.get_rect(topright = self.rect.topright)
         elif self.estado_jogador.no_teto and self.estado_jogador.na_esquerda:
-            self.rect = self.image.get_rect(toplet = self.rect.topleft)
+            self.rect = self.image.get_rect(topleft = self.rect.topleft)
         elif self.estado_jogador.no_teto:
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
         
