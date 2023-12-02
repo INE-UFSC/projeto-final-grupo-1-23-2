@@ -81,7 +81,7 @@ class Fase:
                         self.porta.add(self.porta_sprite)
                         
                     elif layer.name == 'player':
-                        self.jogador_sprite = Jogador((x, y),3, self.__display_superficie)
+                        self.jogador_sprite = Jogador((x, y),3)
                         self.jogador.add(self.jogador_sprite)
                         
                     elif layer.name == 'inimigo':

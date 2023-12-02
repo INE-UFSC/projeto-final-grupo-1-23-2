@@ -1,5 +1,6 @@
 import pygame
 from src.ferramentas.suporte import importar_pasta
+import random
 
 
 class Inimigo(pygame.sprite.Sprite):
@@ -24,7 +25,9 @@ class Inimigo(pygame.sprite.Sprite):
         self.__x_y_morte = (self.__rect.x, self.__rect.y)
 
     def importar_assets(self):
-        path_personagem = 'assets/entities/inimigo/skin01'
+        n = str(random.randint(1, 2))
+
+        path_personagem = f'assets/entities/inimigo/skin0' + n
         self.__animacao = []
         self.__animacao = importar_pasta(path_personagem)
 
@@ -46,7 +49,6 @@ class Inimigo(pygame.sprite.Sprite):
         self.__x_y_ataque = (self.__rect.x, self.__rect.y) #calcula posição que o inimigo está quando toma o hit (para ser usado quando o hit resulta em morte)
         self.__vida_inicial -= 1
         print(self.__vida_inicial)
-        print("hit")
 
     def morte(self):
         self.__rect.x = 10000
@@ -57,7 +59,6 @@ class Inimigo(pygame.sprite.Sprite):
     def update(self):
         self.andar()
         self.animar()
-
 
     #GETTERS E SETTERS
     @property
