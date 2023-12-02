@@ -25,12 +25,3 @@ class Animacao(ABC):
     @property
     def animacao(self):
         return self.__animacao
-    
-    @property
-    def index_animacao(self):
-        return self.__index_animacao
-    
-    @property
-    def velocidade_animacao(self):
-        return self.__velocidade_animacao
-    
