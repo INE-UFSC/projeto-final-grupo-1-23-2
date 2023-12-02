@@ -3,11 +3,11 @@ from src.entities.estadojogador import EstadoJogador
 from src.entities.animacaojogador import AnimacaoJogador
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, posicao: tuple, velocidade: int):
+    def __init__(self, posicao: tuple, velocidade: int, path: str):
         super().__init__()
 
         self.__estado_jogador = EstadoJogador(velocidade)
-        self.__animacao_jogador = AnimacaoJogador(posicao, self.__estado_jogador)
+        self.__animacao_jogador = AnimacaoJogador(posicao, self.__estado_jogador, path)
 
         self.__image = self.__animacao_jogador.image
         self.__rect = self.animacao_jogador.rect
@@ -16,7 +16,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__abrir_porta = False
         
     def reset(self):
-        novo_jogador = Jogador(self.animacao_jogador.posicao_inicial, self.estado_jogador.velocidade)
+        novo_jogador = Jogador(self.animacao_jogador.posicao_inicial, self.estado_jogador.velocidade, self.animacao_jogador.path)
         self.__dict__.update(novo_jogador.__dict__)
 
     def movimentar(self):  
