@@ -14,8 +14,8 @@ class AnimacaoJogador:
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
         self.__image =  self.__animacao[self.__index_animacao]
-        self.__posicao_inical = posicao
-        self.__rect = self.image.get_rect(topleft = self.__posicao_inical)
+        self.__posicao_inicial = posicao
+        self.__rect = self.image.get_rect(topleft = self.__posicao_inicial)
     
     #importa as imagens do jogador
     def importar_assets(self):
@@ -66,6 +66,10 @@ class AnimacaoJogador:
     @property
     def image(self):
         return self.__image
+    
+    @property
+    def posicao_inicial(self):
+        return self.__posicao_inicial
     
     @property
     def estado_jogador(self):

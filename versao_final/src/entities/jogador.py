@@ -12,14 +12,18 @@ class Jogador(pygame.sprite.Sprite):
         self.__image = self.__animacao_jogador.image
         self.__rect = self.animacao_jogador.rect
 
+
         self.__abrir_porta = False
         
     def reset(self):
-        novo_jogador = Jogador(self.posicao_inical, self.velocidade)
+        novo_jogador = Jogador(self.animacao_jogador.posicao_inicial, self.estado_jogador.velocidade)
         self.__dict__.update(novo_jogador.__dict__)
 
     def movimentar(self):  
         teclas = pygame.key.get_pressed() #mapeia as teclas
+
+        self.__image = self.__animacao_jogador.image
+        self.__rect = self.animacao_jogador.rect
 
         if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]: #movimento para a direita
             self.animacao_jogador.animar()
@@ -37,10 +41,6 @@ class Jogador(pygame.sprite.Sprite):
 
         if (teclas[pygame.K_SPACE] or teclas[pygame.K_w] or teclas[pygame.K_UP]) and self.estado_jogador.no_chao: #aplica o pulo
             self.estado_jogador.pular()
-    
-    def aplicar_gravidade(self):
-        self.estado_jogador.direcao.y += self.estado_jogador.gravidade
-        self.animacao_jogador.rect.y += self.estado_jogador.direcao.y
 
     def desbloquear_porta(self):
         self.__abrir_porta = True
