@@ -1,44 +1,34 @@
 import pygame
-from src.ferramentas.suporte import importar_pasta
-import random
+from src.entities.animacao import Animacao
 
-
-class Inimigo(pygame.sprite.Sprite):
-    def __init__(self, posicao, move_speed: int):
+class Inimigo(pygame.sprite.Sprite, Animacao):
+    def __init__(self, posicao, move_speed: int, path: str):
         super().__init__()
+        Animacao.__init__(self, path) #chama o construtor de animacao, ja que tem herença multipla
 
         # animacao inimigo
-        self.importar_assets()
         self.__index_animacao = 0
         self.__velocidade_animacao = 0.15
-        self.__image = self.__animacao[self.__index_animacao]
+        self.__image = self.animacao[self.__index_animacao]
         self.__rect = self.__image.get_rect(topleft = posicao)
         
         # informacoes do inimigo
         self.__velocidade = move_speed
         self.__direcao = pygame.math.Vector2((self.__velocidade), 0)
 
-
-    def importar_assets(self):
-        n = str(random.randint(1, 2))
-
-        path_personagem = f'assets/entities/inimigo/skin0' + n
-        self.__animacao = []
-        self.__animacao = importar_pasta(path_personagem)
+    def andar(self):
+        self.__rect.x += self.__direcao.x * self.__velocidade
 
     def animar(self):
         self.__index_animacao += self.__velocidade_animacao
-        if self.__index_animacao > len(self.__animacao):
+        if self.__index_animacao > len(self.animacao):
             self.__index_animacao = 0
         
-        imagem = self.__animacao[int(self.__index_animacao)]
+        imagem = self.animacao[int(self.__index_animacao)]
         if self.__direcao.x < 0:
             self.__image = imagem
         else:
             self.__image = pygame.transform.flip(imagem, True, False)
-    
-    def andar(self):
-        self.__rect.x += self.__direcao.x * self.__velocidade
 
     def update(self):
         self.andar()

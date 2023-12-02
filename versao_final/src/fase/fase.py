@@ -6,6 +6,7 @@ from src.itens.porta import Porta
 from src.entities.inimigo import Inimigo
 from src.fase.colisao import Colisao
 from src.sistema.hud import HUD
+import random
 import pytmx
 
 class Fase:
@@ -81,11 +82,15 @@ class Fase:
                         self.porta.add(self.porta_sprite)
                         
                     elif layer.name == 'player':
-                        self.jogador_sprite = Jogador((x, y),3)
+                        path = 'assets/entities/jogador/skin'
+                        self.jogador_sprite = Jogador((x, y),3, path)
                         self.jogador.add(self.jogador_sprite)
                         
                     elif layer.name == 'inimigo':
-                        self.inimigo_sprite = Inimigo((x, y), 1)
+                        n = str(random.randint(1, 2))
+                        path_inimigo = f'assets/entities/inimigo/skin0' + n
+
+                        self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
                         self.inimigo.add(self.inimigo_sprite) 
                         
                     elif layer.name == 'colisao_inimigo':
