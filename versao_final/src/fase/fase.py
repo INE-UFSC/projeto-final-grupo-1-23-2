@@ -48,14 +48,13 @@ class Fase:
         self.porta = pygame.sprite.GroupSingle() 
         
         self.jogador = pygame.sprite.GroupSingle() #so um jogador
-        self.inimigo = pygame.sprite.GroupSingle()
+        self.inimigo = pygame.sprite.Group()
         
         self.inimigo_colisores = pygame.sprite.Group()
         
         self.__tiles = []
         self.__background = []
         self.__bloco_chaves = []
-
         
 
         for layer in tmxdata.visible_layers:
@@ -67,7 +66,7 @@ class Fase:
                     if layer.name == 'libera_chave':
                         self.__bloco_chaves.append(TileMap((x,y), surf, self.libera_chave))
                     
-                    elif layer.name in ['terreno', 'ponte', 'struct_castelo', 'castelo', 'nuvem_parkour']:
+                    elif layer.name in ['terreno', 'ponte', 'struct_castelo', 'castelo', 'lava', 'nuvem_parkour']:
                         self.__tiles.append(TileMap((x, y), surf, self.colide))
                         
                     elif layer.name in ['arvores', 'dentro', 'decoracao', 'decoracao2', 'fundo_decorativo', 'borda_lava']:
@@ -87,8 +86,8 @@ class Fase:
                         self.jogador.add(self.jogador_sprite)
                         
                     elif layer.name == 'inimigo':
-                        n = str(random.randint(1, 2))
-                        path_inimigo = f'assets/entities/inimigo/skin0' + n
+                        #n = str(random.randint(1, 2))
+                        path_inimigo = f'assets/entities/inimigo/skin01'
 
                         self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
                         self.inimigo.add(self.inimigo_sprite) 

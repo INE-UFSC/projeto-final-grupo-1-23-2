@@ -62,19 +62,19 @@ class Colisao:
     def colisao_inimigo_jogador(self):
         if self.__fase.inimigo in self.__fase.tiles:
             jogador = self.__fase.jogador.sprite
-            inimigo = self.__fase.inimigo.sprite
-            inimigo_center_x = inimigo.rect.x + inimigo.rect.width // 2
-            inimigo_center_y = inimigo.rect.y + inimigo.rect.height // 2
-            inimigo_collide_area = pygame.Rect(
-                inimigo_center_x - 22,
-                inimigo_center_y - 22,
-                45,
-                45
-            )
+            for inimigo in self.__fase.inimigo.sprites():
+                inimigo_center_x = inimigo.rect.x + inimigo.rect.width // 2
+                inimigo_center_y = inimigo.rect.y + inimigo.rect.height // 2
+                inimigo_collide_area = pygame.Rect(
+                    inimigo_center_x - 22,
+                    inimigo_center_y - 22,
+                    45,
+                    45
+                )
 
-            if jogador.animacao_jogador.rect.colliderect(inimigo_collide_area):
-                self.__fase.vidas = -1
-                self.__fase.reset()
+                if jogador.animacao_jogador.rect.colliderect(inimigo_collide_area):
+                    self.__fase.vidas = -1
+                    self.__fase.reset()
 
     def colisao_espinho_jogador(self):
         if self.__fase.espinhos in self.__fase.tiles:
@@ -95,11 +95,11 @@ class Colisao:
 
     def colisao_inimigo_obstaculo(self):
         if self.__fase.inimigo in self.__fase.tiles:
-            inimigo = self.__fase.inimigo.sprite
-            for sprite in self.__fase.inimigo_colisores.sprites():
-                if sprite.rect.colliderect(inimigo.rect): #verifica se o jogador esta colidindo com algum retangulo
-                    if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
-                        inimigo.direcao.x *= -1
+            for inimigo in self.__fase.inimigo.sprites():
+                for sprite in self.__fase.inimigo_colisores.sprites():
+                    if sprite.rect.colliderect(inimigo.rect): #verifica se o jogador esta colidindo com algum retangulo
+                        if inimigo.direcao.x < 0 or inimigo.direcao.x >0: #faz o jogador ficar na direita do retangulo que ele colidiu
+                            inimigo.direcao.x *= -1
 
     def update(self):
         self.colisao_horizontal_jogador_mapa()
