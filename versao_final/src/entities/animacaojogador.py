@@ -1,5 +1,4 @@
 import pygame
-from src.ferramentas.suporte import importar_pasta
 from src.entities.estadojogador import EstadoJogador
 from src.entities.animacao import Animacao
 
