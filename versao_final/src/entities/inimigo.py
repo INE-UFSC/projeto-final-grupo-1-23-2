@@ -54,12 +54,3 @@ class Inimigo(pygame.sprite.Sprite, Animacao):
     @image.setter
     def image(self, nova_imagem):
         self.__image = nova_imagem
-
-    @property
-    def rect_final(self):
-        return self.__rect
-    
-    @rect_final.setter
-    def rect_final(self, rect):
-        self.__rect_final = rect
-    
