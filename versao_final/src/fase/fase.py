@@ -73,7 +73,9 @@ class Fase:
                         self.__tiles.append(TileMap((x, y), surf, self.ncolide))
                         
                     elif layer.name == 'chave':
-                        self.chave_sprite = Chave((x,y))
+                        path = 'assets/tiles/chave'
+
+                        self.chave_sprite = Chave((x,y), path)
                         self.chave.add(self.chave_sprite)
                     
                     elif layer.name == 'porta':
