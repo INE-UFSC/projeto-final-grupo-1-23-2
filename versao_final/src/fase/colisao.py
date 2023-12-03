@@ -63,6 +63,7 @@ class Colisao:
         if self.__fase.inimigo in self.__fase.tiles:
             jogador = self.__fase.jogador.sprite
             for inimigo in self.__fase.inimigo.sprites():
+                
                 inimigo_center_x = inimigo.rect.x + inimigo.rect.width // 2
                 inimigo_center_y = inimigo.rect.y + inimigo.rect.height // 2
                 inimigo_collide_area = pygame.Rect(
