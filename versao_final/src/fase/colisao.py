@@ -46,18 +46,19 @@ class Colisao:
 
     def colisao_chave(self):
         jogador = self.__fase.jogador.sprite
-
-        if self.__fase.chave_sprite.rect.colliderect(jogador.animacao_jogador.rect): #verifica se ha colisao entre a chave e o jogador
-            self.__fase.chave_sprite.hide()
-            self.__fase.libera_chave.empty()
-            self.__fase.jogador_sprite.desbloquear_porta()
+        for chave in self.__fase.chave:
+            if chave.rect.colliderect(jogador.animacao_jogador.rect): #verifica se ha colisao entre a chave e o jogador
+                chave.hide()
+                self.__fase.libera_chave.empty()
+                self.__fase.jogador_sprite.desbloquear_porta()
 
     def colisao_porta(self):
         jogador = self.__fase.jogador.sprite
+        for porta in self.__fase.porta:
 
-        if self.__fase.porta_sprite.rect.colliderect(jogador.animacao_jogador.rect): #verifica se ha colisao entre a porta e o jogador
-            if self.__fase.jogador_sprite.abrir_porta == True:
-                self.__fase.passou_porta = True
+            if porta.rect.colliderect(jogador.animacao_jogador.rect): #verifica se ha colisao entre a porta e o jogador
+                if self.__fase.jogador_sprite.abrir_porta == True:
+                    self.__fase.passou_porta = True
 
     def colisao_inimigo_jogador(self):
         if self.__fase.inimigo in self.__fase.tiles:
