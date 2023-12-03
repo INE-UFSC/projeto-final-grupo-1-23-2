@@ -85,9 +85,8 @@ class Fase:
                         self.jogador_sprite = Jogador((x, y),3, path)
                         self.jogador.add(self.jogador_sprite)
                         
-                    elif layer.name == 'inimigo':
-                        #n = str(random.randint(1, 2))
-                        path_inimigo = f'assets/entities/inimigo/skin01'
+                    elif layer.name == 'morcego' or layer.name == 'mago' or layer.name == 'cavaleiro' or layer.name == 'caveira':
+                        path_inimigo = f'assets/entities/inimigo/' + str(layer.name)
 
                         self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
                         self.inimigo.add(self.inimigo_sprite) 
