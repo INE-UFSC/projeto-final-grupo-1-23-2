@@ -40,19 +40,19 @@ class Fase:
         self.__colisao.update()
 
     def fase_setup(self, tmxdata):
-        self.__colide = pygame.sprite.Group()
-        self.__libera_chave = pygame.sprite.Group()
-        self.__ncolide = pygame.sprite.Group()
-        self.__espinhos = pygame.sprite.Group()
+        self.colide = pygame.sprite.Group()
+        self.libera_chave = pygame.sprite.Group()
+        self.ncolide = pygame.sprite.Group()
+        self.espinhos = pygame.sprite.Group()
 
-        self.__chave = pygame.sprite.GroupSingle()
-        self.__porta = pygame.sprite.GroupSingle() 
-        
-        self.__jogador = pygame.sprite.GroupSingle() #so um jogador
-        self.__inimigo = pygame.sprite.Group()
-        
-        self.__inimigo_colisores = pygame.sprite.Group()
-        
+        self.chave = pygame.sprite.GroupSingle()
+        self.porta = pygame.sprite.GroupSingle()
+
+        self.jogador = pygame.sprite.GroupSingle()  # so um jogador
+        self.inimigo = pygame.sprite.Group()
+
+        self.inimigo_colisores = pygame.sprite.Group()
+
         self.__tiles = []
         self.__background = []
         self.__bloco_chaves = []
@@ -64,57 +64,68 @@ class Fase:
                     surf.set_alpha(opacidade)
                     x *= self.__mapa.tilewidth
                     y *= self.__mapa.tilewidth
-                    
-                    if layer.name == 'libera_chave':
-                        self.__bloco_chaves.append(TileMap((x,y), surf, self.__libera_chave))
-                    
-                    elif layer.name in ['terreno', 'ponte', 'struct_castelo', 'castelo', 'lava', 'nuvem_parkour']:
-                        self.__tiles.append(TileMap((x, y), surf, self.__colide))
-                        
-                    elif layer.name in ['arvores', 'dentro', 'decoracao', 'decoracao2', 'fundo_decorativo', 'borda_lava']:
-                        self.__tiles.append(TileMap((x, y), surf, self.__ncolide))
+
+
+                    if layer.name[-7:] == "-colide":
+                        self.__tiles.append(TileMap((x, y), surf, self.colide))
+
+                    elif layer.name[-8:] == "-ncolide":
+                        self.__tiles.append(
+                            TileMap((x, y), surf, self.ncolide))
+
+                    elif layer.name[-5:] == '-dano':
+                        TileMap((x, y), surf, self.espinhos)
                         
                     elif layer.name == 'chave':
-                        path = 'assets/tiles/chave'
+                        self.chave_sprite = Chave((x, y))
+                        self.chave.add(self.chave_sprite)
 
-                        self.chave_sprite = Chave((x,y), path)
-                        self.__chave.add(self.chave_sprite)
-                    
                     elif layer.name == 'porta':
-                        self.porta_sprite = Porta((x,y))
-                        self.__porta.add(self.porta_sprite)
+                        self.porta_sprite = Porta((x, y))
+                        self.porta.add(self.porta_sprite)
                         
-                    elif layer.name == 'player':
-                        path = 'assets/entities/jogador/skin'
-                        self.jogador_sprite = Jogador((x, y),3, path)
-                        self.__jogador.add(self.jogador_sprite)
-                        
-                    elif layer.name in ['morcego', 'mago', 'cavaleiro', 'caveira']:
-                        path_inimigo = f'assets/entities/inimigo/' + str(layer.name)
+                    elif layer.name == 'libera_chave':
+                        self.__bloco_chaves.append(
+                            TileMap((x, y), surf, self.libera_chave))
 
-                        self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
-                        self.__inimigo.add(self.inimigo_sprite) 
-                        
+                    elif layer.name[-7:] == '-player':
+                        try:
+                            tipo = layer.name[:-7]
+                            path = 'assets/entities/jogador/' + tipo
+                            self.jogador_sprite = Jogador((x, y), 3, path)
+                        except FileNotFoundError:
+                            path = 'assets/entities/jogador/' + 'normal' 
+                            self.jogador_sprite = Jogador((x, y), 3, path)
+                        self.jogador.add(self.jogador_sprite)
+
+                    elif layer.name[-8:] == "-inimigo":
+                        try:
+                            tipo = layer.name[:-8]
+                            path_inimigo = f'assets/entities/inimigo/' + tipo
+                            self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
+                        except FileNotFoundError:
+                            path_inimigo = f'assets/entities/inimigo/' + 'cavaleiro'
+                            self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
+                        self.inimigo.add(self.inimigo_sprite)
+
                     elif layer.name == 'colisao_inimigo':
-                        TileMap((x,y), surf, self.__inimigo_colisores)
-
-                    elif layer.name == 'dano':
-                        TileMap((x,y), surf, self.__espinhos)
-                    
+                        TileMap((x, y), surf, self.inimigo_colisores)
+                        
             elif isinstance(layer, pytmx.TiledImageLayer):
                 if layer.name[-8:] == '-animado':
                     self.__background.append(
                         Background(layer.image, animado=True))
                 else:
                     self.__background.append(Background(layer.image))
-                
-        self.__tiles += [self.__porta, self.__chave, self.__libera_chave, self.__jogador, self.__inimigo, self.__espinhos]
+
+        self.__tiles += [self.porta, self.chave, self.libera_chave,
+                         self.jogador, self.inimigo, self.espinhos]
 
     def reset(self):
         self.jogador_sprite.reset()
         self.chave_sprite.reset()
-        [self.__libera_chave.add(tile) for tile in self.__bloco_chaves]
-        
+        [self.libera_chave.add(tile) for tile in self.__bloco_chaves]
+
     @property
     def vidas(self):
         return self.__vidas
@@ -134,35 +145,3 @@ class Fase:
     @passou_porta.setter
     def passou_porta(self, passou_porta):
         self.__passou_porta = passou_porta
-
-    @property
-    def jogador(self):
-        return self.__jogador
-    
-    @property
-    def colide(self):
-        return self.__colide
-    
-    @property
-    def libera_chave(self):
-        return self.__libera_chave
-    
-    @property
-    def chave(self):
-        return self.__chave
-    
-    @property
-    def porta(self):
-        return self.__porta
-    
-    @property
-    def inimigo(self):
-        return self.__inimigo
-    
-    @property
-    def inimigo_colisores(self):
-        return self.__inimigo_colisores
-    
-    @property
-    def espinhos(self):
-        return self.__espinhos
