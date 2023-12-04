@@ -22,9 +22,9 @@ class MenuInicialState(Estado):
         # BOTOES
         img_botao_play = pygame.image.load('assets/UI/botoes/play.png').convert_alpha()
         img_botao_quit = pygame.image.load('assets/UI/botoes/quit.png').convert_alpha()
-        img_botao_skins = pygame.image.load('assets/UI/botoes/skins.png').convert_alpha()
+        img_botao_tutorial = pygame.image.load('assets/UI/botoes/tutorial.png').convert_alpha()
         self.__botoes = {'play': Botao(640 , 384, img_botao_play), 
-                         'skins': Botao(267, 551, img_botao_skins),
+                         'tutorial': Botao(276, 551, img_botao_tutorial),
                          'quit': Botao(1013, 551, img_botao_quit)}
         
         # CURSOR
@@ -51,6 +51,9 @@ class MenuInicialState(Estado):
             
         if self.__botoes['play'].clicado():
             self.game.estados.muda_estado('jogo')
+            
+        if self.__botoes['tutorial'].clicado():
+            self.game.estados.muda_estado('tutorial')
                 
     def render(self):
         self.game.screen.blit(self.__ceu, (0,0)) # desenhando ceu
@@ -86,6 +89,6 @@ class MenuInicialState(Estado):
         self.game.screen.blit(self.__logo, (186, self.__logoy))
     
         # desenha o cursor
-        self.__cursor_img_rect.center = pygame.mouse.get_pos()
+        self.__cursor_img_rect = pygame.mouse.get_pos()
         self.game.screen.blit(self.__cursor_img, self.__cursor_img_rect)
         

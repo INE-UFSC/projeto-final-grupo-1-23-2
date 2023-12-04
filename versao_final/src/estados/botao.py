@@ -1,18 +1,19 @@
 import pygame
 
-#button class
 class Botao():
 	def __init__(self, x, y, image, scale=1):
+		# gera imagem do botão
 		width = image.get_width()
 		height = image.get_height()
-		self.__image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
+		self.__image = pygame.transform.scale(image, (int(width * scale), int(height * scale))) # escala a imagem
+  
+		# gera imagem do botão quando o mouse passa por cima
 		self.__imagehover = pygame.transform.scale(self.__image, (int(self.__image.get_width() * 1.05), int(self.__image.get_height() * 1.05)))
 		self.__rect = self.__image.get_rect()
-		self.__rect.midtop = (x, y)
+		self.__rect.midtop = (x, y) # o botao eh posicionado no meio
 		self.__clicked = False
 
 	def draw(self, surface):
-		#draw button on screen
 		pos = pygame.mouse.get_pos()
 		
 		if self.__rect.collidepoint(pos):
@@ -24,12 +25,11 @@ class Botao():
    
 	def clicado(self):
 		action = False
-		#get mouse position
 		pos = pygame.mouse.get_pos()
 
-		#check mouseover and clicked conditions
+		# se colidiu com o botão
 		if self.__rect.collidepoint(pos):
-			if pygame.mouse.get_pressed()[0] == 1 and self.__clicked == False:
+			if pygame.mouse.get_pressed()[0] == 1 and self.__clicked == False: # se o botão foi ativado enquanto colidia
 				self.__clicked = True
 				action = True
 
