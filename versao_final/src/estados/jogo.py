@@ -20,10 +20,11 @@ class Jogo(Estado):
         pass
     
     def update(self, event):
+        # verificação se não está pegando evento de um estado anterior
         if self.__esc and (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE) and self.game.estados.estado_anterior == 'menu pause':
             self.__esc = False
             
-        if self.game.estados.estado_anterior == 'menu inicial':
+        if not self.game.estados.estado_anterior == 'menu pause':
             self.__esc = False
             
         
