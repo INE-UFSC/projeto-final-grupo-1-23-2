@@ -36,8 +36,9 @@ class GameOverState(Estado):
         self.game.screen.fill('White')
         self.game.screen.blit(self.__background, (0, 0))
         self.game.screen.blit(self.__texto, ((Configuracoes().largura_tela - self.__texto.get_width())//2, 186))
-        self.__botoes['menu'].draw(self.game.screen)
-        self.__botoes['sair'].draw(self.game.screen)
+        
+        for botao in self.__botoes.values():
+            botao.draw(self.game.screen)
         
         # desenha o cursor
         self.__cursor_img_rect.center = pygame.mouse.get_pos()
