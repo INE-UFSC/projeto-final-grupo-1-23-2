@@ -12,7 +12,13 @@ class MenuPauseState(Estado):
         img_botao_tutorial = pygame.image.load('assets/UI/pause/tutorial.png').convert_alpha()
         img_botao_restart = pygame.image.load('assets/UI/pause/restart.png').convert_alpha()
         img_botao_quit = pygame.image.load('assets/UI/pause/quit.png').convert_alpha()
-        img_botao_mute = pygame.image.load('assets/UI/pause/audio.png').convert_alpha()
+        
+        if self.game.audio:
+            self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
+        else:
+            self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+            
+            
         img_botao_fechar = pygame.image.load('assets/UI/pause/fechar.png').convert_alpha()
         
         self.__fundo = pygame.image.load('assets/UI/pause/fundo.png').convert_alpha()
@@ -22,12 +28,13 @@ class MenuPauseState(Estado):
                          'tutorial': Botao(640, 277, img_botao_tutorial),
                          'recomecar': Botao(640, 400, img_botao_restart),
                          'encerrar': Botao(584, 524, img_botao_quit),
-                         'mute': Botao(796, 526, img_botao_mute),
+                         'mute': Botao(796, 526, self.__img_botao_mute),
                          'fechar': Botao(907, 23, img_botao_fechar)}
         
         # CURSOR
         self.__cursor_img = pygame.image.load('assets/UI/mouse.png')        
         self.__cursor_img_rect = self.__cursor_img.get_rect()
+        self.__esc = False
 
     def entering(self):
         pygame.mouse.set_visible(False) # esconde o cursor
@@ -41,6 +48,7 @@ class MenuPauseState(Estado):
         pygame.mouse.set_visible(True)
 
     def update(self, event):
+       
         if self.__botoes['encerrar'].clicado():
             pygame.quit()
             sys.exit()
@@ -55,8 +63,22 @@ class MenuPauseState(Estado):
         if self.__botoes['tutorial'].clicado():
             self.game.estados.muda_estado('tutorial')
             
-        if self.__botoes['fechar'].clicado():
+        if self.__botoes['fechar'].clicado() or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            pygame.time.delay(200)
             self.game.estados.muda_estado('jogo')
+            
+        if self.__botoes['mute'].clicado():
+            if self.game.audio:
+                self.game.audio = False
+                
+                self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
+                # pygame.mixer.music.pause()
+            else:
+                self.game.audio = True
+                self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
+                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
+                # pygame.mixer.music.unpause()
                 
     def render(self):
         self.game.screen.blit(self.screenshot, (0,0)) # desenha screenshot da tela anterior

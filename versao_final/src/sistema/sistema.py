@@ -15,6 +15,7 @@ class Sistema:
         # variaveis de renderizacao
         self.__screen = pygame.display.set_mode(
             (Configuracoes().largura_tela, Configuracoes().altura_tela))
+        self.__audio = True
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("The Lost Key")
@@ -47,6 +48,14 @@ class Sistema:
     @property
     def screen(self):
         return self.__screen
+    
+    @property
+    def audio(self):
+        return self.__audio
+    
+    @audio.setter
+    def audio(self, audio):
+        self.__audio = audio
     
     
 

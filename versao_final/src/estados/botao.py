@@ -29,11 +29,12 @@ class Botao():
 
 		# se colidiu com o botão
 		if self.__rect.collidepoint(pos):
-			if pygame.mouse.get_pressed()[0] == 1 and self.__clicked == False: # se o botão foi ativado enquanto colidia
+			if pygame.mouse.get_pressed()[0] == 1: # se o botão foi ativado enquanto colidia
 				self.__clicked = True
+    
+		if self.__clicked and pygame.mouse.get_pressed()[0] == 0: # se o botão foi desativado enquanto colidia
+				self.__clicked = False
 				action = True
 
-		if pygame.mouse.get_pressed()[0] == 0:
-			self.__clicked = False
 
 		return action
