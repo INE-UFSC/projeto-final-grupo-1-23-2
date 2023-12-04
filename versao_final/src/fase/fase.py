@@ -60,50 +60,59 @@ class Fase:
         for layer in tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, surf in layer.tiles():
+                    opacidade = int(255*layer.opacity)
+                    surf.set_alpha(opacidade)
                     x *= self.__mapa.tilewidth
                     y *= self.__mapa.tilewidth
 
-                    if layer.name == 'libera_chave':
-                        self.__bloco_chaves.append(
-                            TileMap((x, y), surf, self.libera_chave))
 
-                    elif layer.name in ['terreno', 'ponte', 'struct_castelo', 'castelo', 'lava', 'nuvem_parkour']:
+                    if layer.name[-7:] == "-colide":
                         self.__tiles.append(TileMap((x, y), surf, self.colide))
 
-                    elif layer.name in ['arvores', 'dentro', 'decoracao', 'decoracao2', 'fundo_decorativo', 'borda_lava', 'pre-decoracao']:
+                    elif layer.name[-8:] == "-ncolide":
                         self.__tiles.append(
                             TileMap((x, y), surf, self.ncolide))
 
+                    elif layer.name[-5:] == '-dano':
+                        TileMap((x, y), surf, self.espinhos)
+                        
                     elif layer.name == 'chave':
-                        path = 'assets/tiles/chave'
-
-                        self.chave_sprite = Chave((x, y), path)
+                        self.chave_sprite = Chave((x, y))
                         self.chave.add(self.chave_sprite)
 
                     elif layer.name == 'porta':
                         self.porta_sprite = Porta((x, y))
                         self.porta.add(self.porta_sprite)
+                        
+                    elif layer.name == 'libera_chave':
+                        self.__bloco_chaves.append(
+                            TileMap((x, y), surf, self.libera_chave))
 
-                    elif layer.name == 'player':
-                        path = 'assets/entities/jogador/skin'
-                        self.jogador_sprite = Jogador((x, y), 3, path)
+                    elif layer.name[-7:] == '-player':
+                        try:
+                            tipo = layer.name[:-7]
+                            path = 'assets/entities/jogador/' + tipo
+                            self.jogador_sprite = Jogador((x, y), 3, path)
+                        except FileNotFoundError:
+                            path = 'assets/entities/jogador/' + 'normal' 
+                            self.jogador_sprite = Jogador((x, y), 3, path)
                         self.jogador.add(self.jogador_sprite)
 
-                    elif layer.name in ['morcego', 'mago', 'cavaleiro', 'caveira']:
-                        path_inimigo = f'assets/entities/inimigo/' + \
-                            str(layer.name)
-
-                        self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
+                    elif layer.name[-8:] == "-inimigo":
+                        try:
+                            tipo = layer.name[:-8]
+                            path_inimigo = f'assets/entities/inimigo/' + tipo
+                            self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
+                        except FileNotFoundError:
+                            path_inimigo = f'assets/entities/inimigo/' + 'cavaleiro'
+                            self.inimigo_sprite = Inimigo((x, y), 1, path_inimigo)
                         self.inimigo.add(self.inimigo_sprite)
 
                     elif layer.name == 'colisao_inimigo':
                         TileMap((x, y), surf, self.inimigo_colisores)
-
-                    elif layer.name == 'dano':
-                        TileMap((x, y), surf, self.espinhos)
-
+                        
             elif isinstance(layer, pytmx.TiledImageLayer):
-                if layer.name == 'nuvem':
+                if layer.name[-8:] == '-animado':
                     self.__background.append(
                         Background(layer.image, animado=True))
                 else:

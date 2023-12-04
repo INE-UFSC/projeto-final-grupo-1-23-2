@@ -2,8 +2,9 @@ import pygame
 from src.entities.animacao import Animacao
 
 class Chave(pygame.sprite.Sprite, Animacao):
-    def __init__(self, posicao, path):
+    def __init__(self, posicao):
         super().__init__()
+        path = 'assets/tiles/chave'
         Animacao.__init__(self, path)
         
         #animacao inimigo
