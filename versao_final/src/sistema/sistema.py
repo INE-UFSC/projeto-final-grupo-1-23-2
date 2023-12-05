@@ -20,7 +20,10 @@ class Sistema:
         # ajustes musica
         pygame.mixer.music.load("assets/sounds/8Bit.wav")
         pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.set_volume(0.05)
+        # musica faz loop quando acaba
+        pygame.mixer.music.set_endevent(pygame.constants.USEREVENT)
+        
         
         self.__audio = True
         
