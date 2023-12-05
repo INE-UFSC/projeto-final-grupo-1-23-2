@@ -76,6 +76,7 @@ class Colisao:
 
                 if jogador.animacao_jogador.rect.colliderect(inimigo_collide_area):
                     self.__fase.vidas = -1
+                    jogador.hit_som.play()
                     self.__fase.reset()
 
     def colisao_espinho_jogador(self):
@@ -93,6 +94,7 @@ class Colisao:
                 )
                 if jogador.animacao_jogador.rect.colliderect(center_area_rect):
                     self.__fase.vidas = -1
+                    jogador.hit_som.play()
                     self.__fase.reset()
 
     def colisao_inimigo_obstaculo(self):

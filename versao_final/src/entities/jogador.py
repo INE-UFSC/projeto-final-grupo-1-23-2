@@ -5,7 +5,7 @@ from src.entities.animacaojogador import AnimacaoJogador
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, posicao: tuple, velocidade: int, path: str):
         super().__init__()
-
+        self.__hit_som = pygame.mixer.Sound("assets/sounds/hit.wav")
         self.__estado_jogador = EstadoJogador(velocidade)
         self.__animacao_jogador = AnimacaoJogador(posicao, self.__estado_jogador, path)
 
@@ -69,3 +69,6 @@ class Jogador(pygame.sprite.Sprite):
     def rect(self):
         return self.__rect
     
+    @property
+    def hit_som(self):
+        return self.__hit_som
