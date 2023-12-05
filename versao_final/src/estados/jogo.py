@@ -8,15 +8,17 @@ class Jogo(Estado):
         super().__init__(game)
         self.__mapas = Mapas('fases').mapas
         self.__num_fase = 0
-        
+        self.__music = pygame.mixer.music.load("assets/sounds/8Bit.wav")
         self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen, 5)
         self.__esc = False
         
 
     def entering(self):
         self.__esc = True
-    
+        pygame.mixer.music.play(-1)
+
     def exiting(self):
+        pygame.mixer.music.fadeout(-1)
         pass
     
     def update(self, event):
@@ -38,7 +40,7 @@ class Jogo(Estado):
         if self.__fase.passou_porta:
             self.proxima_fase()
         
-        # verifica se o jogador perdeu a fase e reseta a fase
+        # verifica se o jogador perdeu a fase e reseta o jogo
         if self.__fase.vidas == 0:
             self.game.estados.muda_estado('gameover')
             self.__num_fase = 0
@@ -56,7 +58,7 @@ class Jogo(Estado):
             
         # se não existir mais fases, o jogador ganhou o jogo
         else:
-            self.game.estados.muda_estado('gameover')
+            self.game.estados.muda_estado('menu vitoria')
             self.__num_fase = 0
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
             

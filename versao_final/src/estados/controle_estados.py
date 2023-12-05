@@ -3,6 +3,7 @@ from src.estados.menu_pause import MenuPauseState
 from src.estados.jogo import Jogo
 from src.estados.gameover import GameOverState
 from src.estados.tutorial import TutorialState
+from src.estados.menu_vitoria import MenuVitoriaState
 
 class StateMachine:
     def __init__(self, game):
@@ -11,7 +12,8 @@ class StateMachine:
             'gameover': GameOverState(game),
             'jogo': Jogo(game),
             'menu pause': MenuPauseState(game),
-            'tutorial': TutorialState(game)
+            'tutorial': TutorialState(game),
+            'menu vitoria': MenuVitoriaState(game)
         }
         self.__estado_atual = 'menu inicial'
         self.__estado_anterior = 'menu inicial'

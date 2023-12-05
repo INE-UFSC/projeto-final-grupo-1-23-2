@@ -7,19 +7,35 @@ from src.sistema.configuracoes import Configuracoes
 class GameOverState(Estado):
     def __init__(self, game):
         super().__init__(game)
-        # CARREGAMENTO DOS ASSETS DO MENU
-        background = pygame.image.load('assets/backgrounds/menu.png').convert_alpha()
-        self.__background = pygame.transform.scale(background, (Configuracoes().largura_tela, Configuracoes().altura_tela))
-        self.__texto = pygame.image.load('assets/UI/texto_parabens.png').convert_alpha()
-        img_botao_menu = pygame.image.load('assets/UI/botoes/play.png').convert_alpha()
-        img_botao_sair = pygame.image.load('assets/UI/botoes/quit.png').convert_alpha()
-        self.__botoes = {'menu': Botao((Configuracoes().largura_tela - img_botao_menu.get_width())//4 , 500, img_botao_menu, 1), 
-                         'sair': Botao((Configuracoes().largura_tela - img_botao_sair.get_width())*3//4, 500, img_botao_sair, 1)}
+       
+        # tela principal de finalização
+        self.__caveira = pygame.image.load('assets/UI/game over/caveira.png').convert_alpha()
+        
+        self.__caveiray = 5
+        self.__scroll = -0.3
+        
+        self.__gameover = pygame.image.load('assets/UI/game over/game over.png').convert_alpha()
+        
+        # BOTOES
+        img_botao_menu = pygame.image.load('assets/UI/game over/menu.png').convert_alpha()
+        img_botao_sair = pygame.image.load('assets/UI/game over/sair.png').convert_alpha()
+        
+        self.__botoes = {'menu': Botao(470 , 556, img_botao_menu), 
+                         'sair': Botao(833, 556, img_botao_sair),}
+        
+        # CURSOR
         self.__cursor_img = pygame.image.load('assets/UI/mouse.png')
         self.__cursor_img_rect = self.__cursor_img.get_rect()
         
+        
+
     def entering(self):
-        pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(False) # esconde o cursor
+        self.__screenshot = self.game.screen.copy() # tira um screenshot da tela anterior
+        
+        # desenha camada escura
+        self.__surface = pygame.Surface((Configuracoes().largura_tela, Configuracoes().altura_tela), pygame.SRCALPHA)
+        pygame.draw.rect(self.__surface, (255, 0, 0, 96), [0, 0, Configuracoes().largura_tela, Configuracoes().altura_tela])
             
     def exiting(self):
         pygame.mouse.set_visible(True)
@@ -31,16 +47,24 @@ class GameOverState(Estado):
             
         if self.__botoes['menu'].clicado():
             self.game.estados.muda_estado('menu inicial')
+        
                 
     def render(self):
-        self.game.screen.fill('White')
-        self.game.screen.blit(self.__background, (0, 0))
-        self.game.screen.blit(self.__texto, ((Configuracoes().largura_tela - self.__texto.get_width())//2, 186))
+        self.game.screen.blit(self.__screenshot, (0,0)) # desenha screenshot da tela anterior
+        self.game.screen.blit(self.__surface, (0,0)) # desenha camada escura
+                
+        self.game.screen.blit(self.__gameover, (213, 313))
+        self.game.screen.blit(self.__caveira, (507, self.__caveiray))
         
         for botao in self.__botoes.values():
             botao.draw(self.game.screen)
-        
+
+        if self.__caveiray > 30 or self.__caveiray < 5:
+            self.__scroll *= -1
+            
+        self.__caveiray = self.__caveiray + self.__scroll
+
         # desenha o cursor
-        self.__cursor_img_rect.center = pygame.mouse.get_pos()
+        self.__cursor_img_rect = pygame.mouse.get_pos()
         self.game.screen.blit(self.__cursor_img, self.__cursor_img_rect)
         

@@ -23,11 +23,11 @@ class TutorialState(Estado):
         
     def entering(self):
         pygame.mouse.set_visible(False) # esconde o cursor
-        self.screenshot = self.game.screen.copy() # tira um screenshot da tela anterior
+        self.__screenshot = self.game.screen.copy() # tira um screenshot da tela anterior
         
         # desenha camada escura
-        self.surface = pygame.Surface((Configuracoes().largura_tela, Configuracoes().altura_tela), pygame.SRCALPHA)
-        pygame.draw.rect(self.surface, (0, 0, 0, 150), [0, 0, Configuracoes().largura_tela, Configuracoes().altura_tela])
+        self.__surface = pygame.Surface((Configuracoes().largura_tela, Configuracoes().altura_tela), pygame.SRCALPHA)
+        pygame.draw.rect(self.__surface, (0, 0, 0, 150), [0, 0, Configuracoes().largura_tela, Configuracoes().altura_tela])
     
     def exiting(self):
         pygame.mouse.set_visible(True)
@@ -42,8 +42,8 @@ class TutorialState(Estado):
                 self.game.estados.muda_estado(self.game.estados.estado_anterior)
     
     def render(self):
-        self.game.screen.blit(self.screenshot, (0,0)) # desenha screenshot da tela anterior
-        self.game.screen.blit(self.surface, (0,0)) # desenha camada escura
+        self.game.screen.blit(self.__screenshot, (0,0)) # desenha screenshot da tela anterior
+        self.game.screen.blit(self.__surface, (0,0)) # desenha camada escura
         self.game.screen.blit(self.__menututorial, (27,38)) # desenha fundo do menu
         
         # renderiza botoes
