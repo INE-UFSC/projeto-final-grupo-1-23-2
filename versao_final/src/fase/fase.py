@@ -8,7 +8,7 @@ from src.fase.colisao import Colisao
 from src.sistema.hud import HUD
 import random
 import pytmx
-
+import pygame
 
 class Fase:
     def __init__(self, tiles, superficie, vida=5):
@@ -16,7 +16,6 @@ class Fase:
         self.__display_superficie = superficie
         self.__colisao = Colisao(self)
         self.__HUD = HUD(superficie, vida)
-
         self.fase_setup(tiles)
 
         self.__vidas = vida
