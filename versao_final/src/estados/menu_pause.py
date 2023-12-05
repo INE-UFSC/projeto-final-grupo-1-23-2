@@ -9,23 +9,32 @@ class MenuPauseState(Estado):
         super().__init__(game)
         # IMAGENS
         img_botao_home = pygame.image.load('assets/UI/pause/home.png').convert_alpha()
+        img_botao_tutorial = pygame.image.load('assets/UI/pause/tutorial.png').convert_alpha()
         img_botao_restart = pygame.image.load('assets/UI/pause/restart.png').convert_alpha()
         img_botao_quit = pygame.image.load('assets/UI/pause/quit.png').convert_alpha()
-        img_botao_mute = pygame.image.load('assets/UI/pause/audio.png').convert_alpha()
+        
+        if self.game.audio:
+            self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
+        else:
+            self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+            
+            
         img_botao_fechar = pygame.image.load('assets/UI/pause/fechar.png').convert_alpha()
         
         self.__fundo = pygame.image.load('assets/UI/pause/fundo.png').convert_alpha()
         
         # BOTOES
-        self.__botoes = {'home': Botao(655, 207, img_botao_home), 
-                         'restart': Botao(655, 348, img_botao_restart),
-                         'quit': Botao(599, 490, img_botao_quit),
-                         'mute': Botao(811, 490, img_botao_mute),
-                         'fechar': Botao(917, 72, img_botao_fechar)}
+        self.__botoes = {'menu': Botao(640, 154, img_botao_home), 
+                         'tutorial': Botao(640, 277, img_botao_tutorial),
+                         'recomecar': Botao(640, 400, img_botao_restart),
+                         'encerrar': Botao(584, 524, img_botao_quit),
+                         'mute': Botao(796, 526, self.__img_botao_mute),
+                         'fechar': Botao(907, 23, img_botao_fechar)}
         
         # CURSOR
         self.__cursor_img = pygame.image.load('assets/UI/mouse.png')        
         self.__cursor_img_rect = self.__cursor_img.get_rect()
+        self.__esc = False
 
     def entering(self):
         pygame.mouse.set_visible(False) # esconde o cursor
@@ -39,31 +48,49 @@ class MenuPauseState(Estado):
         pygame.mouse.set_visible(True)
 
     def update(self, event):
-        if self.__botoes['quit'].clicado():
+       
+        if self.__botoes['encerrar'].clicado():
             pygame.quit()
             sys.exit()
             
-        if self.__botoes['home'].clicado():
+        if self.__botoes['menu'].clicado():
             self.game.estados.muda_estado('menu inicial')
             
-        if self.__botoes['restart'].clicado():
+        if self.__botoes['recomecar'].clicado():
             self.game.estados.reset('jogo')
             self.game.estados.muda_estado('jogo')
             
-        if self.__botoes['fechar'].clicado():
+        if self.__botoes['tutorial'].clicado():
+            self.game.estados.muda_estado('tutorial')
+            
+        if self.__botoes['fechar'].clicado() or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            pygame.time.delay(200)
             self.game.estados.muda_estado('jogo')
+            
+        if self.__botoes['mute'].clicado():
+            if self.game.audio:
+                self.game.audio = False
+                
+                self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
+                # pygame.mixer.music.pause()
+            else:
+                self.game.audio = True
+                self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
+                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
+                # pygame.mixer.music.unpause()
                 
     def render(self):
         self.game.screen.blit(self.screenshot, (0,0)) # desenha screenshot da tela anterior
 
         self.game.screen.blit(self.surface, (0,0)) # desenha camada escura
         
-        self.game.screen.blit(self.__fundo, (358,88)) # desenha fundo do menu
+        self.game.screen.blit(self.__fundo, (343,37)) # desenha fundo do menu
         
         # renderiza botoes
         for botao in self.__botoes.values():
             botao.draw(self.game.screen)
             
         # desenha o cursor
-        self.__cursor_img_rect.center = pygame.mouse.get_pos()
+        self.__cursor_img_rect = pygame.mouse.get_pos()
         self.game.screen.blit(self.__cursor_img, self.__cursor_img_rect)

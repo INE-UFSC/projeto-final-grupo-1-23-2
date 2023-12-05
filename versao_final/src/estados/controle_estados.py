@@ -2,6 +2,7 @@ from src.estados.menu_inicial import MenuInicialState
 from src.estados.menu_pause import MenuPauseState
 from src.estados.jogo import Jogo
 from src.estados.gameover import GameOverState
+from src.estados.tutorial import TutorialState
 
 class StateMachine:
     def __init__(self, game):
@@ -9,13 +10,15 @@ class StateMachine:
             'menu inicial': MenuInicialState(game),
             'gameover': GameOverState(game),
             'jogo': Jogo(game),
-            'menu pause': MenuPauseState(game)
+            'menu pause': MenuPauseState(game),
+            'tutorial': TutorialState(game)
         }
-        # self.gera_fases('fases/tmx', game)
         self.__estado_atual = 'menu inicial'
+        self.__estado_anterior = 'menu inicial'
         
     def muda_estado(self, estado):
         self.__estados[self.__estado_atual].exiting()
+        self.__estado_anterior = self.__estado_atual
         self.__estado_atual = estado
         self.__estados[self.__estado_atual].entering()
 
@@ -26,3 +29,6 @@ class StateMachine:
     def reset(self, estado):
         self.__estados[estado].reset()
             
+    @property
+    def estado_anterior(self):
+        return self.__estado_anterior

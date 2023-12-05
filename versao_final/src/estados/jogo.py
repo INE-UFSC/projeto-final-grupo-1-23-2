@@ -10,15 +10,25 @@ class Jogo(Estado):
         self.__num_fase = 0
         
         self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen, 5)
+        self.__esc = False
+        
 
     def entering(self):
-        pass
+        self.__esc = True
     
     def exiting(self):
         pass
     
     def update(self, event):
-        if event.type == pygame.KEYDOWN:
+        # verificação se não está pegando evento de um estado anterior
+        if self.__esc and (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE) and self.game.estados.estado_anterior == 'menu pause':
+            self.__esc = False
+            
+        if not self.game.estados.estado_anterior == 'menu pause':
+            self.__esc = False
+            
+        
+        if not self.__esc and event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 self.game.estados.muda_estado('menu pause')
 
@@ -51,6 +61,5 @@ class Jogo(Estado):
             self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
             
     def reset(self):
-        self.__num_fase = 0
-        self.__fase = Fase(self.__mapas[self.__num_fase], self.game.screen)
+        self.__fase.reset()
         
