@@ -1,7 +1,3 @@
-#coisa de linux pc sala
-import os
-#os.environ['SDL_AUDIODRIVER'] = 'dsp'
-
 import pygame
 import sys
 from src.estados.controle_estados import StateMachine
@@ -15,11 +11,19 @@ class Sistema:
         # variaveis de renderizacao
         self.__screen = pygame.display.set_mode(
             (Configuracoes().largura_tela, Configuracoes().altura_tela))
-        self.__audio = True
 
         # definindo nome do jogo/janela
         pygame.display.set_caption("The Lost Key")
         pygame.display.set_icon(pygame.image.load("assets/UI/icon.png"))
+        
+        
+        # ajustes musica
+        pygame.mixer.music.load("assets/sounds/8Bit.wav")
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
+        
+        self.__audio = True
+        
 
         # maquina de estados
         self.__estados = StateMachine(self)
@@ -56,6 +60,9 @@ class Sistema:
     @audio.setter
     def audio(self, audio):
         self.__audio = audio
+    
+    
+
     
     
 

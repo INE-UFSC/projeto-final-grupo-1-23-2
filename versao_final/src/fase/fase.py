@@ -6,7 +6,6 @@ from src.itens.porta import Porta
 from src.entities.inimigo import Inimigo
 from src.fase.colisao import Colisao
 from src.sistema.hud import HUD
-import random
 import pytmx
 import pygame
 

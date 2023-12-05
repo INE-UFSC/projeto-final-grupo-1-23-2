@@ -6,6 +6,8 @@ class Jogador(pygame.sprite.Sprite):
     def __init__(self, posicao: tuple, velocidade: int, path: str):
         super().__init__()
         self.__hit_som = pygame.mixer.Sound("assets/sounds/hit.wav")
+        self.__hit_som.set_volume(0.1)
+        
         self.__estado_jogador = EstadoJogador(velocidade)
         self.__animacao_jogador = AnimacaoJogador(posicao, self.__estado_jogador, path)
 

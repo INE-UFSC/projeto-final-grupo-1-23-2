@@ -14,9 +14,9 @@ class MenuPauseState(Estado):
         img_botao_quit = pygame.image.load('assets/UI/pause/quit.png').convert_alpha()
         
         if self.game.audio:
-            self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
-        else:
             self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+        else:
+            self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
             
             
         img_botao_fechar = pygame.image.load('assets/UI/pause/fechar.png').convert_alpha()
@@ -71,14 +71,14 @@ class MenuPauseState(Estado):
             if self.game.audio:
                 self.game.audio = False
                 
-                self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
-                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
-                # pygame.mixer.music.pause()
-            else:
-                self.game.audio = True
                 self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
                 self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
-                # pygame.mixer.music.unpause()
+                pygame.mixer.music.pause()
+            else:
+                self.game.audio = True
+                self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
+                self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
+                pygame.mixer.music.unpause()
                 
     def render(self):
         self.game.screen.blit(self.screenshot, (0,0)) # desenha screenshot da tela anterior
