@@ -3,11 +3,20 @@ import pygame
 class TileMap(pygame.sprite.Sprite):
     def __init__(self, posicao, imagem, grupo):
         super().__init__(grupo)
-        self.image = imagem # valores de x e y (iguais nesse caso)
-        self.rect = self.image.get_rect(topleft = posicao)
+        self.__image = imagem # valores de x e y (iguais nesse caso)
+        self.__rect = self.image.get_rect(topleft = posicao)
         
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+    
+    @property
+    def image(self):
+        return self.__image
+    
+    @property
+    def rect(self):
+        return self.__rect
+
         
         
 class Background:
