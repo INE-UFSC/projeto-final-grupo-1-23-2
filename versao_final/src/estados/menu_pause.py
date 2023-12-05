@@ -73,12 +73,12 @@ class MenuPauseState(Estado):
                 
                 self.__img_botao_mute = pygame.image.load('assets/UI/pause/unmute.png').convert_alpha()
                 self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
-                # pygame.mixer.music.pause()
+                pygame.mixer.music.pause()
             else:
                 self.game.audio = True
                 self.__img_botao_mute = pygame.image.load('assets/UI/pause/mute.png').convert_alpha()
                 self.__botoes['mute'] = Botao(796, 526, self.__img_botao_mute)
-                # pygame.mixer.music.unpause()
+                pygame.mixer.music.unpause()
                 
     def render(self):
         self.game.screen.blit(self.screenshot, (0,0)) # desenha screenshot da tela anterior
