@@ -1,6 +1,6 @@
 #coisa de linux pc sala
 import os
-os.environ['SDL_AUDIODRIVER'] = 'dsp'
+#os.environ['SDL_AUDIODRIVER'] = 'dsp'
 
 import pygame
 import sys
