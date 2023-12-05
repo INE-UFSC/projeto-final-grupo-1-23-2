@@ -22,8 +22,8 @@ class TileMap(pygame.sprite.Sprite):
 class Background:
     def __init__(self, imagem, animado=False):
         self.__animado = animado
-        self.image = imagem
-        self.rect = self.image.get_rect(topleft = (0,0))
+        self.__image = imagem
+        self.__rect = self.image.get_rect(topleft = (0,0))
         self.__scroll = 0
         
     def draw(self, surface):
@@ -35,3 +35,11 @@ class Background:
                 self.__scroll = 0
         else:
             surface.blit(self.image, self.rect)
+
+    @property
+    def image(self):
+        return self.__image
+    
+    @property
+    def rect(self):
+        return self.__rect
