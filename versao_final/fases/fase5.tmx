@@ -5,16 +5,16 @@
  <tileset firstgid="1026" source="../assets/tiles/TILEMAP/tilesets/porta.tsx"/>
  <tileset firstgid="1027" source="../assets/tiles/TILEMAP/tilesets/custom_tiles.tsx"/>
  <imagelayer id="2" name="fundo0">
-  <image source="../Assets/backgrounds/Cave/1 layer Cave.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Cave/1 layer Cave.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="5" name="fundo1">
-  <image source="../Assets/backgrounds/Cave/2 layer Cave.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Cave/2 layer Cave.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="4" name="fundo2">
-  <image source="../Assets/backgrounds/Cave/3 layer Cave.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Cave/3 layer Cave.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="3" name="fundo3">
-  <image source="../Assets/backgrounds/Cave/4 layer Cave.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Cave/4 layer Cave.png" width="1280" height="768"/>
  </imagelayer>
  <layer id="13" name="terreno-colide" width="20" height="12">
   <data encoding="csv">

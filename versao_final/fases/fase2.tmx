@@ -5,16 +5,16 @@
  <tileset firstgid="1026" source="../assets/tiles/TILEMAP/tilesets/porta.tsx"/>
  <tileset firstgid="1027" source="../assets/tiles/TILEMAP/tilesets/custom_tiles.tsx"/>
  <imagelayer id="2" name="fundo1">
-  <image source="../Assets/backgrounds/Catle in the fog/1 Layer Castle in the fog.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Catle in the fog/1 Layer Castle in the fog.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="3" name="fundo2-animado">
-  <image source="../Assets/backgrounds/Catle in the fog/2 Layer Castle in the fog.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Catle in the fog/2 Layer Castle in the fog.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="4" name="fundo3">
-  <image source="../Assets/backgrounds/Catle in the fog/3 Layer Castle in the fog.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Catle in the fog/3 Layer Castle in the fog.png" width="1280" height="768"/>
  </imagelayer>
  <imagelayer id="5" name="fundo4">
-  <image source="../Assets/backgrounds/Catle in the fog/5 Layer Castle in the fog.png" width="1280" height="768"/>
+  <image source="../assets/backgrounds/Catle in the fog/5 Layer Castle in the fog.png" width="1280" height="768"/>
  </imagelayer>
  <layer id="6" name="terreno-colide" width="20" height="12">
   <data encoding="csv">
